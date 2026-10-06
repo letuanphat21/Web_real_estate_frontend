@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50: #f5f3ff;
+  --color-primary-300: #c4b5fd;
+  --color-primary-500: #8b5cf6;
+  --color-primary-600: #7c3aed;
+  --color-primary-700: #6d28d9;
+
+  --color-heading: #111827;
+  --color-body: #4b5563;
+  --color-line: #f3f4f6;
+  --color-footer: #1a0b3d;
+}
+
+body {
+  @apply bg-white text-gray-800 antialiased;
+}
