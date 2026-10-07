@@ -2,6 +2,7 @@ import { useState } from "react";
 import CommentModal from "./CommentModal";
 import PostActions from "./PostActions";
 import PostImageGrid from "./PostImageGrid";
+import ShareModal from "./ShareModal";
 import { MOCK_SOCIAL_CURRENT_USER, MOCK_SOCIAL_POSTS } from "../../data/mockSocial";
 
 // Bài dài hơn số ký tự này thì cắt bớt và hiện nút "Xem thêm"
@@ -17,6 +18,8 @@ export default function PostCard({ post, currentUser, onAddComment }: Props) {
   const [liked, setLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [showShare, setShowShare] = useState(false);
+  const [startIndex, setStartIndex] = useState(0);
   const isLong = post.content.length > MAX_PREVIEW_CHARS;
 
   return (
@@ -44,7 +47,7 @@ export default function PostCard({ post, currentUser, onAddComment }: Props) {
       </p>
       {post.imageUrls.length > 0 && (
         <div className="mb-3">
-          <PostImageGrid images={post.imageUrls} />
+          <PostImageGrid images={post.imageUrls} onImageClick={(i) => { setStartIndex(i); setShowComments(true); }} />
         </div>
       )}
 
@@ -55,11 +58,13 @@ export default function PostCard({ post, currentUser, onAddComment }: Props) {
         liked={liked}
         onToggleLike={() => setLiked((v) => !v)}
         onComment={() => setShowComments(true)}
+        onShare={() => setShowShare(true)}
       />
 
       {showComments && (
         <CommentModal
           post={post}
+          startIndex={startIndex}
           currentUser={currentUser}
           liked={liked}
           onToggleLike={() => setLiked((v) => !v)}
@@ -67,6 +72,7 @@ export default function PostCard({ post, currentUser, onAddComment }: Props) {
           onClose={() => setShowComments(false)}
         />
       )}
+      {showShare && <ShareModal post={post} currentUser={currentUser} onClose={() => setShowShare(false)} />}
     </article>
   );
 }

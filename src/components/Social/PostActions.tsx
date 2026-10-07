@@ -7,6 +7,7 @@ type Props = {
   liked: boolean;
   onToggleLike: () => void;
   onComment?: () => void;
+  onShare?: () => void;
 };
 
 export default function PostActions({
@@ -16,6 +17,7 @@ export default function PostActions({
   liked,
   onToggleLike,
   onComment,
+  onShare,
 }: Props) {
   const item = "flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm hover:bg-gray-100";
 
@@ -29,7 +31,7 @@ export default function PostActions({
         <MessageCircle size={22} />
         <span>{commentCount}</span>
       </button>
-      <button className={item}>
+      <button onClick={onShare} className={item}>
         <Forward size={22} />
         <span>{shareCount}</span>
       </button>
