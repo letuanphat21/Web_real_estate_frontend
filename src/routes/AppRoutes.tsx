@@ -19,7 +19,7 @@ import FavoritesPage from "../pages/Account/FavoritesPage";
 import ApplicationHistoryPage from "../pages/Account/ApplicationHistoryPage";
 import RecruitmentPage from "../pages/Recruitment/RecruitmentPage";
 import CvBuilderPage from "../pages/CvBuilder/CvBuilderPage";
-import JobDetailPage from "../pages/JobDetail/JobDetailPage";
+// import JobDetailPage from "../pages/JobDetail/JobDetailPage";
 import UserLayout from "../layouts/UserLayout";
 import EventDetailPage from "../pages/Event/EventDetailPage";
 import AccountLayout from "../layouts/AccountLayout";
@@ -49,7 +49,7 @@ const AppRoutes = () => {
            <Route path="/knowledge" element={<KnowledgePage />} />
             <Route path="/jobs" element={<RecruitmentPage />} />
         <Route path="/jobs/create-cv" element={<CvBuilderPage />} />
-        <Route path="/jobs/:slugId" element={<JobDetailPage />} />
+        {/* <Route path="/jobs/:slugId" element={<JobDetailPage />} /> */}
       </Route>
       <Route element={<AccountLayout />}>
      
