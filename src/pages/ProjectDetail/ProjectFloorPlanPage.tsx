@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ChevronRight, Building2, Plus, Minus, Lock, ArrowRight } from "lucide-react";
 import ProjectTabs from "../../components/ProjectDetail/ProjectTabs";
+import BookingLockModal, { type BookingUnit } from "../../components/ProjectDetail/BookingLockModal";
 
 // TODO: thay bằng dữ liệu gọi từ API theo :id (bảng property: property_code, area, price, direction, floor, status, bedrooms)
 const PROJECT = { name: "Aurelia Riverside" };
@@ -37,6 +38,16 @@ const SELECTED = {
   ],
   price: "16,85 tỷ",
   note: "≈ 181,9 triệu/m² · Đã gồm VAT",
+};
+
+const BOOKING_UNIT: BookingUnit = {
+  code: SELECTED.code,
+  image: SELECTED.image,
+  statusLabel: "Còn trống",
+  location: "Tòa A1 · Tầng 12",
+  spec: "3 PN · 2 WC · 92,6 m²",
+  direction: "Đông Nam · Hướng sông",
+  price: SELECTED.price,
 };
 
 const FEATURED = [
@@ -77,12 +88,14 @@ export default function ProjectFloorPlanPage() {
   const { id } = useParams();
   const base = `/du-an/${id}`;
   const [selected, setSelected] = useState("1208");
+  const [booking, setBooking] = useState(false);
   const p = PROJECT;
   const s = STATUS[SELECTED.status];
 
   return (
     <div className="bg-white">
       <ProjectTabs />
+      {booking && <BookingLockModal unit={BOOKING_UNIT} onClose={() => setBooking(false)} />}
 
       <section className="bg-gradient-to-b from-blue-200 to-white pb-14 pt-8">
         <div className="container mx-auto px-4 lg:px-8">
@@ -174,7 +187,10 @@ export default function ProjectFloorPlanPage() {
               <p className="mt-1 text-3xl font-semibold text-primary-600">{SELECTED.price}</p>
               <p className="mt-1 text-[10px] text-muted">{SELECTED.note}</p>
             </div>
-            <button className="mt-5 flex items-center gap-2 rounded-full bg-gradient-to-r from-primary-500 to-primary-700 px-6 py-3 text-sm font-medium text-white hover:opacity-95">
+            <button
+              onClick={() => setBooking(true)}
+              className="mt-5 flex items-center gap-2 rounded-full bg-gradient-to-r from-primary-500 to-primary-700 px-6 py-3 text-sm font-medium text-white hover:opacity-95"
+            >
               Giữ chỗ căn này <Lock size={15} />
             </button>
             <p className="mt-4 text-center text-[10px] text-muted">Quỹ căn cập nhật 5 phút trước</p>
