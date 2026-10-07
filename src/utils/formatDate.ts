@@ -27,3 +27,27 @@ export const formatEventTime = (startIso: string, endIso: string): string => {
     endIso
   )}`;
 };
+
+/** "Chủ nhật, 18/10/2026" */
+export const formatWeekdayDate = (iso: string): string => {
+  const days = [
+    "Chủ nhật",
+    "Thứ hai",
+    "Thứ ba",
+    "Thứ tư",
+    "Thứ năm",
+    "Thứ sáu",
+    "Thứ bảy",
+  ];
+  return `${days[new Date(iso).getDay()]}, ${formatDate(iso)}`;
+};
+
+/** "Vừa xong", "5 phút trước", "2 giờ trước", "3 ngày trước", quá 7 ngày thì hiện ngày */
+export const formatRelativeTime = (iso: string): string => {
+  const diff = (Date.now() - new Date(iso).getTime()) / 1000;
+  if (diff < 60) return "Vừa xong";
+  if (diff < 3600) return `${Math.floor(diff / 60)} phút trước`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)} giờ trước`;
+  if (diff < 7 * 86400) return `${Math.floor(diff / 86400)} ngày trước`;
+  return formatDate(iso);
+};

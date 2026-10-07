@@ -133,3 +133,11 @@ export const DEFAULT_EVENT_FILTER: EventFilter = {
   from: "",
   to: "",
 };
+
+// Diễn giả
+export interface EventSpeaker {
+  id: number;
+  fullName: string;
+  title: string;
+  avatarUrl: string;
+}

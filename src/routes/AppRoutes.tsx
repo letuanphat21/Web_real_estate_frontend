@@ -17,15 +17,16 @@ import RegisterPage from "../pages/Auth/RegisterPage";
 import MyBookingsPage from "../pages/Account/MyBookingsPage";
 import FavoritesPage from "../pages/Account/FavoritesPage";
 import UserLayout from "../layouts/UserLayout";
+import EventDetailPage from "../pages/Event/EventDetailPage";
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-
       <Route element={<UserLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/events" element={<EventsPage />} />
+        <Route path="/events/:id" element={<EventDetailPage />} />
         <Route path="/kien-thuc" element={<KnowledgePage />} />
         <Route path="/tai-khoan/booking" element={<MyBookingsPage />} />
         <Route path="/tai-khoan/quan-tam" element={<FavoritesPage />} />
