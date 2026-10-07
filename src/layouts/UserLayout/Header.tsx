@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import { Plus, Search, Bell, ChevronDown, ChevronRight, User, LogOut, FileText, Heart, Briefcase, ArrowUpRight } from "lucide-react";
+import { Plus, Search, Bell, ChevronDown, ChevronRight, User, LogOut, FileText, Heart, Briefcase, ArrowUpRight, CalendarCheck } from "lucide-react";
 import { clearSession, useAuth } from "../../store/authStore";
 import logo from "../../assets/images/logo.jpg";
 
@@ -22,6 +22,7 @@ const ACCOUNT_MENU = [
   { to: "/tai-khoan", icon: User, label: "Hồ sơ cá nhân", count: 0 },
   { to: "/tai-khoan/tin-da-dang", icon: FileText, label: "Tin đã đăng", count: 3 },
   { to: "/tai-khoan/quan-tam", icon: Heart, label: "Bất động sản đã lưu", count: 0 },
+  { to: "/tai-khoan/booking", icon: CalendarCheck, label: "Danh sách booking", count: 0 },
   { to: "/tai-khoan/ung-tuyen", icon: Briefcase, label: "Lịch sử ứng tuyển", count: 0 },
   { to: "/tai-khoan/thong-bao", icon: Bell, label: "Thông báo", count: 6 },
 ];
