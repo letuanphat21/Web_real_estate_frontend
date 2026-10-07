@@ -45,7 +45,7 @@ const PROJECTS = [
   },
 ];
 
-function ProjectCard({ project }) {
+function ProjectCard({ project }: { project: (typeof PROJECTS)[number] }) {
   return (
     <Link
       to={`/du-an/${project.id}`}

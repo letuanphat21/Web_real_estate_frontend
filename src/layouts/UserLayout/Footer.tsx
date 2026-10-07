@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { ShieldCheck, Lock, Mail, ArrowRight } from "lucide-react";
 import {
@@ -52,7 +52,7 @@ const SOCIALS = [
 export default function Footer() {
   const [email, setEmail] = useState("");
 
-  const handleSubscribe = (e) => {
+  const handleSubscribe = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email.trim()) return;
     console.log("Đăng ký:", email);
