@@ -22,7 +22,7 @@ const NAV_ITEMS = [
   { label: "Sự kiện", path: "/events" },
   { label: "Tin tức", path: "/news" },
   { label: "Kiến thức", path: "/kien-thuc" },
-  { label: "Cộng đồng", path: "/cong-dong" },
+  { label: "Cộng đồng", path: "/social" },
   { label: "Tuyển dụng", path: "/tuyen-dung" },
 ];
 
