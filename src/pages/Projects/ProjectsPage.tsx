@@ -3,8 +3,10 @@ import ProjectsHero from "../../components/Projects/ProjectsHero";
 import ProjectsResults, { type ProjectsView } from "../../components/Projects/ProjectsResults";
 import { PROJECTS, ACTIVE_FILTERS, PAGES } from "../../data/mockProjects";
 
+
 const TOTAL_PROJECTS = 126;
 const TOTAL_PAGES = 12;
+
 
 export default function ProjectsPage() {
   const [filters, setFilters] = useState(ACTIVE_FILTERS);
@@ -28,6 +30,6 @@ export default function ProjectsPage() {
         pages={PAGES}
         onPageChange={setPage}
       />
-    </div>
+    </div>  
   );
 }

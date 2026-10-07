@@ -48,7 +48,7 @@ const PROJECTS = [
 function ProjectCard({ project }: { project: (typeof PROJECTS)[number] }) {
   return (
     <Link
-      to={`/du-an/${project.id}`}
+      to={`/projects/${project.id}`}
       className="group overflow-hidden rounded-2xl border border-line bg-white transition hover:-translate-y-1 hover:shadow-xl hover:shadow-primary-100"
     >
       <div className="relative aspect-[4/3] overflow-hidden">

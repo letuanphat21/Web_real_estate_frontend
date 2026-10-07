@@ -5,21 +5,21 @@ type Tab = { label: string; path?: string; hash?: string };
 
 const TABS: Tab[] = [
   { label: "Tổng quan", path: "" },
-  { label: "Vị trí", path: "/vi-tri" },
-  { label: "Phân khu", path: "/phan-khu" },
-  { label: "Mặt bằng quỹ căn", path: "/mat-bang" },
-  { label: "Quỹ căn", path: "/quy-can" },
+  { label: "Vị trí", path: "/location" },
+  { label: "Phân khu", path: "/zones" },
+  { label: "Mặt bằng quỹ căn", path: "/floor-plans" },
+  { label: "Quỹ căn", path: "/inventory" },
   { label: "Ảnh 360°", hash: "anh-360" },
-  { label: "Chính sách bán hàng", path: "/chinh-sach" },
-  { label: "Tiến độ", path: "/tien-do" },
-  { label: "Tài liệu", path: "/tai-lieu" },
-  { label: "Tin tức", path: "/tin-tuc" },
+  { label: "Chính sách bán hàng", path: "/policy" },
+  { label: "Tiến độ", path: "/progress" },
+  { label: "Tài liệu", path: "/documents" },
+  { label: "Tin tức", path: "/news" },
 ];
 
 export default function ProjectTabs({ activeHash }: { activeHash?: string }) {
   const { id } = useParams();
   const { pathname } = useLocation();
-  const base = `/du-an/${id}`;
+  const base = `/projects/${id}`;
 
   const isActive = (t: Tab) => {
     if (t.hash) return pathname === base && activeHash === t.hash;
