@@ -5,7 +5,7 @@ import logo from "../../assets/images/logo.jpg";
 const NAV_ITEMS = [
   { label: "Giới thiệu", path: "/" },
   { label: "Dự án", path: "/du-an" },
-  { label: "Sự kiện", path: "/su-kien" },
+  { label: "Sự kiện", path: "/events" },
   { label: "Tin tức", path: "/tin-tuc" },
   { label: "Kiến thức", path: "/kien-thuc" },
   { label: "Cộng đồng", path: "/cong-dong" },

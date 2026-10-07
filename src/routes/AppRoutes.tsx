@@ -10,12 +10,14 @@ import ProjectPolicyPage from "../pages/ProjectDetail/ProjectPolicyPage";
 import ProjectProgressPage from "../pages/ProjectDetail/ProjectProgressPage";
 import ProjectDocumentsPage from "../pages/ProjectDetail/ProjectDocumentsPage";
 import ProjectNewsPage from "../pages/ProjectDetail/ProjectNewsPage";
+import EventsPage from "../pages/Event/EventsPage";
 import UserLayout from "../layouts/UserLayout";
 const AppRoutes = () => {
   return (
     <Routes>
       <Route element={<UserLayout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/events" element={<EventsPage />} />
         <Route path="/du-an" element={<ProjectsPage />} />
         <Route path="/du-an/:id" element={<ProjectDetailPage />} />
         <Route path="/du-an/:id/vi-tri" element={<ProjectLocationPage />} />
