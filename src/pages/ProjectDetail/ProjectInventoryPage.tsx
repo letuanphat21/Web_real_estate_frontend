@@ -1,11 +1,20 @@
 import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ChevronRight, ChevronLeft, ChevronDown, Search, SlidersHorizontal, Filter, X, ArrowUpRight, ArrowUpDown, CalendarClock } from "lucide-react";
+import {
+  ChevronRight,
+  ChevronLeft,
+  ChevronDown,
+  Search,
+  SlidersHorizontal,
+  Filter,
+  X,
+  ArrowUpRight,
+  ArrowUpDown,
+  CalendarClock,
+} from "lucide-react";
 import ProjectTabs from "../../components/ProjectDetail/ProjectTabs";
-
-// TODO: thay bằng dữ liệu gọi từ API theo :id (bảng property + zones)
-const PROJECT = { name: "Aurelia Riverside" };
+import { PROJECT, ROWS, STATS } from "../../data/projectDetail/inventory";
 
 const STATUS: Record<string, { label: string; badge: string; dot: string }> = {
   available: { label: "Còn trống", badge: "bg-success/10 text-success", dot: "bg-success" },
@@ -13,26 +22,6 @@ const STATUS: Record<string, { label: string; badge: string; dot: string }> = {
   sold: { label: "Đã bán", badge: "bg-danger/10 text-danger", dot: "bg-danger" },
   closed: { label: "Chưa mở bán", badge: "bg-line text-body", dot: "bg-muted" },
 };
-
-const ROWS = [
-  { code: "AR-C1-1806", list: 22.8, tts: 21.95, unit: "152,4", type: "Duplex 3PN", dir: "Đông Nam", area: "144,0", zone: "The Cove", status: "available" },
-  { code: "AR-C1-1208", list: 12.45, tts: 11.98, unit: "138,2", type: "Căn hộ 2PN+", dir: "Tây Bắc", area: "86,7", zone: "The Cove", status: "available" },
-  { code: "AR-C2-0902", list: 8.96, tts: 8.72, unit: "131,7", type: "Căn hộ 1PN+", dir: "Đông Bắc", area: "66,2", zone: "The Cove", status: "holding" },
-  { code: "AR-C2-1505", list: 15.6, tts: 14.96, unit: "143,8", type: "Căn hộ 3PN", dir: "Đông Nam", area: "104,0", zone: "The Cove", status: "available" },
-  { code: "AR-C1-2201", list: 18.35, tts: 17.89, unit: "149,1", type: "Căn hộ 3PN+", dir: "Nam", area: "120,0", zone: "The Cove", status: "sold" },
-  { code: "AR-C3-0709", list: 10.88, tts: 10.42, unit: "136,4", type: "Căn hộ 2PN", dir: "Tây Nam", area: "76,4", zone: "The Cove", status: "available" },
-  { code: "AR-C3-1903", list: 13.92, tts: 13.48, unit: "141,9", type: "Căn hộ 2PN+", dir: "Đông", area: "95,0", zone: "The Cove", status: "holding" },
-  { code: "AR-C2-2501", list: 34.5, tts: 32.9, unit: "169,6", type: "Penthouse", dir: "Đông Nam", area: "194,0", zone: "The Cove", status: "available" },
-  { code: "AR-C3-1106", list: 11.75, tts: 11.31, unit: "135,6", type: "Căn hộ 2PN", dir: "Bắc", area: "83,4", zone: "The Cove", status: "sold" },
-  { code: "AR-C4-2802", list: null, tts: null, unit: null, type: "Sky Villa", dir: "Đông Nam", area: "268,5", zone: "The Cove", status: "closed" },
-];
-
-const STATS = [
-  { label: "Tổng số căn", value: "286", note: "4 phân khu", dot: "bg-primary-300" },
-  { label: "Còn trống", value: "84", note: "29,4% quỹ căn", dot: "bg-success" },
-  { label: "Đang giữ chỗ", value: "21", note: "Hiệu lực trong 24h", dot: "bg-warning" },
-  { label: "Đã bán", value: "167", note: "58,4% quỹ căn", dot: "bg-danger" },
-];
 
 const fmt = (n: number | null) => (n == null ? "—" : `${n.toFixed(2).replace(".", ",")} tỷ`);
 const dash = "—";
@@ -112,7 +101,7 @@ export default function ProjectInventoryPage() {
       <ProjectTabs />
 
       {/* Hero tối */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-footer via-footer to-primary-600 pb-40 pt-8 text-white">
+      <section className="relative overflow-hidden bg-gradient-to-br from-footer via-footer to-primary-600 pb-14 pt-8 text-white">
         <span className="absolute -right-24 -top-40 h-[560px] w-[560px] rounded-full bg-white/5" />
         <span className="absolute -right-4 -top-24 h-[360px] w-[360px] rounded-full bg-white/5" />
         <div className="container relative mx-auto px-4 lg:px-8">
@@ -147,7 +136,7 @@ export default function ProjectInventoryPage() {
 
       <div className="container mx-auto px-4 pb-16 lg:px-8">
         {/* Bộ lọc */}
-        <div className="-mt-28 rounded-3xl bg-white p-6 shadow-xl shadow-primary-100">
+        <div className="relative z-10 mt-8 rounded-3xl bg-white p-6 shadow-xl shadow-primary-100">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3">
               <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100 text-primary-600">

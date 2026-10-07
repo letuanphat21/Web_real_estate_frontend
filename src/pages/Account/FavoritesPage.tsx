@@ -7,19 +7,15 @@ export default function FavoritesPage() {
   const [items, setItems] = useState(MOCK_FAVORITES);
 
   return (
-    <div className="min-h-[70vh] bg-primary-50/60 pb-16">
-      <section className="bg-gradient-to-b from-blue-200 to-primary-50/60 pb-10 pt-8">
-        <div className="container mx-auto px-4 lg:px-8">
-          <nav className="flex items-center gap-3 text-xs text-muted">
-            <Link to="/">Trang chủ</Link> <ChevronRight size={12} />
-            <span className="font-semibold text-primary-600">Căn hộ quan tâm</span>
-          </nav>
-          <h1 className="mt-5 text-4xl font-bold text-heading">Căn hộ quan tâm</h1>
-          <p className="mt-3 max-w-xl text-sm text-body">Những căn bạn đã lưu để so sánh và theo dõi giá, tình trạng mới nhất.</p>
-        </div>
-      </section>
+    <div>
+      <nav className="flex items-center gap-3 text-xs text-muted">
+        <span>Tài khoản</span> <ChevronRight size={12} />
+        <span className="font-semibold text-primary-600">Bất động sản đã lưu</span>
+      </nav>
+      <h1 className="mt-4 text-4xl font-bold text-heading">Bất động sản đã lưu</h1>
+      <p className="mt-2 text-sm text-body">Những căn bạn đã lưu để so sánh và theo dõi giá, tình trạng mới nhất.</p>
 
-      <div className="container mx-auto px-4 lg:px-8">
+      <div className="mt-6">
         {items.length === 0 ? (
           <div className="rounded-3xl border border-line bg-white py-16 text-center shadow-sm">
             <Heart size={36} className="mx-auto text-primary-300" />
@@ -29,7 +25,7 @@ export default function FavoritesPage() {
             </Link>
           </div>
         ) : (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
             {items.map((f) => (
               <article key={f.id} className="overflow-hidden rounded-3xl border border-line bg-white shadow-sm">
                 <div className="relative">
