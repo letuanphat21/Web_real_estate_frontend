@@ -45,15 +45,13 @@ const AUTHORS: UserSummary[] = [
 
 const cat = (id: number) => MOCK_CATEGORIES.find((c) => c.id === id)!;
 const prj = (id: number) => MOCK_PROJECTS.find((p) => p.id === id)!;
-const images = (newsId: number, photoId: string): NewsImage[] => [
-  {
-    id: newsId,
-    title: "Ảnh đại diện",
+const images = (newsId: number, ...photoIds: string[]): NewsImage[] =>
+  photoIds.map((photoId, i) => ({
+    id: newsId * 10 + i,
+    title: i === 0 ? "Ảnh đại diện" : `Hình ảnh ${i}`,
     imageUrl: img(photoId),
     createdAt: "2026-09-20T08:00:00",
-  },
-];
-
+  }));
 export const MOCK_NEWS: News[] = [
   {
     id: 1,

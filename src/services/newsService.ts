@@ -80,5 +80,33 @@ async function getNewsById(id: number | string): Promise<News | null> {
   return activeNews().find((n) => n.id === Number(id)) ?? null;
 }
 
-const newsService = { getNews, getCategories, getProjects, getNewsById };
+async function getRelatedNews(news: News, limit = 3): Promise<News[]> {
+  await delay(200);
+  const others = activeNews()
+    .filter((n) => n.id !== news.id)
+    .sort((a, b) => toTime(b.createdAt) - toTime(a.createdAt));
+  const sameCategory = others.filter((n) => n.category.id === news.category.id);
+  const sameProject = others.filter(
+    (n) =>
+      n.project.id === news.project.id && n.category.id !== news.category.id
+  );
+  return [...sameCategory, ...sameProject].slice(0, limit);
+}
+
+async function getLatestNews(excludeId: number, limit = 4): Promise<News[]> {
+  await delay(150);
+  return activeNews()
+    .filter((n) => n.id !== excludeId)
+    .sort((a, b) => toTime(b.createdAt) - toTime(a.createdAt))
+    .slice(0, limit);
+}
+
+const newsService = {
+  getNews,
+  getCategories,
+  getProjects,
+  getNewsById,
+  getRelatedNews,
+  getLatestNews,
+};
 export default newsService;
