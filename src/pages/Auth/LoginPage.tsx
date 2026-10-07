@@ -5,7 +5,6 @@ import { FcGoogle } from "react-icons/fc";
 import AuthSplitLayout from "../../components/Auth/AuthSplitLayout";
 import { AUTH_COPY, LOGIN_COPY } from "../../data/authContent";
 import authService from "../../services/authService";
-import { setSession } from "../../store/authStore";
 
 const inputCls =
   "h-14 w-full rounded-xl border border-blue-100 bg-white pl-12 pr-4 text-[15px] text-heading shadow-sm outline-none placeholder:text-body focus:border-primary-300";
@@ -24,8 +23,7 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
     try {
-      const res = await authService.login({ identifier, password, remember });
-      setSession(res, remember);
+      await authService.login({ identifier, password, remember });
       navigate("/");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Đăng nhập không thành công.");
@@ -103,7 +101,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={loading}
-          className="h-14 w-full rounded-xl bg-navy text-lg font-bold text-white shadow-lg shadow-navy/30 transition hover:opacity-95 disabled:opacity-60"
+          className="h-14 w-full rounded-xl bg-[#0F172A] text-lg font-bold text-white shadow-lg shadow-[#0F172A]/30 transition hover:opacity-95 disabled:opacity-60"
         >
           {loading ? "Đang đăng nhập..." : LOGIN_COPY.submit}
         </button>

@@ -22,6 +22,7 @@ import CvBuilderPage from "../pages/CvBuilder/CvBuilderPage";
 import JobDetailPage from "../pages/JobDetail/JobDetailPage";
 import UserLayout from "../layouts/UserLayout";
 import EventDetailPage from "../pages/Event/EventDetailPage";
+import AccountLayout from "../layouts/AccountLayout";
 import NewsPage from "../pages/News/NewsPage";
 import NewsDetailPage from "../pages/News/NewsDetailPage";
 const AppRoutes = () => {
@@ -55,8 +56,10 @@ const AppRoutes = () => {
         <Route path="/news" element={<NewsPage />} />
         <Route path="/news/:id" element={<NewsDetailPage />} />
         <Route path="/kien-thuc" element={<KnowledgePage />} />
-        <Route path="/tai-khoan/booking" element={<MyBookingsPage />} />
-        <Route path="/tai-khoan/quan-tam" element={<FavoritesPage />} />
+        <Route path="/tai-khoan" element={<AccountLayout />}>
+          <Route path="booking" element={<MyBookingsPage />} />
+          <Route path="quan-tam" element={<FavoritesPage />} />
+        </Route>
         <Route path="/du-an" element={<ProjectsPage />} />
         <Route path="/du-an/:id" element={<ProjectDetailPage />} />
         <Route path="/du-an/:id/vi-tri" element={<ProjectLocationPage />} />

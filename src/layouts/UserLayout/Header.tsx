@@ -1,19 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import {
-  Plus,
-  Search,
-  Bell,
-  ChevronDown,
-  ChevronRight,
-  User,
-  LogOut,
-  FileText,
-  Heart,
-  Briefcase,
-  ArrowUpRight,
-} from "lucide-react";
-import { clearSession, useAuth } from "../../store/authStore";
+import { Plus, Search, Bell, ChevronDown, ChevronRight, User, LogOut, FileText, Heart, Briefcase, ArrowUpRight, CalendarCheck } from "lucide-react";
+import { CURRENT_USER } from "../../data/mockAccount";
 import logo from "../../assets/images/logo.jpg";
 
 const NAV_ITEMS = [
@@ -21,15 +9,11 @@ const NAV_ITEMS = [
   { label: "Dự án", path: "/projects" },
   { label: "Sự kiện", path: "/events" },
   { label: "Tin tức", path: "/news" },
-<<<<<<< HEAD
+
   { label: "Kiến thức", path: "/knowledge" },
   { label: "Cộng đồng", path: "/community" },
   { label: "Tuyển dụng", path: "/jobs" },
-=======
-  { label: "Kiến thức", path: "/kien-thuc" },
-  { label: "Cộng đồng", path: "/cong-dong" },
-  { label: "Tuyển dụng", path: "/tuyen-dung" },
->>>>>>> eabad862fc265e923b3934ffa1670149f9af041a
+
 ];
 
 const initials = (name: string) =>
@@ -41,18 +25,12 @@ const initials = (name: string) =>
     .join("");
 
 const ACCOUNT_MENU = [
-  { to: "/account", icon: User, label: "Hồ sơ cá nhân", count: 0 },
+
   {
     to: "/account/my-listings",
     icon: FileText,
     label: "Tin đã đăng",
     count: 3,
-  },
-  {
-    to: "/account/favorites",
-    icon: Heart,
-    label: "Bất động sản đã lưu",
-    count: 0,
   },
   {
     to: "/account/applications",
@@ -61,11 +39,18 @@ const ACCOUNT_MENU = [
     count: 0,
   },
   { to: "/account/notifications", icon: Bell, label: "Thông báo", count: 6 },
+
+  { to: "/tai-khoan", icon: User, label: "Hồ sơ cá nhân", count: 0 },
+  { to: "/tai-khoan/tin-da-dang", icon: FileText, label: "Tin đã đăng", count: 3 },
+  { to: "/tai-khoan/quan-tam", icon: Heart, label: "Bất động sản đã lưu", count: 0 },
+  { to: "/tai-khoan/booking", icon: CalendarCheck, label: "Danh sách booking", count: 0 },
+  { to: "/tai-khoan/thong-bao", icon: Bell, label: "Thông báo", count: 6 },
+
 ];
 
 function UserMenu() {
   const { pathname } = useLocation();
-  const { user } = useAuth();
+  const user = CURRENT_USER;
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -79,12 +64,9 @@ function UserMenu() {
     return () => document.removeEventListener("mousedown", close);
   }, []);
 
-  if (!user) return null;
-
   const logout = () => {
-    clearSession();
     setOpen(false);
-    navigate("/");
+    navigate("/login");
   };
 
   return (
@@ -236,8 +218,6 @@ function UserMenu() {
 }
 
 export default function Header() {
-  const { user } = useAuth();
-
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-white shadow-sm">
       <div className="container mx-auto flex h-20 items-center justify-between gap-4 px-4 lg:px-6 xl:px-8">
@@ -281,16 +261,7 @@ export default function Header() {
         </nav>
 
         <div className="flex shrink-0 items-center gap-3">
-          {user ? (
-            <UserMenu />
-          ) : (
-            <Link
-              to="/login"
-              className="whitespace-nowrap rounded-full border border-line px-4 py-2 text-sm font-medium text-heading transition-colors xl:px-6 xl:py-2.5 hover:bg-primary-50 hover:text-primary-600"
-            >
-              Đăng nhập
-            </Link>
-          )}
+          <UserMenu />
           <Link
             to="/post-listing"
             className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-gradient-to-r from-primary-500 to-primary-700 px-4 py-2 text-sm font-medium text-white transition-all xl:px-6 xl:py-2.5 hover:opacity-95 hover:shadow-md"
