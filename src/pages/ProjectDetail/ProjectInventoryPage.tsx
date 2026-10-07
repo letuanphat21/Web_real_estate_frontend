@@ -1,7 +1,9 @@
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProjectTabs from "../../components/ProjectDetail/ProjectTabs";
-import { PROJECT, ROWS, STATS, type InventoryFilter } from "../../data/projectDetail/inventory";
+import BookingLockModal from "../../components/ProjectDetail/BookingLockModal";
+import { toBookingUnit } from "../../components/ProjectDetail/inventory/toBookingUnit";
+import { PROJECT, ROWS, STATS, type InventoryFilter, type InventoryRow } from "../../data/projectDetail/inventory";
 import { STATUS } from "../../components/ProjectDetail/inventory/inventoryStatus";
 import InventoryHero from "../../components/ProjectDetail/inventory/InventoryHero";
 import InventoryFilters from "../../components/ProjectDetail/inventory/InventoryFilters";
@@ -19,6 +21,7 @@ export default function ProjectInventoryPage() {
   const [sort, setSort] = useState("default");
   const [page, setPage] = useState(1);
   const perPage = 10;
+  const [bookingRow, setBookingRow] = useState<InventoryRow | null>(null);
 
   const rows = useMemo(() => {
     let r = ROWS.filter(
@@ -56,6 +59,9 @@ export default function ProjectInventoryPage() {
   return (
     <div className="bg-white">
       <ProjectTabs />
+      {bookingRow && (
+        <BookingLockModal key={bookingRow.code} unit={toBookingUnit(bookingRow)} onClose={() => setBookingRow(null)} />
+      )}
 
       {/* Hero tối */}
       <InventoryHero base={base} project={p} stats={STATS} />
@@ -67,7 +73,7 @@ export default function ProjectInventoryPage() {
         {/* Kết quả */}
         <InventoryResultsHeader total={rows.length === ROWS.length || applied.status !== "available" ? rows.length : 84} sort={sort} setSort={setSort} />
 
-        <InventoryTable rows={rows} page={page} perPage={perPage} base={base} />
+        <InventoryTable rows={rows} page={page} perPage={perPage} onSelectRow={setBookingRow} />
 
         <InventoryPagination rowCount={rows.length} totalCount={rows.length === ROWS.length ? 84 : rows.length} perPage={perPage} page={page} setPage={setPage} />
       </div>

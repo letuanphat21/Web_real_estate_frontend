@@ -22,3 +22,8 @@ export const STATS = [
 ];
 
 export type InventoryFilter = { q: string; price: string; type: string; dir: string; zone: string; status: string };
+
+// Ảnh minh họa dùng cho form giữ chỗ khi bảng quỹ căn chưa có ảnh từng căn
+export const UNIT_IMAGE = "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=80";
+
+export type InventoryRow = (typeof ROWS)[number];
