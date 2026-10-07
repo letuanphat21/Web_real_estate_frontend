@@ -28,6 +28,7 @@ export const formatEventTime = (startIso: string, endIso: string): string => {
   )}`;
 };
 
+<<<<<<< Updated upstream
 /** "Chủ nhật, 18/10/2026" */
 export const formatWeekdayDate = (iso: string): string => {
   const days = [
@@ -51,3 +52,17 @@ export const formatRelativeTime = (iso: string): string => {
   if (diff < 7 * 86400) return `${Math.floor(diff / 86400)} ngày trước`;
   return formatDate(iso);
 };
+=======
+
+// "cập nhật hôm nay" / "cập nhật hôm qua" / "cập nhật 3 ngày trước"
+export const formatUpdated = (iso: string): string => {
+  const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86_400_000);
+  if (days <= 0) return "cập nhật hôm nay";
+  if (days === 1) return "cập nhật hôm qua";
+  return `cập nhật ${days} ngày trước`;
+};
+
+// Số ngày còn lại tới hạn nộp (0 nếu đã hết hạn)
+export const daysLeft = (iso: string): number =>
+  Math.max(0, Math.ceil((new Date(iso).getTime() - Date.now()) / 86_400_000));
+>>>>>>> Stashed changes

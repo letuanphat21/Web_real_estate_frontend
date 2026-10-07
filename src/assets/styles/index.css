@@ -35,3 +35,75 @@
 body {
   @apply bg-white text-gray-800 antialiased;
 }
+
+/* ===== Trang Tạo CV: vùng CV khổ A4 và in PDF ===== */
+.cv-page {
+  width: 210mm;
+  background: #fff;
+  font-family: var(--cv-font, "Inter"), system-ui, sans-serif;
+  font-size: var(--cv-size, 13px);
+  line-height: 1.45;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.cv-clone {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.cv-item {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+/* Khối nằm trên nền màu chủ đạo: chữ trắng, thanh kỹ năng trong suốt */
+.cv-on-dark,
+.cv-on-dark * {
+  color: #fff !important;
+}
+.cv-on-dark .bg-gray-200 {
+  background: rgb(255 255 255 / 0.25) !important;
+}
+.cv-on-dark .cv-item > div > div[style] {
+  background: #fff !important;
+}
+@page {
+  size: A4;
+  margin: 0;
+}
+
+/* ===== Trang chi tiết việc làm: nội dung HTML từ backend ===== */
+.job-prose h3 {
+  margin: 1.5rem 0 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-heading);
+}
+.job-prose h3:first-child {
+  margin-top: 0;
+}
+.job-prose ul,
+.job-prose ol {
+  display: grid;
+  gap: 0.5rem;
+  padding-left: 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-body);
+}
+.job-prose ul {
+  list-style: disc;
+}
+.job-prose ol {
+  list-style: decimal;
+}
+.job-prose li::marker {
+  color: var(--color-primary-600);
+}
+.job-prose p {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-body);
+}
+.job-prose a {
+  color: var(--color-primary-600);
+  text-decoration: underline;
+}

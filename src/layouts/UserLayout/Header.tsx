@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -14,6 +15,11 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { clearSession, useAuth } from "../../store/authStore";
+=======
+import { Link, NavLink } from "react-router-dom";
+import { Bell, Plus } from "lucide-react";
+import { useAuthStore } from "../../store/authStore";
+>>>>>>> Stashed changes
 import logo from "../../assets/images/logo.jpg";
 
 const NAV_ITEMS = [
@@ -231,7 +237,11 @@ function UserMenu() {
 }
 
 export default function Header() {
+<<<<<<< Updated upstream
   const { user } = useAuth();
+=======
+  const user = useAuthStore((s) => s.user);
+>>>>>>> Stashed changes
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-white shadow-sm">
@@ -275,6 +285,7 @@ export default function Header() {
           ))}
         </nav>
 
+<<<<<<< Updated upstream
         <div className="flex shrink-0 items-center gap-3">
           {user ? (
             <UserMenu />
@@ -282,13 +293,44 @@ export default function Header() {
             <Link
               to="/login"
               className="whitespace-nowrap rounded-full border border-line px-4 py-2 text-sm font-medium text-heading transition-colors xl:px-6 xl:py-2.5 hover:bg-primary-50 hover:text-primary-600"
+=======
+        <div className="flex items-center gap-3">
+          {user ? (
+            <>
+              <button
+                type="button"
+                aria-label="Thông báo"
+                className="relative rounded-full p-2 text-body transition-colors hover:bg-primary-50 hover:text-primary-600"
+              >
+                <Bell size={20} />
+                <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-danger ring-2 ring-white" />
+              </button>
+              <div className="hidden items-center gap-3 md:flex">
+                {user.avatarUrl && (
+                  <img src={user.avatarUrl} alt="" className="h-10 w-10 rounded-full object-cover" />
+                )}
+                <div className="leading-tight">
+                  <p className="text-sm font-semibold text-heading">{user.fullName}</p>
+                  <p className="text-xs text-muted">Tài khoản cá nhân</p>
+                </div>
+              </div>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className="rounded-full border border-line px-6 py-2.5 text-sm font-medium text-heading transition-colors hover:bg-primary-50 hover:text-primary-600"
+>>>>>>> Stashed changes
             >
               Đăng nhập
             </Link>
           )}
           <Link
             to="/dang-tin"
+<<<<<<< Updated upstream
             className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-gradient-to-r from-primary-500 to-primary-700 px-4 py-2 text-sm font-medium text-white transition-all xl:px-6 xl:py-2.5 hover:opacity-95 hover:shadow-md"
+=======
+            className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-gradient-to-r from-primary-500 to-primary-700 px-4 py-2.5 sm:px-6 text-sm font-medium text-white transition-all hover:opacity-95 hover:shadow-md"
+>>>>>>> Stashed changes
           >
             Đăng tin
             <Plus size={18} strokeWidth={2.5} />

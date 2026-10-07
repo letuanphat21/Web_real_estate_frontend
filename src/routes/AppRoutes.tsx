@@ -16,6 +16,9 @@ import LoginPage from "../pages/Auth/LoginPage";
 import RegisterPage from "../pages/Auth/RegisterPage";
 import MyBookingsPage from "../pages/Account/MyBookingsPage";
 import FavoritesPage from "../pages/Account/FavoritesPage";
+import RecruitmentPage from "../pages/Recruitment/RecruitmentPage";
+import CvBuilderPage from "../pages/CvBuilder/CvBuilderPage";
+import JobDetailPage from "../pages/JobDetail/JobDetailPage";
 import UserLayout from "../layouts/UserLayout";
 import EventDetailPage from "../pages/Event/EventDetailPage";
 const AppRoutes = () => {
@@ -30,6 +33,9 @@ const AppRoutes = () => {
         <Route path="/kien-thuc" element={<KnowledgePage />} />
         <Route path="/tai-khoan/booking" element={<MyBookingsPage />} />
         <Route path="/tai-khoan/quan-tam" element={<FavoritesPage />} />
+        <Route path="/tuyen-dung" element={<RecruitmentPage />} />
+        <Route path="/tuyen-dung/tao-cv" element={<CvBuilderPage />} />
+        <Route path="/tuyen-dung/:slugId" element={<JobDetailPage />} />
         <Route path="/du-an" element={<ProjectsPage />} />
         <Route path="/du-an/:id" element={<ProjectDetailPage />} />
         <Route path="/du-an/:id/vi-tri" element={<ProjectLocationPage />} />
