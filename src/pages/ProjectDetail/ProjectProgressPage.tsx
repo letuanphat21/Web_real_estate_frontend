@@ -9,7 +9,7 @@ import PeriodDetail from "../../components/ProjectDetail/progress/PeriodDetail";
 
 export default function ProjectProgressPage() {
   const { id } = useParams();
-  const base = `/du-an/${id}`;
+  const base = `/projects/${id}`;
   const [active, setActive] = useState("t10");
   const period = PERIODS.find((x) => x.key === active) ?? PERIODS[0];
   const factor = period.percent / 68;

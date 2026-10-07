@@ -32,7 +32,7 @@ export default function NewsSection() {
           desc="Tin thị trường được kiểm chứng và lời khuyên từ những người làm nghề thật sự."
           action={
             <Link
-              to="/tin-tuc"
+              to="/news"
               className="flex w-fit items-center gap-2 rounded-full bg-primary-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-primary-700"
             >
               Xem tất cả <ArrowRight size={16} />
@@ -43,7 +43,7 @@ export default function NewsSection() {
         <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
           {/* Tin nổi bật */}
           <Link
-            to={`/tin-tuc/${FEATURED.id}`}
+            to={`/news/${FEATURED.id}`}
             className="group relative min-h-[420px] overflow-hidden rounded-3xl"
           >
             <img
@@ -72,7 +72,7 @@ export default function NewsSection() {
               <ul className="mt-4 divide-y divide-line">
                 {NEWS.map((n) => (
                   <li key={n.id}>
-                    <Link to={`/tin-tuc/${n.id}`} className="group block py-4">
+                    <Link to={`/news/${n.id}`} className="group block py-4">
                       <span className="text-xs font-medium text-primary-600">{n.category}</span>
                       <p className="mt-1 text-sm font-medium text-heading group-hover:text-primary-600">
                         {n.title}
