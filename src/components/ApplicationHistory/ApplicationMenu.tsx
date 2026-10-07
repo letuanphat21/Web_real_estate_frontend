@@ -1,14 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import { ExternalLink, MoreHorizontal, Undo2 } from "lucide-react";
+import { MoreHorizontal, Undo2 } from "lucide-react";
 
-/** Menu "..." của thẻ hồ sơ: xem tin và (nếu còn được phép) rút hồ sơ */
+/** Menu "..." của thẻ hồ sơ. Chỉ hiện khi còn thao tác khả dụng (rút hồ sơ). */
 export default function ApplicationMenu({
-  jobPath,
   jobTitle,
   onWithdraw,
 }: {
-  jobPath: string;
   jobTitle: string;
   onWithdraw?: () => void;
 }) {
@@ -28,6 +25,8 @@ export default function ApplicationMenu({
     };
   }, [open]);
 
+  if (!onWithdraw) return null;
+
   return (
     <div ref={ref} className="relative">
       <button
@@ -41,27 +40,18 @@ export default function ApplicationMenu({
         <MoreHorizontal size={16} />
       </button>
       {open && (
-        <div role="menu" className="absolute right-0 top-10 z-20 w-48 rounded-xl border border-line bg-white p-1 shadow-xl">
-          <Link
+        <div role="menu" className="absolute right-0 top-10 z-20 w-44 rounded-xl border border-line bg-white p-1 shadow-xl">
+          <button
             role="menuitem"
-            to={jobPath}
-            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-heading hover:bg-primary-50"
+            type="button"
+            onClick={() => {
+              setOpen(false);
+              onWithdraw();
+            }}
+            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-red-500 hover:bg-red-50"
           >
-            <ExternalLink size={14} aria-hidden /> Xem tin tuyển dụng
-          </Link>
-          {onWithdraw && (
-            <button
-              role="menuitem"
-              type="button"
-              onClick={() => {
-                setOpen(false);
-                onWithdraw();
-              }}
-              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-red-500 hover:bg-red-50"
-            >
-              <Undo2 size={14} aria-hidden /> Rút hồ sơ
-            </button>
-          )}
+            <Undo2 size={14} aria-hidden /> Rút hồ sơ
+          </button>
         </div>
       )}
     </div>

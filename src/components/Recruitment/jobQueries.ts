@@ -1,7 +1,6 @@
 import { MOCK_JOB_RECORDS } from "../../data/mockJobs";
 import { JOB_SORT, SALARY_RANGE_META } from "../../types/job.types";
 import type { Job, JobFilter, JobRecord, JobSort, PageResponse } from "../../types/job.types";
-import { getJobAvailability } from "./jobUtils";
 
 /**
  * Lọc/sắp xếp/phân trang trên mock data (chạy đồng bộ).
@@ -54,23 +53,16 @@ export function queryJobs(filter: JobFilter, sort: JobSort, page = 0, size = 5):
   return paginate(list, page, size);
 }
 
-/** Trả null nếu không tồn tại, đã xóa hoặc chưa xuất bản (trang chi tiết hiển thị 404) */
+/** Trả null nếu không tồn tại, đã xóa hoặc chưa xuất bản (trang chi tiết hiển thị "không tìm thấy") */
 export function findJobById(id: number): Job | null {
   const record = MOCK_JOB_RECORDS.find((j) => j.id === id);
   return record && isPublic(record) ? toPublicJob(record) : null;
 }
 
-/** Cùng loại hoặc cùng phòng ban, còn hạn, loại trừ job hiện tại, mới đăng trước */
-export function findSimilarJobs(current: Job, page = 0, limit = 3): PageResponse<Job> {
-  const list = MOCK_JOB_RECORDS.filter(
-    (j) =>
-      isPublic(j) &&
-      j.id !== current.id &&
-      getJobAvailability(j) === "open" &&
-      (j.jobType.id === current.jobType.id || j.department === current.department)
-  )
+/** Các tin khác (loại trừ tin hiện tại), mới đăng trước, có phân trang */
+export function findOtherJobs(currentId: number, page = 0, limit = 3): PageResponse<Job> {
+  const list = MOCK_JOB_RECORDS.filter((j) => isPublic(j) && j.id !== currentId)
     .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt))
     .map(toPublicJob);
-
   return paginate(list, page, limit);
 }

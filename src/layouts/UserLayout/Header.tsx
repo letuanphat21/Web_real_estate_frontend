@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import { Plus, Search, Bell, ChevronDown, ChevronRight, User, LogOut, FileText, Heart, Briefcase, ArrowUpRight, CalendarCheck } from "lucide-react";
+import { Plus, Search, Bell, ChevronDown, ChevronRight, User, LogOut, FileText, Heart, Briefcase, ArrowUpRight, CalendarCheck, BookmarkCheck } from "lucide-react";
 import { CURRENT_USER } from "../../data/mockAccount";
+import useSavedJobs from "../../components/Recruitment/useSavedJobs";
+import NotificationDrawer from "../../components/Notification/NotificationDrawer";
 import logo from "../../assets/images/logo.jpg";
 
 const NAV_ITEMS = [
@@ -24,26 +26,13 @@ const initials = (name: string) =>
     .join("");
 
 const ACCOUNT_MENU = [
-  {
-    to: "/account/my-listings",
-    icon: FileText,
-    label: "Tin đã đăng",
-    count: 3,
-  },
-  {
-    to: "/account/applications",
-    icon: Briefcase,
-    label: "Lịch sử ứng tuyển",
-    count: 0,
-  },
+  { to: "/account", icon: User, label: "Hồ sơ cá nhân", count: 0 },
+  { to: "/account/favorites", icon: Heart, label: "Bất động sản đã lưu", count: 0 },
+  { to: "/account/my-listings", icon: FileText, label: "Tin đã đăng", count: 3 },
+  { to: "/account/saved-jobs", icon: BookmarkCheck, label: "Tin tuyển dụng đã lưu", count: 0 },
+  { to: "/account/bookings", icon: CalendarCheck, label: "Danh sách booking", count: 0 },
+  { to: "/account/applications", icon: Briefcase, label: "Lịch sử ứng tuyển", count: 0 },
   { to: "/account/notifications", icon: Bell, label: "Thông báo", count: 6 },
-
-  { to: "/tai-khoan", icon: User, label: "Hồ sơ cá nhân", count: 0 },
-  { to: "/tai-khoan/tin-da-dang", icon: FileText, label: "Tin đã đăng", count: 3 },
-  { to: "/tai-khoan/quan-tam", icon: Heart, label: "Bất động sản đã lưu", count: 0 },
-  { to: "/tai-khoan/booking", icon: CalendarCheck, label: "Danh sách booking", count: 0 },
-  { to: "/tai-khoan/thong-bao", icon: Bell, label: "Thông báo", count: 6 },
-
 ];
 
 function UserMenu() {
@@ -51,6 +40,8 @@ function UserMenu() {
   const user = CURRENT_USER;
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
+  const { savedIds } = useSavedJobs();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -77,10 +68,12 @@ function UserMenu() {
       </button>
       <button
         aria-label="Thông báo"
+        onClick={() => setNotifOpen(true)}
         className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-heading hover:bg-primary-50 hover:text-primary-600"
       >
         <Bell size={17} />
       </button>
+      {notifOpen && <NotificationDrawer onClose={() => setNotifOpen(false)} />}
 
       <div ref={ref} className="relative">
         <button
@@ -154,8 +147,10 @@ function UserMenu() {
             </div>
 
             <ul className="mt-1.5 space-y-px">
-              {ACCOUNT_MENU.map(({ to, icon: Icon, label, count }) => {
+              {ACCOUNT_MENU.map(({ to, icon: Icon, label, count: baseCount }) => {
                 const active = pathname === to;
+                // số tin tuyển dụng đã lưu lấy trực tiếp từ danh sách đang lưu
+                const count = to === "/account/saved-jobs" ? savedIds.length : baseCount;
                 return (
                   <li key={to}>
                     <Link

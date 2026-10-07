@@ -3,7 +3,7 @@ import { Bookmark, Briefcase, Building2, CheckCircle2, Clock, MapPin, Send } fro
 import JobBadge from "./JobBadge";
 import CompanyLogo from "./CompanyLogo";
 import { JOB_LEVEL_LABEL, PROPERTY_TYPE_META, type Job } from "../../types/job.types";
-import { buildJobPath, daysLeft, formatSalary, formatUpdated } from "./jobUtils";
+import { daysLeft, formatSalary, formatUpdated } from "./jobUtils";
 
 const labelClass = "text-[11px] uppercase tracking-wide text-muted";
 
@@ -29,7 +29,7 @@ export default function JobCard({
             <JobBadge>{job.jobType.name}</JobBadge>
           </div>
           <h3 className="mt-2 text-xl font-medium leading-snug text-heading">
-            <Link to={buildJobPath(job)} className="hover:text-primary-600">
+            <Link to={`/jobs/${job.id}`} className="hover:text-primary-600">
               {job.title}
             </Link>
           </h3>

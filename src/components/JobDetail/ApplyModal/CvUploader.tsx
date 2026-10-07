@@ -1,57 +1,27 @@
 import { useRef, useState } from "react";
-import { FileText, Trash2, UploadCloud } from "lucide-react";
-import { CV_FILE_ACCEPT, validateCvFile } from "../applySchemas";
-import { formatFileSize } from "../../Recruitment/jobUtils";
+import { FileText, UploadCloud, X } from "lucide-react";
 
-const TYPE_LABEL: Record<string, string> = { pdf: "PDF", doc: "DOC", docx: "DOCX" };
+/** "1,2 MB" / "340 KB" */
+const sizeText = (bytes: number): string =>
+  bytes < 1024 * 1024
+    ? `${Math.max(1, Math.round(bytes / 1024))} KB`
+    : `${(bytes / 1024 / 1024).toFixed(1).replace(".", ",")} MB`;
 
-/** Tab "Tải CV lên": kéo thả hoặc chọn file; hiện tên, dung lượng, định dạng và nút xóa */
+/** Tab "Tải CV lên": kéo thả hoặc chọn tệp, hiển thị tên/dung lượng và nút xóa (chỉ giao diện, chưa tải lên đâu) */
 export default function CvUploader({
   file,
   onChange,
+  error,
 }: {
   file: File | null;
   onChange: (file: File | null) => void;
+  error?: string;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
-  const [error, setError] = useState("");
-
-  const accept = (f?: File) => {
-    if (!f) return;
-    const problem = validateCvFile(f);
-    setError(problem ?? "");
-    onChange(problem ? null : f);
-  };
-
-  if (file) {
-    const ext = file.name.split(".").pop()?.toLowerCase() ?? "";
-    return (
-      <div className="flex items-center gap-3 rounded-2xl border border-primary-300 bg-primary-50 p-3.5">
-        <FileText size={22} className="shrink-0 text-primary-600" aria-hidden />
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-medium text-heading">{file.name}</p>
-          <p className="text-xs text-muted">
-            {TYPE_LABEL[ext] ?? ext.toUpperCase()} · {formatFileSize(file.size)}
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={() => {
-            onChange(null);
-            setError("");
-          }}
-          aria-label="Xóa file đã chọn"
-          className="rounded-full p-2 text-muted hover:bg-white hover:text-danger"
-        >
-          <Trash2 size={16} />
-        </button>
-      </div>
-    );
-  }
 
   return (
-    <div>
+    <div className="space-y-3">
       <div
         onDragOver={(e) => {
           e.preventDefault();
@@ -61,37 +31,54 @@ export default function CvUploader({
         onDrop={(e) => {
           e.preventDefault();
           setDragging(false);
-          accept(e.dataTransfer.files?.[0]);
+          onChange(e.dataTransfer.files?.[0] ?? null);
         }}
-        className={`flex flex-col items-center rounded-2xl border-2 border-dashed px-4 py-8 text-center transition ${
-          dragging ? "border-primary-600 bg-primary-50" : "border-line"
+        className={`flex cursor-pointer flex-col items-center rounded-2xl border border-dashed px-4 py-7 text-center transition ${
+          dragging ? "border-primary-500 bg-primary-100/60" : error ? "border-red-300 bg-red-50/40" : "border-primary-200 bg-primary-50/60"
         }`}
+        onClick={() => inputRef.current?.click()}
       >
-        <UploadCloud size={30} className="text-primary-400" aria-hidden />
-        <p className="mt-2 text-sm text-body">Kéo thả CV vào đây hoặc</p>
-        <button
-          type="button"
-          onClick={() => inputRef.current?.click()}
-          className="mt-2 rounded-full bg-primary-50 px-5 py-2 text-sm font-medium text-primary-600 hover:bg-primary-100"
-        >
-          Chọn file
-        </button>
-        <p className="mt-2 text-xs text-muted">PDF, DOC, DOCX · tối đa 5MB</p>
+        <UploadCloud size={26} className="text-primary-500" aria-hidden />
+        <p className="mt-2 text-sm font-medium text-heading">Kéo thả CV hoặc chọn tệp</p>
+        <p className="mt-1 text-xs text-gray-400">PDF / DOC / DOCX · Tối đa 5MB</p>
       </div>
       <input
         ref={inputRef}
         type="file"
-        accept={CV_FILE_ACCEPT}
+        accept=".pdf,.doc,.docx"
         className="sr-only"
-        aria-label="Chọn file CV"
+        aria-label="Chọn tệp CV"
         tabIndex={-1}
         onChange={(e) => {
-          accept(e.target.files?.[0]);
+          onChange(e.target.files?.[0] ?? null);
           e.target.value = "";
         }}
       />
+
+      {file && (
+        <div className="flex items-center gap-3 rounded-2xl border border-line bg-white p-3">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-600">
+            <FileText size={16} aria-hidden />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-medium text-heading">{file.name}</p>
+            <p className="text-xs text-gray-400">
+              {(file.name.split(".").pop() ?? "").toUpperCase()} · {sizeText(file.size)} · Đã tải lên
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => onChange(null)}
+            aria-label="Xóa tệp đã chọn"
+            className="rounded-full p-1.5 text-gray-400 hover:bg-primary-50 hover:text-red-500"
+          >
+            <X size={16} />
+          </button>
+        </div>
+      )}
+
       {error && (
-        <p role="alert" className="mt-2 text-xs text-danger">
+        <p role="alert" className="text-xs text-red-500">
           {error}
         </p>
       )}
