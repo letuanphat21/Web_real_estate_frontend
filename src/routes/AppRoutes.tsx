@@ -36,15 +36,6 @@ const AppRoutes = () => {
         <Route path="/events/:id" element={<EventDetailPage />} />
         <Route path="/news" element={<NewsPage />} />
         <Route path="/news/:id" element={<NewsDetailPage />} />
-      </Route>
-      <Route element={<AccountLayout />}>
-        <Route path="/knowledge" element={<KnowledgePage />} />
-        <Route path="/account/bookings" element={<MyBookingsPage />} />
-        <Route path="/account/favorites" element={<FavoritesPage />} />
-        <Route path="/account/applications" element={<ApplicationHistoryPage />} />
-        <Route path="/jobs" element={<RecruitmentPage />} />
-        <Route path="/jobs/create-cv" element={<CvBuilderPage />} />
-        <Route path="/jobs/:slugId" element={<JobDetailPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/projects/:id" element={<ProjectDetailPage />} />
         <Route path="/projects/:id/location" element={<ProjectLocationPage />} />
@@ -55,6 +46,18 @@ const AppRoutes = () => {
         <Route path="/projects/:id/progress" element={<ProjectProgressPage />} />
         <Route path="/projects/:id/documents" element={<ProjectDocumentsPage />} />
         <Route path="/projects/:id/news" element={<ProjectNewsPage />} />
+           <Route path="/knowledge" element={<KnowledgePage />} />
+            <Route path="/jobs" element={<RecruitmentPage />} />
+        <Route path="/jobs/create-cv" element={<CvBuilderPage />} />
+        <Route path="/jobs/:slugId" element={<JobDetailPage />} />
+      </Route>
+      <Route element={<AccountLayout />}>
+     
+        <Route path="/account/bookings" element={<MyBookingsPage />} />
+        <Route path="/account/favorites" element={<FavoritesPage />} />
+        <Route path="/account/applications" element={<ApplicationHistoryPage />} />
+       
+        
       </Route>
 
       {/* <Route path="/admin" element={<AdminLayout />}>

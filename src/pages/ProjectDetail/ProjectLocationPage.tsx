@@ -9,7 +9,9 @@ import LocationMap from "../../components/ProjectDetail/location/LocationMap";
 export default function ProjectLocationPage() {
   const { id } = useParams();
   const p = PROJECT;
+
   const base = `/du-an/${id}`;
+
 
   return (
     <div className="bg-white">

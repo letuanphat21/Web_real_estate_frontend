@@ -9,11 +9,14 @@ const NAV_ITEMS = [
   { label: "Dự án", path: "/projects" },
   { label: "Sự kiện", path: "/events" },
   { label: "Tin tức", path: "/news" },
+
   { label: "Kiến thức", path: "/knowledge" },
   { label: "Cộng đồng", path: "/community" },
   { label: "Tuyển dụng", path: "/jobs" },
 
-]
+];
+
+
 const initials = (name: string) =>
   name
     .trim()
@@ -23,18 +26,11 @@ const initials = (name: string) =>
     .join("");
 
 const ACCOUNT_MENU = [
-  { to: "/account", icon: User, label: "Hồ sơ cá nhân", count: 0 },
   {
     to: "/account/my-listings",
     icon: FileText,
     label: "Tin đã đăng",
     count: 3,
-  },
-  {
-    to: "/account/favorites",
-    icon: Heart,
-    label: "Bất động sản đã lưu",
-    count: 0,
   },
   {
     to: "/account/applications",
@@ -43,6 +39,13 @@ const ACCOUNT_MENU = [
     count: 0,
   },
   { to: "/account/notifications", icon: Bell, label: "Thông báo", count: 6 },
+
+  { to: "/tai-khoan", icon: User, label: "Hồ sơ cá nhân", count: 0 },
+  { to: "/tai-khoan/tin-da-dang", icon: FileText, label: "Tin đã đăng", count: 3 },
+  { to: "/tai-khoan/quan-tam", icon: Heart, label: "Bất động sản đã lưu", count: 0 },
+  { to: "/tai-khoan/booking", icon: CalendarCheck, label: "Danh sách booking", count: 0 },
+  { to: "/tai-khoan/thong-bao", icon: Bell, label: "Thông báo", count: 6 },
+
 ];
 
 function UserMenu() {
