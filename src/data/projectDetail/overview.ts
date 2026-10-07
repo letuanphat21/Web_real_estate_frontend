@@ -109,3 +109,16 @@ export const NEWS = [
   { category: "Dự án", title: "Aurelia Riverside ra mắt bộ sưu tập căn hộ Sol", meta: "24/09/2026 · 4 phút đọc", image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=900&q=80" },
   { category: "Góc chuyên gia", title: "5 tiêu chí chọn căn hộ cao cấp tại Thủ Thiêm", meta: "18/09/2026 · 8 phút đọc", image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=900&q=80" },
 ];
+
+export type ProjectOverview = typeof PROJECT;
+export type GalleryImage = (typeof GALLERY)[number];
+export type NearbyItem = (typeof NEARBY)[number];
+export type ZoneItem = (typeof ZONES)[number];
+export type BuildingItem = (typeof BUILDINGS)[number];
+export type PinItem = (typeof PINS)[number];
+export type FacilityItem = (typeof FACILITIES)[number];
+export type PropertyRow = (typeof PROPERTIES)[number];
+export type PolicyPlan = (typeof POLICIES)[number];
+export type ProgressStep = (typeof PROGRESS)[number];
+export type DocumentItem = (typeof DOCUMENTS)[number];
+export type NewsItem = (typeof NEWS)[number];

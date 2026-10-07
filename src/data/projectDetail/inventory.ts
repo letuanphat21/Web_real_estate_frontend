@@ -20,3 +20,5 @@ export const STATS = [
   { label: "Đang giữ chỗ", value: "21", note: "Hiệu lực trong 24h", dot: "bg-warning" },
   { label: "Đã bán", value: "167", note: "58,4% quỹ căn", dot: "bg-danger" },
 ];
+
+export type InventoryFilter = { q: string; price: string; type: string; dir: string; zone: string; status: string };
