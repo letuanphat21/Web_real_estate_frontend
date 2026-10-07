@@ -18,6 +18,7 @@ import MyBookingsPage from "../pages/Account/MyBookingsPage";
 import FavoritesPage from "../pages/Account/FavoritesPage";
 import UserLayout from "../layouts/UserLayout";
 import EventDetailPage from "../pages/Event/EventDetailPage";
+import NewsPage from "../pages/News/NewsPage";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -27,6 +28,7 @@ const AppRoutes = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/events/:id" element={<EventDetailPage />} />
+        <Route path="/news" element={<NewsPage />} />
         <Route path="/kien-thuc" element={<KnowledgePage />} />
         <Route path="/tai-khoan/booking" element={<MyBookingsPage />} />
         <Route path="/tai-khoan/quan-tam" element={<FavoritesPage />} />
