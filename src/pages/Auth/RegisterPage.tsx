@@ -5,7 +5,6 @@ import { FcGoogle } from "react-icons/fc";
 import AuthSplitLayout from "../../components/Auth/AuthSplitLayout";
 import { AUTH_COPY, REGISTER_COPY } from "../../data/authContent";
 import authService from "../../services/authService";
-import { setSession } from "../../store/authStore";
 
 const inputCls =
   "h-12 w-full rounded-xl border border-gray-200 bg-white pl-11 pr-4 text-sm text-heading outline-none placeholder:text-muted focus:border-primary-300";
@@ -24,8 +23,7 @@ export default function RegisterPage() {
     setError("");
     setLoading(true);
     try {
-      const res = await authService.register({ fullName, identifier, password });
-      setSession(res, true);
+      await authService.register({ fullName, identifier, password });
       navigate("/");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Đăng ký không thành công.");

@@ -26,7 +26,7 @@ export default function EventDetailPage() {
   const [joined, setJoined] = useState<boolean>(false);
   const [joining, setJoining] = useState<boolean>(false);
 
-  // TODO: lấy từ authStore khi có đăng nhập
+  // TODO: lấy từ người dùng đăng nhập khi có xác thực
   const currentUser = MOCK_CURRENT_USER;
 
   useEffect(() => {

@@ -1,6 +1,6 @@
-import { Navigate, NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { User, Heart, FileText, CalendarCheck, Briefcase, Bell } from "lucide-react";
-import { useAuth } from "../../store/authStore";
+import { CURRENT_USER } from "../../data/mockAccount";
 
 const MENU = [
   { to: "/tai-khoan", icon: User, label: "Hồ sơ cá nhân", end: true },
@@ -16,8 +16,7 @@ const initials = (name: string) =>
 
 // Khung trang tài khoản: sidebar bên trái + nội dung (Outlet) bên phải
 export default function AccountLayout() {
-  const { user } = useAuth();
-  if (!user) return <Navigate to="/login" replace />;
+  const user = CURRENT_USER;
 
   return (
     <div className="bg-white py-8">

@@ -11,3 +11,5 @@ export const PROJECTS = [
 export const ACTIVE_FILTERS = ["TP. Hồ Chí Minh", "Căn hộ", "Đang mở bán"];
 
 export const PAGES = [1, 2, 3, 4, "...", 12] as const;
+
+export type Project = (typeof PROJECTS)[number];
