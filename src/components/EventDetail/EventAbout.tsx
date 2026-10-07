@@ -1,5 +1,18 @@
 import { Sparkles, ShieldCheck, Gift } from "lucide-react";
-const HIGHLIGHTS = [
+import type { LucideIcon } from "lucide-react";
+import type { Event } from "../../types/event.types";
+
+interface Highlight {
+  icon: LucideIcon;
+  title: string;
+  desc: string;
+}
+
+interface EventAboutProps {
+  event: Event;
+}
+
+const HIGHLIGHTS: Highlight[] = [
   {
     icon: Sparkles,
     title: "Ra mắt giới hạn",
@@ -17,7 +30,7 @@ const HIGHLIGHTS = [
   },
 ];
 
-export default function EventAbout({ event }) {
+export default function EventAbout({ event }: EventAboutProps) {
   return (
     <div className="rounded-3xl border border-line bg-white p-6 md:p-8">
       <span className="text-xs font-semibold uppercase tracking-wide text-primary-600">

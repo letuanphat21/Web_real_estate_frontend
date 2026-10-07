@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import EventFilterBar from "./EventFilterBar";
+import type { EventFilter } from "../../types/event.types";
 
-export default function EventsHero({ filter, onSearch }) {
+interface EventsHeroProps {
+  filter: EventFilter;
+  onSearch: (filter: EventFilter) => void;
+}
+
+export default function EventsHero({ filter, onSearch }: EventsHeroProps) {
   return (
     <section className="bg-hero pb-16 pt-8">
       <div className="container mx-auto px-4 lg:px-8">

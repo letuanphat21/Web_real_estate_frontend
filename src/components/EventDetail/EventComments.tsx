@@ -1,12 +1,20 @@
 import { useState } from "react";
+import type { FormEvent, KeyboardEvent } from "react";
 import { Link } from "react-router-dom";
 import { MessageCircle, Send, Trash2 } from "lucide-react";
 import { formatRelativeTime } from "../../utils/formatDate";
+import type { EventComment, UserSummary } from "../../types/event.types";
 
 const MAX_LENGTH = 500;
 const PAGE_SIZE = 5;
 
-const Avatar = ({ user, size = "h-10 w-10" }) =>
+/* ===== Avatar ===== */
+interface AvatarProps {
+  user: UserSummary;
+  size?: string;
+}
+
+const Avatar = ({ user, size = "h-10 w-10" }: AvatarProps) =>
   user.avatarUrl ? (
     <img
       src={user.avatarUrl}
@@ -21,18 +29,25 @@ const Avatar = ({ user, size = "h-10 w-10" }) =>
     </span>
   );
 
+/* ===== EventComments ===== */
+interface EventCommentsProps {
+  comments: EventComment[];
+  currentUser: UserSummary | null;
+  onAdd: (content: string) => Promise<void>;
+  onDelete: (commentId: number) => void;
+}
+
 export default function EventComments({
   comments,
   currentUser,
   onAdd,
   onDelete,
-}) {
-  const [text, setText] = useState("");
-  const [sending, setSending] = useState(false);
-  const [visible, setVisible] = useState(PAGE_SIZE);
+}: EventCommentsProps) {
+  const [text, setText] = useState<string>("");
+  const [sending, setSending] = useState<boolean>(false);
+  const [visible, setVisible] = useState<number>(PAGE_SIZE);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const submit = async () => {
     const content = text.trim();
     if (!content || sending) return;
 
@@ -42,6 +57,18 @@ export default function EventComments({
       setText("");
     } finally {
       setSending(false);
+    }
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    submit();
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      submit();
     }
   };
 
@@ -62,10 +89,7 @@ export default function EventComments({
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value.slice(0, MAX_LENGTH))}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && (e.ctrlKey || e.metaKey))
-                  handleSubmit(e);
-              }}
+              onKeyDown={handleKeyDown}
               rows={3}
               placeholder="Đặt câu hỏi hoặc chia sẻ cảm nhận về sự kiện..."
               className="w-full resize-none rounded-2xl border border-line px-4 py-3 text-sm text-heading outline-none transition focus:border-primary-400 focus:ring-2 focus:ring-primary-100"

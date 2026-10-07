@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ChangeEvent, type FormEvent } from "react";
 import { Search, RotateCcw } from "lucide-react";
 import {
   DEFAULT_EVENT_FILTER,
   EVENT_CATEGORY_LABEL,
   EVENT_STATUS_META,
+  type EventFilter,
 } from "../../types/event.types";
 
 const fieldClass =
@@ -16,16 +17,24 @@ const fieldClass =
  *   onSearch: (f: import("../../../types/event.types").EventFilter) => void
  * }} props
  */
-export default function EventFilterBar({ value, onSearch }) {
+export default function EventFilterBar({
+  value,
+  onSearch,
+}: {
+  value: EventFilter;
+  onSearch: (f: EventFilter) => void;
+}) {
   const [draft, setDraft] = useState(value);
 
   // Đồng bộ khi trang cha reset filter
   useEffect(() => setDraft(value), [value]);
 
-  const update = (key) => (e) =>
-    setDraft((d) => ({ ...d, [key]: e.target.value }));
+  const update =
+    (key: keyof EventFilter) =>
+    (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+      setDraft((d) => ({ ...d, [key]: e.target.value }) as EventFilter);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSearch(draft);
   };

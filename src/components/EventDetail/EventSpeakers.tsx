@@ -1,7 +1,12 @@
 import { BadgeCheck } from "lucide-react";
+import type { EventSpeaker } from "../../types/event.types";
 
-export default function EventSpeakers({ speakers }) {
-  if (!speakers?.length) return null;
+interface EventSpeakersProps {
+  speakers: EventSpeaker[];
+}
+
+export default function EventSpeakers({ speakers }: EventSpeakersProps) {
+  if (!speakers.length) return null;
 
   return (
     <div className="rounded-3xl border border-line bg-white p-6 md:p-8">

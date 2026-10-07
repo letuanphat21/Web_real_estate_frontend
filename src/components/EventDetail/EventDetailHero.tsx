@@ -5,21 +5,26 @@ import {
   MapPin,
   Users,
   ArrowRight,
-  Bookmark,
   Clock,
   CheckCircle2,
 } from "lucide-react";
 import EventStatusBadge from "../Event/EventStatusBadge";
 import { EVENT_CATEGORY_LABEL, EVENT_STATUS } from "../../types/event.types";
+import type { Event } from "../../types/event.types";
 import { formatEventTime, formatWeekdayDate } from "../../utils/formatDate";
 
 const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&q=80";
 
-const daysUntil = (iso) =>
+/** Số ngày còn lại tới lúc bắt đầu */
+const daysUntil = (iso: string): number =>
   Math.ceil((new Date(iso).getTime() - Date.now()) / 86400000);
 
-export default function EventDetailHero({ event, saved, onToggleSave }) {
+interface EventDetailHeroProps {
+  event: Event;
+}
+
+export default function EventDetailHero({ event }: EventDetailHeroProps) {
   const cover = event.images?.[0]?.imageUrl || FALLBACK_IMAGE;
   const remaining = event.maxAttendees - event.memberCount;
   const days = daysUntil(event.startTime);
@@ -38,7 +43,7 @@ export default function EventDetailHero({ event, saved, onToggleSave }) {
             Trang chủ
           </Link>
           <ChevronRight size={12} />
-          <Link to="/su-kien" className="hover:text-primary-600">
+          <Link to="/events" className="hover:text-primary-600">
             Sự kiện
           </Link>
           <ChevronRight size={12} />
@@ -91,6 +96,7 @@ export default function EventDetailHero({ event, saved, onToggleSave }) {
               )}
             </div>
           </div>
+
           <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-2xl shadow-primary-200">
             <img
               src={cover}

@@ -1,7 +1,12 @@
 import { MapPin, Clock, ExternalLink, Navigation } from "lucide-react";
 import { formatEventTime } from "../../utils/formatDate";
+import type { Event } from "../../types/event.types";
 
-export default function EventLocation({ event }) {
+interface EventLocationProps {
+  event: Event;
+}
+
+export default function EventLocation({ event }: EventLocationProps) {
   const query = encodeURIComponent(event.location);
   const mapEmbed = `https://maps.google.com/maps?q=${query}&z=15&output=embed`;
   const directions = `https://www.google.com/maps/dir/?api=1&destination=${query}`;

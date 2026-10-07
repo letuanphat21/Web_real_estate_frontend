@@ -8,19 +8,25 @@ import EventLocation from "../../components/EventDetail/EventLocation";
 import EventComments from "../../components/EventDetail/EventComments";
 import eventService from "../../services/eventService";
 import { MOCK_CURRENT_USER } from "../../data/mockEventDetail";
+import type {
+  Event,
+  EventComment,
+  EventSpeaker,
+} from "../../types/event.types";
 
 export default function EventDetailPage() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const eventId = Number(id);
 
-  const [event, setEvent] = useState(null);
-  const [speakers, setSpeakers] = useState([]);
-  const [comments, setComments] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [event, setEvent] = useState<Event | null>(null);
+  const [speakers, setSpeakers] = useState<EventSpeaker[]>([]);
+  const [comments, setComments] = useState<EventComment[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const [joined, setJoined] = useState(false);
-  const [joining, setJoining] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [joined, setJoined] = useState<boolean>(false);
+  const [joining, setJoining] = useState<boolean>(false);
+
+  // TODO: lấy từ authStore khi có đăng nhập
   const currentUser = MOCK_CURRENT_USER;
 
   useEffect(() => {
@@ -40,7 +46,9 @@ export default function EventDetailPage() {
         setComments(cm);
         setJoined(jn);
       })
-      .finally(() => !ignore && setLoading(false));
+      .finally(() => {
+        if (!ignore) setLoading(false);
+      });
 
     window.scrollTo(0, 0);
     return () => {
@@ -53,18 +61,18 @@ export default function EventDetailPage() {
     try {
       await eventService.joinEvent(eventId);
       setJoined(true);
-      setEvent((ev) => ({ ...ev, memberCount: ev.memberCount + 1 }));
+      setEvent((ev) => (ev ? { ...ev, memberCount: ev.memberCount + 1 } : ev));
     } finally {
       setJoining(false);
     }
   };
 
-  const handleAddComment = async (content) => {
+  const handleAddComment = async (content: string) => {
     const newComment = await eventService.addComment(eventId, content);
     setComments((list) => [newComment, ...list]);
   };
 
-  const handleDeleteComment = async (commentId) => {
+  const handleDeleteComment = async (commentId: number) => {
     if (!window.confirm("Xóa bình luận này?")) return;
     await eventService.deleteComment(commentId);
     setComments((list) => list.filter((c) => c.id !== commentId));
@@ -96,7 +104,7 @@ export default function EventDetailPage() {
           Sự kiện có thể đã bị xóa hoặc đường dẫn không đúng.
         </p>
         <Link
-          to="/su-kien"
+          to="/events"
           className="mt-6 inline-block rounded-full bg-primary-600 px-6 py-3 text-sm font-medium text-white"
         >
           Quay lại danh sách
@@ -107,11 +115,7 @@ export default function EventDetailPage() {
 
   return (
     <>
-      <EventDetailHero
-        event={event}
-        saved={saved}
-        onToggleSave={() => setSaved((s) => !s)}
-      />
+      <EventDetailHero event={event} />
 
       <section className="bg-page py-16">
         <div className="container mx-auto grid items-start gap-6 px-4 lg:grid-cols-[1fr_360px] lg:px-8">
