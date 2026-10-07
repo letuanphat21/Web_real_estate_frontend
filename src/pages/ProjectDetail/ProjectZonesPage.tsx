@@ -63,7 +63,7 @@ function ZoneCard({ zone, to }: { zone: (typeof ZONES)[number]; to: string }) {
 
 export default function ProjectZonesPage() {
   const { id } = useParams();
-  const base = `/du-an/${id}`;
+  const base = `/projects/${id}`;
   const p = PROJECT;
 
   return (

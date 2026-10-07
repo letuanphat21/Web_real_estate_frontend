@@ -23,7 +23,7 @@ export default function MyBookingsPage() {
           <div className="rounded-3xl border border-line bg-white py-16 text-center shadow-sm">
             <ClipboardList size={36} className="mx-auto text-primary-300" />
             <p className="mt-4 font-semibold text-heading">Bạn chưa có booking nào</p>
-            <Link to="/du-an" className="mt-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary-500 to-primary-700 px-6 py-3 text-sm font-medium text-white">
+            <Link to="/projects" className="mt-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary-500 to-primary-700 px-6 py-3 text-sm font-medium text-white">
               Khám phá dự án <ArrowRight size={15} />
             </Link>
           </div>
@@ -51,7 +51,7 @@ export default function MyBookingsPage() {
                   </div>
                   <div className="flex items-center justify-between gap-4 sm:flex-col sm:items-end">
                     <p className="text-2xl font-bold text-primary-600">{b.price}</p>
-                    <Link to={`/du-an/${b.projectId}/mat-bang`} className="flex items-center gap-2 rounded-full border border-primary-200 bg-primary-50 px-5 py-2.5 text-sm font-medium text-heading hover:bg-primary-100">
+                    <Link to={`/projects/${b.projectId}/floor-plans`} className="flex items-center gap-2 rounded-full border border-primary-200 bg-primary-50 px-5 py-2.5 text-sm font-medium text-heading hover:bg-primary-100">
                       Xem căn <ArrowRight size={14} />
                     </Link>
                   </div>

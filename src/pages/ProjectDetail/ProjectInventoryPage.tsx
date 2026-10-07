@@ -65,7 +65,7 @@ function Select({ value, onChange, options }: SelectProps) {
 
 export default function ProjectInventoryPage() {
   const { id } = useParams();
-  const base = `/du-an/${id}`;
+  const base = `/projects/${id}`;
   const p = PROJECT;
 
   const [draft, setDraft] = useState({ q: "", price: "", type: "", dir: "", zone: "The Cove", status: "available" });

@@ -42,7 +42,7 @@ export default function ProjectLocationPage() {
   const { id } = useParams();
   const p = PROJECT;
   const [mode, setMode] = useState("map");
-  const base = `/du-an/${id}`;
+  const base = `/projects/${id}`;
 
   return (
     <div className="bg-white">

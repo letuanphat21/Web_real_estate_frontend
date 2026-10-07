@@ -206,7 +206,7 @@ function FloorPlan() {
 
 export default function ProjectFloorPlanPage() {
   const { id } = useParams();
-  const base = `/du-an/${id}`;
+  const base = `/projects/${id}`;
   const [selected, setSelected] = useState("1208");
   const [booking, setBooking] = useState(false);
   const p = PROJECT;

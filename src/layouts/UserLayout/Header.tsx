@@ -18,12 +18,12 @@ import logo from "../../assets/images/logo.jpg";
 
 const NAV_ITEMS = [
   { label: "Giới thiệu", path: "/" },
-  { label: "Dự án", path: "/du-an" },
+  { label: "Dự án", path: "/projects" },
   { label: "Sự kiện", path: "/events" },
-  { label: "Tin tức", path: "/tin-tuc" },
-  { label: "Kiến thức", path: "/kien-thuc" },
-  { label: "Cộng đồng", path: "/cong-dong" },
-  { label: "Tuyển dụng", path: "/tuyen-dung" },
+  { label: "Tin tức", path: "/news" },
+  { label: "Kiến thức", path: "/knowledge" },
+  { label: "Cộng đồng", path: "/community" },
+  { label: "Tuyển dụng", path: "/jobs" },
 ];
 
 const initials = (name: string) =>
@@ -36,26 +36,26 @@ const initials = (name: string) =>
 
 // TODO: số lượng lấy từ API (tin đã đăng, thông báo chưa đọc)
 const ACCOUNT_MENU = [
-  { to: "/tai-khoan", icon: User, label: "Hồ sơ cá nhân", count: 0 },
+  { to: "/account", icon: User, label: "Hồ sơ cá nhân", count: 0 },
   {
-    to: "/tai-khoan/tin-da-dang",
+    to: "/account/my-listings",
     icon: FileText,
     label: "Tin đã đăng",
     count: 3,
   },
   {
-    to: "/tai-khoan/quan-tam",
+    to: "/account/favorites",
     icon: Heart,
     label: "Bất động sản đã lưu",
     count: 0,
   },
   {
-    to: "/tai-khoan/ung-tuyen",
+    to: "/account/applications",
     icon: Briefcase,
     label: "Lịch sử ứng tuyển",
     count: 0,
   },
-  { to: "/tai-khoan/thong-bao", icon: Bell, label: "Thông báo", count: 6 },
+  { to: "/account/notifications", icon: Bell, label: "Thông báo", count: 6 },
 ];
 
 function UserMenu() {
@@ -160,7 +160,7 @@ function UserMenu() {
                 </div>
               </div>
               <Link
-                to="/tai-khoan"
+                to="/account"
                 onClick={() => setOpen(false)}
                 className="mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-primary-600 hover:text-primary-700"
               >
@@ -287,7 +287,7 @@ export default function Header() {
             </Link>
           )}
           <Link
-            to="/dang-tin"
+            to="/post-listing"
             className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-gradient-to-r from-primary-500 to-primary-700 px-4 py-2 text-sm font-medium text-white transition-all xl:px-6 xl:py-2.5 hover:opacity-95 hover:shadow-md"
           >
             Đăng tin

@@ -24,7 +24,7 @@ export default function FavoritesPage() {
           <div className="rounded-3xl border border-line bg-white py-16 text-center shadow-sm">
             <Heart size={36} className="mx-auto text-primary-300" />
             <p className="mt-4 font-semibold text-heading">Bạn chưa lưu căn nào</p>
-            <Link to="/du-an" className="mt-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary-500 to-primary-700 px-6 py-3 text-sm font-medium text-white">
+            <Link to="/projects" className="mt-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary-500 to-primary-700 px-6 py-3 text-sm font-medium text-white">
               Khám phá dự án <ArrowRight size={15} />
             </Link>
           </div>
@@ -54,7 +54,7 @@ export default function FavoritesPage() {
                   <p className="mt-1 text-sm text-body">{f.spec} · {f.direction}</p>
                   <div className="mt-4 flex items-center justify-between">
                     <p className="text-xl font-bold text-primary-600">{f.price}</p>
-                    <Link to={`/du-an/${f.projectId}/quy-can`} className="flex items-center gap-1 text-xs font-semibold text-heading">
+                    <Link to={`/projects/${f.projectId}/inventory`} className="flex items-center gap-1 text-xs font-semibold text-heading">
                       Xem chi tiết <ArrowRight size={12} />
                     </Link>
                   </div>

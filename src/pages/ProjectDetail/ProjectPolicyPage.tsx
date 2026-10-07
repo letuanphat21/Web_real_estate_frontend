@@ -43,7 +43,7 @@ const Eyebrow = ({ children, className = "text-primary-600" }: { children: React
 
 export default function ProjectPolicyPage() {
   const { id } = useParams();
-  const base = `/du-an/${id}`;
+  const base = `/projects/${id}`;
 
   return (
     <div className="bg-primary-50/70">

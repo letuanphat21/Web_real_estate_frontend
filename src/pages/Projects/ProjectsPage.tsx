@@ -91,7 +91,7 @@ function ProjectCard({ project }: { project: (typeof PROJECTS)[number] }) {
           <span className="flex items-center gap-1.5 text-muted">
             <span className="h-1.5 w-1.5 rounded-full bg-success" /> Cập nhật hôm nay
           </span>
-          <Link to={`/du-an/${project.id}`} className="flex items-center gap-1 font-semibold text-primary-700 hover:text-primary-600">
+          <Link to={`/projects/${project.id}`} className="flex items-center gap-1 font-semibold text-primary-700 hover:text-primary-600">
             Xem chi tiết <ArrowRight size={12} />
           </Link>
         </div>

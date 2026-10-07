@@ -27,7 +27,7 @@ const TAGS = ["#ThủThiêm", "#CănHộ", "#PhápLý", "#ĐầuTư", "#Metro", 
 
 export default function ProjectNewsPage() {
   const { id } = useParams();
-  const base = `/du-an/${id}`;
+  const base = `/projects/${id}`;
   const [draft, setDraft] = useState("");
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("Thị trường");
