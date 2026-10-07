@@ -29,11 +29,10 @@ function getRegistration(event) {
 export default function EventCard({ event }) {
   const cover = event.images?.[0]?.imageUrl || FALLBACK_IMAGE;
   const registration = getRegistration(event);
-  const detailPath = `/su-kien/${event.id}`;
+  const detailPath = `/events/${event.id}`;
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-white transition hover:-translate-y-1 hover:shadow-xl hover:shadow-primary-100">
-      {/* Ảnh */}
       <Link
         to={detailPath}
         className="relative block aspect-[16/10] overflow-hidden"
@@ -53,7 +52,6 @@ export default function EventCard({ event }) {
         </div>
       </Link>
 
-      {/* Nội dung */}
       <div className="flex flex-1 flex-col p-5">
         {event.category && (
           <span className="text-[11px] font-semibold uppercase tracking-wide text-primary-600">
@@ -78,7 +76,6 @@ export default function EventCard({ event }) {
           </li>
         </ul>
 
-        {/* Chân card */}
         <div className="mt-auto flex items-center justify-between border-t border-line pt-4 text-xs">
           <span className={registration.className}>{registration.text}</span>
           <Link
