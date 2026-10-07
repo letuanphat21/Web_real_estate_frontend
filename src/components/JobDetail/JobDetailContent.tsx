@@ -11,12 +11,12 @@ import useApplyFlow from "./useApplyFlow";
 import { getMyCvs } from "./applyMock";
 import useSavedJobs from "../Recruitment/useSavedJobs";
 import { useToast } from "../common/toastContext";
-import { useAuth } from "../../store/authStore";
+
 import type { Job } from "../../types/job.types";
 
 /** Phần thân trang chi tiết: hero, 2 cột nội dung/sidebar, thanh mobile và modal ứng tuyển */
 export default function JobDetailContent({ job }: { job: Job }) {
-  const { user } = useAuth();
+  
   const toast = useToast();
   const flow = useApplyFlow(job);
   const { savedIds, toggle } = useSavedJobs();
@@ -43,7 +43,7 @@ export default function JobDetailContent({ job }: { job: Job }) {
   };
 
   // khách chưa đăng nhập thấy luôn; người đã đăng nhập chỉ thấy khi chưa có CV
-  const showCvPromo = !user || getMyCvs().length === 0;
+  
 
   return (
     <>
@@ -72,15 +72,15 @@ export default function JobDetailContent({ job }: { job: Job }) {
             />
           </div>
           <JobOwnerCard owner={job.createdBy} />
-          {showCvPromo && <CreateCvPromo />}
+          {/* {showCvPromo && <CreateCvPromo />} */}
         </aside>
       </div>
 
       <MobileApplyBar job={job} flow={flow} />
 
-      {flow.modalOpen && user && (
+      {/* {flow.modalOpen && user && (
         <ApplyModal job={job} user={user} onClose={flow.closeModal} onApplied={flow.markApplied} />
-      )}
+      )} */}
     </>
   );
 }

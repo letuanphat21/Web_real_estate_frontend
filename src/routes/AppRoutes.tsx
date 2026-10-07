@@ -22,6 +22,7 @@ import CvBuilderPage from "../pages/CvBuilder/CvBuilderPage";
 import JobDetailPage from "../pages/JobDetail/JobDetailPage";
 import UserLayout from "../layouts/UserLayout";
 import EventDetailPage from "../pages/Event/EventDetailPage";
+import AccountLayout from "../layouts/AccountLayout";
 import NewsPage from "../pages/News/NewsPage";
 import NewsDetailPage from "../pages/News/NewsDetailPage";
 const AppRoutes = () => {
@@ -33,7 +34,10 @@ const AppRoutes = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/events/:id" element={<EventDetailPage />} />
-<<<<<<< HEAD
+        <Route path="/news" element={<NewsPage />} />
+        <Route path="/news/:id" element={<NewsDetailPage />} />
+      </Route>
+      <Route element={<AccountLayout />}>
         <Route path="/knowledge" element={<KnowledgePage />} />
         <Route path="/account/bookings" element={<MyBookingsPage />} />
         <Route path="/account/favorites" element={<FavoritesPage />} />
@@ -51,23 +55,6 @@ const AppRoutes = () => {
         <Route path="/projects/:id/progress" element={<ProjectProgressPage />} />
         <Route path="/projects/:id/documents" element={<ProjectDocumentsPage />} />
         <Route path="/projects/:id/news" element={<ProjectNewsPage />} />
-=======
-        <Route path="/news" element={<NewsPage />} />
-        <Route path="/news/:id" element={<NewsDetailPage />} />
-        <Route path="/kien-thuc" element={<KnowledgePage />} />
-        <Route path="/tai-khoan/booking" element={<MyBookingsPage />} />
-        <Route path="/tai-khoan/quan-tam" element={<FavoritesPage />} />
-        <Route path="/du-an" element={<ProjectsPage />} />
-        <Route path="/du-an/:id" element={<ProjectDetailPage />} />
-        <Route path="/du-an/:id/vi-tri" element={<ProjectLocationPage />} />
-        <Route path="/du-an/:id/phan-khu" element={<ProjectZonesPage />} />
-        <Route path="/du-an/:id/mat-bang" element={<ProjectFloorPlanPage />} />
-        <Route path="/du-an/:id/quy-can" element={<ProjectInventoryPage />} />
-        <Route path="/du-an/:id/chinh-sach" element={<ProjectPolicyPage />} />
-        <Route path="/du-an/:id/tien-do" element={<ProjectProgressPage />} />
-        <Route path="/du-an/:id/tai-lieu" element={<ProjectDocumentsPage />} />
-        <Route path="/du-an/:id/tin-tuc" element={<ProjectNewsPage />} />
->>>>>>> eabad862fc265e923b3934ffa1670149f9af041a
       </Route>
 
       {/* <Route path="/admin" element={<AdminLayout />}>

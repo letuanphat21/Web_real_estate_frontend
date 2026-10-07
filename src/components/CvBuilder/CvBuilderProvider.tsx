@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { CvBuilderContext, type CvBuilderState } from "./cvBuilderContext";
 import { loadDraft, saveDraft } from "./cvDraft";
-import { useAuth } from "../../store/authStore";
+
 import {
   DEFAULT_CV_STYLE,
   EMPTY_CV_DATA,
@@ -17,18 +17,18 @@ const AUTOSAVE_MS = 1500;
  * và lưu nốt khi rời trang. Điền sẵn họ tên, email, ảnh từ tài khoản đang đăng nhập.
  */
 export default function CvBuilderProvider({ children }: { children: ReactNode }) {
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
   const [state, setState] = useState(() => {
     const draft = loadDraft();
     const data: CvData = draft?.data ?? EMPTY_CV_DATA;
     const personal = { ...data.personal };
     // chỉ ghi vào trường còn trống để không đè nội dung người dùng đã sửa
-    if (user) {
-      personal.fullName ||= user.fullName;
-      personal.email ||= user.email;
-      personal.avatarUrl ||= user.avatarUrl ?? "";
-    }
+    // if (user) {
+    //   personal.fullName ||= user.fullName;
+    //   personal.email ||= user.email;
+    //   personal.avatarUrl ||= user.avatarUrl ?? "";
+    // }
     return {
       data: { ...data, personal },
       style: draft?.style ?? DEFAULT_CV_STYLE,

@@ -2,7 +2,6 @@ import { useCallback, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { hasApplied } from "./applyMock";
 import { getJobAvailability } from "../Recruitment/jobUtils";
-import { useAuth } from "../../store/authStore";
 import type { Job } from "../../types/job.types";
 
 export type ApplyState = "guest" | "open" | "closed" | "applied";
