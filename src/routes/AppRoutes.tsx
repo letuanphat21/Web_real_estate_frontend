@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import HomePage from "../pages/Home/HomePage";
 import ProjectsPage from "../pages/Projects/ProjectsPage";
 import ProjectDetailPage from "../pages/ProjectDetail/ProjectDetailPage";
@@ -11,13 +11,24 @@ import ProjectProgressPage from "../pages/ProjectDetail/ProjectProgressPage";
 import ProjectDocumentsPage from "../pages/ProjectDetail/ProjectDocumentsPage";
 import ProjectNewsPage from "../pages/ProjectDetail/ProjectNewsPage";
 import EventsPage from "../pages/Event/EventsPage";
+import KnowledgePage from "../pages/Knowledge/KnowledgePage";
+import LoginPage from "../pages/Auth/LoginPage";
+import RegisterPage from "../pages/Auth/RegisterPage";
+import MyBookingsPage from "../pages/Account/MyBookingsPage";
+import FavoritesPage from "../pages/Account/FavoritesPage";
 import UserLayout from "../layouts/UserLayout";
 const AppRoutes = () => {
   return (
     <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+
       <Route element={<UserLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/events" element={<EventsPage />} />
+        <Route path="/kien-thuc" element={<KnowledgePage />} />
+        <Route path="/tai-khoan/booking" element={<MyBookingsPage />} />
+        <Route path="/tai-khoan/quan-tam" element={<FavoritesPage />} />
         <Route path="/du-an" element={<ProjectsPage />} />
         <Route path="/du-an/:id" element={<ProjectDetailPage />} />
         <Route path="/du-an/:id/vi-tri" element={<ProjectLocationPage />} />
