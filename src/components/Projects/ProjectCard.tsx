@@ -1,16 +1,11 @@
 import { Link } from "react-router-dom";
-import { Heart, MapPin, Building2, ArrowRight } from "lucide-react";
+import { MapPin, Building2, ArrowRight } from "lucide-react";
 import type { Project } from "../../data/mockProjects";
 
 export default function ProjectCard({ project }: { project: Project }) {
   return (
     <div className="group relative overflow-hidden rounded-2xl border border-line bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-primary-100">
-      <button
-        aria-label="Yêu thích"
-        className="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-body hover:text-primary-600"
-      >
-        <Heart size={15} />
-      </button>
+      
       <Link to={`/du-an/${project.id}`} className="block">
         <div className="relative h-52 overflow-hidden">
           <img src={project.image} alt={project.name} className="h-full w-full object-cover" />
