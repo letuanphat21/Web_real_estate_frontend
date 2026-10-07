@@ -9,11 +9,9 @@ const NAV_ITEMS = [
   { label: "Dự án", path: "/projects" },
   { label: "Sự kiện", path: "/events" },
   { label: "Tin tức", path: "/news" },
-
+  { label: "Cộng đồng", path: "/social" },
   { label: "Kiến thức", path: "/knowledge" },
-  { label: "Cộng đồng", path: "/community" },
   { label: "Tuyển dụng", path: "/jobs" },
-
 ];
 
 
