@@ -16,11 +16,17 @@ import LoginPage from "../pages/Auth/LoginPage";
 import RegisterPage from "../pages/Auth/RegisterPage";
 import MyBookingsPage from "../pages/Account/MyBookingsPage";
 import FavoritesPage from "../pages/Account/FavoritesPage";
+import ApplicationHistoryPage from "../pages/Account/ApplicationHistoryPage";
+import RecruitmentPage from "../pages/Recruitment/RecruitmentPage";
+import CvBuilderPage from "../pages/CvBuilder/CvBuilderPage";
+// import JobDetailPage from "../pages/JobDetail/JobDetailPage";
 import UserLayout from "../layouts/UserLayout";
 import EventDetailPage from "../pages/Event/EventDetailPage";
 import AccountLayout from "../layouts/AccountLayout";
 import NewsPage from "../pages/News/NewsPage";
 import NewsDetailPage from "../pages/News/NewsDetailPage";
+import SocialPage from "../pages/Social/SocialPage";
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -30,23 +36,32 @@ const AppRoutes = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/events/:id" element={<EventDetailPage />} />
+
         <Route path="/news" element={<NewsPage />} />
         <Route path="/news/:id" element={<NewsDetailPage />} />
-        <Route path="/kien-thuc" element={<KnowledgePage />} />
-        <Route path="/tai-khoan" element={<AccountLayout />}>
-          <Route path="booking" element={<MyBookingsPage />} />
-          <Route path="quan-tam" element={<FavoritesPage />} />
-        </Route>
-        <Route path="/du-an" element={<ProjectsPage />} />
-        <Route path="/du-an/:id" element={<ProjectDetailPage />} />
-        <Route path="/du-an/:id/vi-tri" element={<ProjectLocationPage />} />
-        <Route path="/du-an/:id/phan-khu" element={<ProjectZonesPage />} />
-        <Route path="/du-an/:id/mat-bang" element={<ProjectFloorPlanPage />} />
-        <Route path="/du-an/:id/quy-can" element={<ProjectInventoryPage />} />
-        <Route path="/du-an/:id/chinh-sach" element={<ProjectPolicyPage />} />
-        <Route path="/du-an/:id/tien-do" element={<ProjectProgressPage />} />
-        <Route path="/du-an/:id/tai-lieu" element={<ProjectDocumentsPage />} />
-        <Route path="/du-an/:id/tin-tuc" element={<ProjectNewsPage />} />
+
+        <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/social" element={<SocialPage />} />
+        <Route path="/projects/:id" element={<ProjectDetailPage />} />
+        <Route path="/projects/:id/location" element={<ProjectLocationPage />} />
+        <Route path="/projects/:id/zones" element={<ProjectZonesPage />} />
+        <Route path="/projects/:id/floor-plans" element={<ProjectFloorPlanPage />} />
+        <Route path="/projects/:id/inventory" element={<ProjectInventoryPage />} />
+        <Route path="/projects/:id/policy" element={<ProjectPolicyPage />} />
+        <Route path="/projects/:id/progress" element={<ProjectProgressPage />} />
+        <Route path="/projects/:id/documents" element={<ProjectDocumentsPage />} />
+        <Route path="/projects/:id/news" element={<ProjectNewsPage />} />
+           <Route path="/knowledge" element={<KnowledgePage />} />
+            <Route path="/jobs" element={<RecruitmentPage />} />
+        <Route path="/jobs/create-cv" element={<CvBuilderPage />} />
+        {/* <Route path="/jobs/:slugId" element={<JobDetailPage />} /> */}
+      </Route>
+      <Route element={<AccountLayout />}>
+     
+        <Route path="/account/bookings" element={<MyBookingsPage />} />
+        <Route path="/account/favorites" element={<FavoritesPage />} />
+        <Route path="/account/applications" element={<ApplicationHistoryPage />} />
+
       </Route>
 
       {/* <Route path="/admin" element={<AdminLayout />}>

@@ -14,7 +14,7 @@ const FOOTER_LINKS = [
     title: "Khám phá",
     links: [
       { label: "Mua bán", path: "/mua-ban" },
-      { label: "Dự án", path: "/du-an" },
+      { label: "Dự án", path: "/projects" },
       { label: "Bản đồ", path: "/ban-do" },
       { label: "So sánh căn", path: "/so-sanh" },
       { label: "VR360", path: "/vr360" },
@@ -26,8 +26,8 @@ const FOOTER_LINKS = [
       { label: "Đất Việt AI", path: "/dat-viet-ai" },
       { label: "Dành cho môi giới", path: "/moi-gioi" },
       { label: "Kho tài liệu", path: "/tai-lieu" },
-      { label: "Cộng đồng", path: "/cong-dong" },
-      { label: "Tuyển dụng", path: "/tuyen-dung" },
+      { label: "Cộng đồng", path: "/community" },
+      { label: "Tuyển dụng", path: "/jobs" },
     ],
   },
   {

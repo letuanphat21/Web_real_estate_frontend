@@ -6,7 +6,7 @@ import ZonesCollection from "../../components/ProjectDetail/zones/ZonesCollectio
 
 export default function ProjectZonesPage() {
   const { id } = useParams();
-  const base = `/du-an/${id}`;
+  const base = `/projects/${id}`;
   const p = PROJECT;
 
   return (

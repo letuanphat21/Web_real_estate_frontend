@@ -7,7 +7,7 @@ import IntroVideo from "../../components/ProjectDetail/documents/IntroVideo";
 
 export default function ProjectDocumentsPage() {
   const { id } = useParams();
-  const base = `/du-an/${id}`;
+  const base = `/projects/${id}`;
 
   return (
     <div className="bg-white">

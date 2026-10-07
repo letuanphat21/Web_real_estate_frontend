@@ -8,7 +8,7 @@ import PolicyConditions from "../../components/ProjectDetail/policy/PolicyCondit
 
 export default function ProjectPolicyPage() {
   const { id } = useParams();
-  const base = `/du-an/${id}`;
+  const base = `/projects/${id}`;
 
   return (
     <div className="bg-primary-50/70">

@@ -26,6 +26,8 @@ export default function ProjectDetailPage() {
   return (
     <div data-project={id} className="bg-white">
       <ProjectTabs activeHash={hash} />
+
+
       <ProjectHero project={PROJECT} gallery={GALLERY} />
       <OverviewSection project={PROJECT} />
       <LocationSection project={PROJECT} nearby={NEARBY} />
