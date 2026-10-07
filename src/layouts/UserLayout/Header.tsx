@@ -21,9 +21,15 @@ const NAV_ITEMS = [
   { label: "Dự án", path: "/projects" },
   { label: "Sự kiện", path: "/events" },
   { label: "Tin tức", path: "/news" },
+<<<<<<< HEAD
   { label: "Kiến thức", path: "/knowledge" },
   { label: "Cộng đồng", path: "/community" },
   { label: "Tuyển dụng", path: "/jobs" },
+=======
+  { label: "Kiến thức", path: "/kien-thuc" },
+  { label: "Cộng đồng", path: "/cong-dong" },
+  { label: "Tuyển dụng", path: "/tuyen-dung" },
+>>>>>>> eabad862fc265e923b3934ffa1670149f9af041a
 ];
 
 const initials = (name: string) =>
@@ -34,7 +40,6 @@ const initials = (name: string) =>
     .map((w) => w[0]?.toUpperCase())
     .join("");
 
-// TODO: số lượng lấy từ API (tin đã đăng, thông báo chưa đọc)
 const ACCOUNT_MENU = [
   { to: "/account", icon: User, label: "Hồ sơ cá nhân", count: 0 },
   {
