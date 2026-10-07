@@ -1,5 +1,4 @@
 import type {
-  AccountSummary,
   ApplicationCompany,
   ApplicationHistoryItem,
   UpcomingInterview,
@@ -13,12 +12,6 @@ const daysFromNow = (d: number, hour = 9, minute = 30): string => {
   date.setDate(date.getDate() + d);
   date.setHours(hour, minute, 0, 0);
   return date.toISOString();
-};
-
-export const MOCK_ACCOUNT: AccountSummary = {
-  fullName: "Nguyễn Minh Anh",
-  email: "minhanh.nguyen@gmail.com",
-  avatarUrl: "https://i.pravatar.cc/200?img=47",
 };
 
 const VH: ApplicationCompany = { name: "Vinhomes", initials: "VH", tone: "blue" };

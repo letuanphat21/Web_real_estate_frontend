@@ -1,10 +1,8 @@
-import { Link } from "react-router-dom";
-import { CalendarDays, ExternalLink, FileText, MapPin, MessageSquareWarning, Wallet } from "lucide-react";
+import { CalendarDays, FileText, MapPin, MessageSquareWarning, Wallet } from "lucide-react";
 import ApplicationStatusBadge from "./ApplicationStatusBadge";
 import ApplicationTimeline from "./ApplicationTimeline";
 import ApplicationMenu from "./ApplicationMenu";
 import { TONE_CLASS, canWithdraw } from "./applicationHistoryUtils";
-import { buildJobPath } from "../Recruitment/jobUtils";
 import { formatDate } from "../../utils/formatDate";
 import type { ApplicationHistoryItem } from "../../types/applicationHistory.types";
 
@@ -16,7 +14,6 @@ export default function ApplicationCard({
   item: ApplicationHistoryItem;
   onWithdraw: (id: number) => void;
 }) {
-  const jobPath = buildJobPath({ id: item.jobId, title: item.jobTitle });
   const withdrawable = canWithdraw(item.status);
 
   return (
@@ -43,7 +40,6 @@ export default function ApplicationCard({
         <div className="flex shrink-0 items-center gap-2">
           <ApplicationStatusBadge status={item.status} />
           <ApplicationMenu
-            jobPath={jobPath}
             jobTitle={item.jobTitle}
             onWithdraw={withdrawable ? () => onWithdraw(item.id) : undefined}
           />
@@ -74,9 +70,6 @@ export default function ApplicationCard({
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-3">
         <div className="flex flex-wrap items-center gap-5 text-sm text-body">
-          <Link to={jobPath} className="flex items-center gap-2 hover:text-primary-600">
-            <ExternalLink size={14} aria-hidden /> Xem tin tuyển dụng
-          </Link>
           <a href={item.cv.url} className="flex items-center gap-2 hover:text-primary-600">
             <FileText size={14} aria-hidden /> Xem CV
           </a>

@@ -1,10 +1,10 @@
 import CvPicker from "./CvPicker";
 import CvUploader from "./CvUploader";
-import type { Cv } from "../../../types/job.types";
+import type { ApplyCvOption } from "../../../types/jobDetail.types";
 
 export type ApplyTab = "existing" | "upload";
 
-/** Phần chọn CV trong modal: 2 tab "CV trên NovaLand" và "Tải CV lên" */
+/** Phần "Chọn CV" trong modal: 2 tab "CV trên NovaLand" và "Tải CV lên" */
 export default function ApplyCvSection({
   tab,
   onTabChange,
@@ -17,23 +17,23 @@ export default function ApplyCvSection({
 }: {
   tab: ApplyTab;
   onTabChange: (tab: ApplyTab) => void;
-  cvs: Cv[];
+  cvs: ApplyCvOption[];
   selectedCvId: number | null;
   onSelectCv: (id: number) => void;
   file: File | null;
   onFileChange: (file: File | null) => void;
-  error: string;
+  error?: string;
 }) {
   const tabBtn = (id: ApplyTab, label: string) => (
     <button
       type="button"
       role="tab"
-      id={`tab-${id}`}
+      id={`apply-tab-${id}`}
       aria-selected={tab === id}
-      aria-controls={`panel-${id}`}
+      aria-controls="apply-tabpanel"
       onClick={() => onTabChange(id)}
-      className={`flex-1 rounded-full py-2 text-sm font-medium transition ${
-        tab === id ? "bg-white text-primary-700 shadow-sm" : "text-body hover:text-primary-600"
+      className={`flex-1 rounded-lg py-2 text-sm transition focus-visible:outline-2 focus-visible:outline-primary-600 ${
+        tab === id ? "bg-white font-medium text-primary-700 shadow-sm" : "text-body hover:text-primary-600"
       }`}
     >
       {label}
@@ -42,25 +42,18 @@ export default function ApplyCvSection({
 
   return (
     <div>
-      <p className="mb-2 text-sm font-medium text-heading">
-        CV ứng tuyển <span className="text-danger">*</span>
-      </p>
-      <div role="tablist" aria-label="Chọn nguồn CV" className="flex gap-1 rounded-full bg-primary-50 p-1">
+      <p className="mb-2 text-sm font-semibold text-heading">Chọn CV</p>
+      <div role="tablist" aria-label="Nguồn CV" className="flex gap-1 rounded-xl bg-primary-50 p-1">
         {tabBtn("existing", "CV trên NovaLand")}
         {tabBtn("upload", "Tải CV lên")}
       </div>
-      <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`} className="mt-3">
+      <div role="tabpanel" id="apply-tabpanel" aria-labelledby={`apply-tab-${tab}`} className="mt-3">
         {tab === "existing" ? (
-          <CvPicker cvs={cvs} selectedId={selectedCvId} onSelect={onSelectCv} />
+          <CvPicker cvs={cvs} selectedId={selectedCvId} onSelect={onSelectCv} error={error} />
         ) : (
-          <CvUploader file={file} onChange={onFileChange} />
+          <CvUploader file={file} onChange={onFileChange} error={error} />
         )}
       </div>
-      {error && (
-        <p role="alert" className="mt-2 text-xs text-danger">
-          {error}
-        </p>
-      )}
     </div>
   );
 }

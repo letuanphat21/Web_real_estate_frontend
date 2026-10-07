@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { FileText } from "lucide-react";
+import { BookmarkCheck, FileText } from "lucide-react";
+import useSavedJobs from "./useSavedJobs";
 import { JOB_SORT_LABEL, type JobSort } from "../../types/job.types";
 
 /** Tiêu đề khu vực danh sách + tổng số việc làm, sắp xếp, nút tạo CV */
@@ -12,6 +13,8 @@ export default function JobListHeader({
   sort: JobSort;
   onSortChange: (sort: JobSort) => void;
 }) {
+  const { savedIds } = useSavedJobs();
+
   return (
     <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
       <div>
@@ -30,6 +33,12 @@ export default function JobListHeader({
           </span>{" "}
           việc làm đang tuyển
         </p>
+        <Link
+          to="/account/saved-jobs"
+          className="flex h-11 items-center gap-2 rounded-xl border border-line bg-white px-4 text-sm font-medium text-heading transition hover:border-primary-300 hover:text-primary-600 focus-visible:outline-2 focus-visible:outline-primary-600"
+        >
+          <BookmarkCheck size={16} className="text-primary-600" aria-hidden /> Tin đã lưu ({savedIds.length})
+        </Link>
         <label className="block">
           <span className="sr-only">Sắp xếp</span>
           <select

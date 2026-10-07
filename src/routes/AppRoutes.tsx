@@ -17,9 +17,11 @@ import RegisterPage from "../pages/Auth/RegisterPage";
 import MyBookingsPage from "../pages/Account/MyBookingsPage";
 import FavoritesPage from "../pages/Account/FavoritesPage";
 import ApplicationHistoryPage from "../pages/Account/ApplicationHistoryPage";
+import NotificationsPage from "../pages/Account/NotificationsPage";
+import SavedJobsPage from "../pages/Account/SavedJobsPage";
 import RecruitmentPage from "../pages/Recruitment/RecruitmentPage";
 import CvBuilderPage from "../pages/CvBuilder/CvBuilderPage";
-// import JobDetailPage from "../pages/JobDetail/JobDetailPage";
+import JobDetailPage from "../pages/JobDetail/JobDetailPage";
 import UserLayout from "../layouts/UserLayout";
 import EventDetailPage from "../pages/Event/EventDetailPage";
 import AccountLayout from "../layouts/AccountLayout";
@@ -54,14 +56,15 @@ const AppRoutes = () => {
            <Route path="/knowledge" element={<KnowledgePage />} />
             <Route path="/jobs" element={<RecruitmentPage />} />
         <Route path="/jobs/create-cv" element={<CvBuilderPage />} />
-        {/* <Route path="/jobs/:slugId" element={<JobDetailPage />} /> */}
-      </Route>
-      <Route element={<AccountLayout />}>
-     
-        <Route path="/account/bookings" element={<MyBookingsPage />} />
-        <Route path="/account/favorites" element={<FavoritesPage />} />
-        <Route path="/account/applications" element={<ApplicationHistoryPage />} />
-
+        <Route path="/jobs/:id" element={<JobDetailPage />} />
+        {/* Trang tài khoản: nằm trong UserLayout để có Header/Footer, AccountLayout thêm sidebar */}
+        <Route element={<AccountLayout />}>
+          <Route path="/account/bookings" element={<MyBookingsPage />} />
+          <Route path="/account/favorites" element={<FavoritesPage />} />
+          <Route path="/account/applications" element={<ApplicationHistoryPage />} />
+          <Route path="/account/saved-jobs" element={<SavedJobsPage />} />
+          <Route path="/account/notifications" element={<NotificationsPage />} />
+        </Route>
       </Route>
 
       {/* <Route path="/admin" element={<AdminLayout />}>
