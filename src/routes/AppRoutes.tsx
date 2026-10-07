@@ -19,6 +19,8 @@ import FavoritesPage from "../pages/Account/FavoritesPage";
 import UserLayout from "../layouts/UserLayout";
 import EventDetailPage from "../pages/Event/EventDetailPage";
 import AccountLayout from "../layouts/AccountLayout";
+import NewsPage from "../pages/News/NewsPage";
+import NewsDetailPage from "../pages/News/NewsDetailPage";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -28,6 +30,8 @@ const AppRoutes = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/events/:id" element={<EventDetailPage />} />
+        <Route path="/news" element={<NewsPage />} />
+        <Route path="/news/:id" element={<NewsDetailPage />} />
         <Route path="/kien-thuc" element={<KnowledgePage />} />
         <Route path="/tai-khoan" element={<AccountLayout />}>
           <Route path="booking" element={<MyBookingsPage />} />
