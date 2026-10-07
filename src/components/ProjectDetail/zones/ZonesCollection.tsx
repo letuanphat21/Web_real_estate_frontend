@@ -14,7 +14,7 @@ export default function ZonesCollection({ base, zones }: Props) {
         <h2 className="mt-3 max-w-3xl text-4xl font-semibold leading-tight text-heading">Chọn một phong cách sống mang dấu ấn riêng</h2>
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
           {zones.map((z) => (
-            <ZoneCard key={z.id} zone={z} to={`${base}/mat-bang`} />
+            <ZoneCard key={z.id} zone={z} to={`${base}/floor-plans`} />
           ))}
         </div>
       </div>

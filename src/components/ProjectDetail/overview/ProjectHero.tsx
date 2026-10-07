@@ -16,7 +16,7 @@ export default function ProjectHero({ project: p, gallery }: Props) {
       <Container>
         <nav className="flex items-center gap-3 text-xs text-muted">
           <Link to="/">Trang chủ</Link> <ChevronRight size={12} />
-          <Link to="/du-an">Dự án</Link> <ChevronRight size={12} />
+          <Link to="/projects">Dự án</Link> <ChevronRight size={12} />
           <span className="text-primary-600">{p.name}</span>
         </nav>
 
