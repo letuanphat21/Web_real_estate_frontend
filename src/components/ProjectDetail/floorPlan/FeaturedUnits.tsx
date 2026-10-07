@@ -26,7 +26,7 @@ export default function FeaturedUnits({ featured, base }: Props) {
             </p>
           </div>
           <Link
-            to={`${base}/quy-can`}
+            to={`${base}/inventory`}
             className="flex items-center gap-2 rounded-full border border-primary-200 bg-primary-50 px-6 py-3 text-sm font-medium text-heading hover:bg-primary-100"
           >
             Xem toàn bộ quỹ căn <ArrowRight size={15} />
@@ -66,7 +66,7 @@ export default function FeaturedUnits({ featured, base }: Props) {
                       {f.price}
                     </p>
                     <Link
-                      to={`${base}/quy-can`}
+                      to={`${base}/inventory`}
                       className="flex items-center gap-1 text-xs font-medium text-heading"
                     >
                       Xem chi tiết <ArrowRight size={12} />
