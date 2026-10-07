@@ -2,6 +2,8 @@
 
 @theme {
   --color-primary-50: #f5f3ff;
+  --color-primary-100: #ede9fe;
+  --color-primary-200: #ddd6fe;
   --color-primary-300: #c4b5fd;
   --color-primary-500: #8b5cf6;
   --color-primary-600: #7c3aed;
@@ -22,6 +24,12 @@
     var(--color-hero-start) 2%,
     var(--color-hero-end) 94%
   );
+  --color-navy: #13294b;
+  --color-accent: #2563eb;
+  --color-muted: #9ca3af;
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-danger: #ef4444;
 }
 
 body {
