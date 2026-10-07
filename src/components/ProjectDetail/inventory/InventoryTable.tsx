@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
 import { ArrowUpRight, ArrowUpDown } from "lucide-react";
 import { STATUS, fmt, dash } from "./inventoryStatus";
+import { canBook } from "./toBookingUnit";
 import type { ROWS } from "../../../data/projectDetail/inventory";
 
 type Row = (typeof ROWS)[number];
@@ -9,10 +9,10 @@ type Props = {
   rows: Row[];
   page: number;
   perPage: number;
-  base: string;
+  onSelectRow: (row: Row) => void;
 };
 
-export default function InventoryTable({ rows, page, perPage, base }: Props) {
+export default function InventoryTable({ rows, page, perPage, onSelectRow }: Props) {
   return (
     <div className="mt-5 overflow-x-auto rounded-2xl border border-line bg-white shadow-sm">
       <table className="w-full min-w-[1000px] text-left text-sm">
@@ -28,12 +28,13 @@ export default function InventoryTable({ rows, page, perPage, base }: Props) {
         <tbody>
           {rows.slice((page - 1) * perPage, page * perPage).map((r, i) => {
             const st = STATUS[r.status];
+            const bookable = canBook(r);
             return (
-              <tr key={r.code} className={`border-t border-line text-heading ${i === 0 ? "bg-primary-50/70 shadow-[inset_3px_0_0_var(--color-primary-600)]" : "hover:bg-primary-50/40"}`}>
+              <tr key={r.code} onClick={() => bookable && onSelectRow(r)} title={bookable ? "Bấm để giữ chỗ căn này" : "Căn này không còn trống"} className={`border-t border-line text-heading ${bookable ? "cursor-pointer" : ""} ${i === 0 ? "bg-primary-50/70 shadow-[inset_3px_0_0_var(--color-primary-600)]" : "hover:bg-primary-50/40"}`}>
                 <td className="px-5 py-5">
-                  <Link to={`${base}/mat-bang`} className="inline-flex items-center gap-1.5 font-semibold text-primary-600">
+                  <span className="inline-flex items-center gap-1.5 font-semibold text-primary-600">
                     {r.code} <ArrowUpRight size={12} />
-                  </Link>
+                  </span>
                 </td>
                 <td className="px-5 py-5 font-medium">{r.list ? fmt(r.list) : dash}</td>
                 <td className="px-5 py-5 font-medium">{r.tts ? fmt(r.tts) : dash}</td>
