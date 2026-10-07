@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-function getPages(current, total) {
+function getPages(current: number, total: number) {
   if (total <= 7) return Array.from({ length: total }, (_, i) => i);
 
   const pages = new Set([0, total - 1, current - 1, current, current + 1]);
@@ -11,7 +11,7 @@ function getPages(current, total) {
   const sorted = [...pages]
     .filter((p) => p >= 0 && p < total)
     .sort((a, b) => a - b);
-  const result = [];
+  const result: (number | string)[] = [];
   sorted.forEach((p, i) => {
     if (i > 0 && p - sorted[i - 1] > 1) result.push("...");
     result.push(p);
@@ -23,7 +23,15 @@ function getPages(current, total) {
  * @param {{ page: number, totalPages: number, onChange: (page: number) => void }} props
  * page bắt đầu từ 0 (giống Spring), hiển thị +1
  */
-export default function Pagination({ page, totalPages, onChange }) {
+export default function Pagination({
+  page,
+  totalPages,
+  onChange,
+}: {
+  page: number;
+  totalPages: number;
+  onChange: (page: number) => void;
+}) {
   if (totalPages <= 1) return null;
 
   const btn =
@@ -44,7 +52,7 @@ export default function Pagination({ page, totalPages, onChange }) {
       </button>
 
       {getPages(page, totalPages).map((p, i) =>
-        p === "..." ? (
+        typeof p === "string" ? (
           <span key={`dots-${i}`} className="px-1 text-body">
             …
           </span>

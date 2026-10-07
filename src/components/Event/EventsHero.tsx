@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import EventFilterBar from "./EventFilterBar";
+import type { EventFilter } from "../../types/event.types";
 
 /** Phần đầu trang: breadcrumb + tiêu đề + ô lọc */
-export default function EventsHero({ filter, onSearch }) {
+export default function EventsHero({ filter, onSearch }: { filter: EventFilter; onSearch: (f: EventFilter) => void }) {
   return (
     <section className="bg-gradient-to-br from-primary-100 via-primary-50 to-white pb-16 pt-8">
       <div className="container mx-auto px-4 lg:px-8">
