@@ -2,6 +2,8 @@
 
 @theme {
   --color-primary-50: #f5f3ff;
+  --color-primary-100: #ede9fe;
+  --color-primary-200: #ddd6fe;
   --color-primary-300: #c4b5fd;
   --color-primary-500: #8b5cf6;
   --color-primary-600: #7c3aed;
@@ -11,6 +13,7 @@
   --color-body: #4b5563;
   --color-line: #f3f4f6;
   --color-footer: #1a0b3d;
+<<<<<<< HEAD
   --color-hero-start: rgb(150 191 253 / 0.6);
   --color-hero-end: #ffffff;
 }
@@ -22,6 +25,13 @@
     var(--color-hero-start) 2%,
     var(--color-hero-end) 94%
   );
+=======
+  --color-accent: #2563eb;
+  --color-muted: #9ca3af;
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-danger: #ef4444;
+>>>>>>> 824dd9a578ba7af5f3afec4debe3dc684f704c47
 }
 
 body {

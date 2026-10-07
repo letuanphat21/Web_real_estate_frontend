@@ -1,4 +1,13 @@
-export default function SectionHeading({ badge, title, desc, dark = false, action }) {
+import type { ReactNode } from "react";
+type Props = {
+  badge?: string;
+  title: ReactNode;
+  desc?: ReactNode;
+  dark?: boolean;
+  action?: ReactNode;
+};
+
+export default function SectionHeading({ badge, title, desc, dark = false, action }: Props) {
   return (
     <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
       <div className="max-w-2xl">

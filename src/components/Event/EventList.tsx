@@ -2,7 +2,19 @@ import { CalendarX } from "lucide-react";
 import EventCard from "./EventCard";
 import EventCardSkeleton from "./EventCardSkeleton";
 import Pagination from "../common/Pagination";
-import { EVENT_SORT_LABEL } from "../../types/event.types";
+import { EVENT_SORT_LABEL, type Event, type EventSort } from "../../types/event.types";
+
+type EventListProps = {
+  events: Event[];
+  total: number;
+  loading: boolean;
+  sort: EventSort;
+  onSortChange: (sort: EventSort) => void;
+  page: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  onReset: () => void;
+};
 
 /**
  * Danh sách sự kiện: tiêu đề + sắp xếp + lưới card + phân trang
@@ -17,7 +29,7 @@ export default function EventList({
   totalPages,
   onPageChange,
   onReset,
-}) {
+}: EventListProps) {
   return (
     <section className="bg-white py-16">
       <div className="container mx-auto px-4 lg:px-8">
@@ -37,7 +49,7 @@ export default function EventList({
             <span className="text-body">Sắp xếp:</span>
             <select
               value={sort}
-              onChange={(e) => onSortChange(e.target.value)}
+              onChange={(e) => onSortChange(e.target.value as EventSort)}
               className="bg-transparent font-medium text-heading outline-none"
             >
               {Object.entries(EVENT_SORT_LABEL).map(([key, label]) => (

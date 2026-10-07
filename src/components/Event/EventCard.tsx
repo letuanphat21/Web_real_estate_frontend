@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 import { CalendarDays, MapPin, ArrowRight } from "lucide-react";
 import EventStatusBadge from "./EventStatusBadge";
-import { EVENT_STATUS, EVENT_CATEGORY_LABEL } from "../../types/event.types";
+import { EVENT_STATUS, EVENT_CATEGORY_LABEL, type Event } from "../../types/event.types";
 import { formatEventTime } from "../../utils/formatDate";
 
 const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80";
 
 /** Trạng thái đăng ký hiển thị ở chân card, suy ra từ status + số chỗ */
-function getRegistration(event) {
+function getRegistration(event: Event) {
   if (event.status === EVENT_STATUS.CANCELLED) {
     return { text: "Sự kiện đã hủy", className: "text-danger" };
   }
@@ -26,7 +26,7 @@ function getRegistration(event) {
 }
 
 /** @param {{ event: import("../../../types/event.types").Event }} props */
-export default function EventCard({ event }) {
+export default function EventCard({ event }: { event: Event }) {
   const cover = event.images?.[0]?.imageUrl || FALLBACK_IMAGE;
   const registration = getRegistration(event);
   const detailPath = `/events/${event.id}`;
