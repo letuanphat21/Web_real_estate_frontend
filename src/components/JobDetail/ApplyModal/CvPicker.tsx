@@ -1,67 +1,61 @@
-import { Link } from "react-router-dom";
-import { ExternalLink, FileText } from "lucide-react";
-import type { Cv } from "../../../types/job.types";
-import { formatDate } from "../../../utils/formatDate";
+import { ExternalLink } from "lucide-react";
+import type { ApplyCvOption } from "../../../types/jobDetail.types";
 
 /** Tab "CV trên NovaLand": danh sách CV dạng radio card */
 export default function CvPicker({
   cvs,
   selectedId,
   onSelect,
+  error,
 }: {
-  cvs: Cv[];
+  cvs: ApplyCvOption[];
   selectedId: number | null;
   onSelect: (id: number) => void;
+  error?: string;
 }) {
-  if (cvs.length === 0) {
-    return (
-      <div className="rounded-2xl border border-dashed border-line px-4 py-8 text-center">
-        <FileText size={28} className="mx-auto text-primary-300" aria-hidden />
-        <p className="mt-2 text-sm text-body">Bạn chưa có CV nào trên NovaLand.</p>
-        <Link
-          to="/jobs/create-cv"
-          className="mt-4 inline-flex h-10 items-center rounded-full bg-primary-50 px-5 text-sm font-medium text-primary-600 hover:bg-primary-100"
-        >
-          Tạo CV ngay
-        </Link>
-      </div>
-    );
-  }
-
   return (
-    <div role="radiogroup" aria-label="Chọn CV" className="space-y-2">
-      {cvs.map((cv) => {
-        const active = cv.id === selectedId;
-        return (
-          <label
-            key={cv.id}
-            className={`flex cursor-pointer items-center gap-3 rounded-2xl border p-3.5 transition focus-within:outline-2 focus-within:outline-primary-600 ${
-              active ? "border-primary-600 bg-primary-50" : "border-line hover:border-primary-300"
-            }`}
-          >
-            <input
-              type="radio"
-              name="cv"
-              checked={active}
-              onChange={() => onSelect(cv.id)}
-              className="h-4 w-4 accent-primary-600"
-            />
-            <span className="min-w-0 flex-1">
-              <span className="block truncate text-sm font-medium text-heading">{cv.title}</span>
-              <span className="text-xs text-muted">Tạo ngày {formatDate(cv.createdAt)}</span>
-            </span>
-            <a
-              href={cv.pdfUrl}
-              target="_blank"
-              rel="noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="flex shrink-0 items-center gap-1 text-xs font-medium text-primary-600 hover:underline"
+    <div>
+      <div role="radiogroup" aria-label="Chọn CV" className="space-y-2.5">
+        {cvs.map((cv) => {
+          const active = cv.id === selectedId;
+          return (
+            <label
+              key={cv.id}
+              className={`flex cursor-pointer items-center gap-3 rounded-2xl border p-3.5 transition focus-within:outline-2 focus-within:outline-primary-600 ${
+                active
+                  ? "border-primary-500 bg-primary-50 ring-1 ring-primary-200"
+                  : error
+                    ? "border-red-200 hover:border-primary-300"
+                    : "border-line hover:border-primary-300"
+              }`}
             >
-              Xem PDF <ExternalLink size={12} aria-hidden />
-            </a>
-          </label>
-        );
-      })}
+              <input
+                type="radio"
+                name="apply-cv"
+                checked={active}
+                onChange={() => onSelect(cv.id)}
+                className="h-4 w-4 accent-primary-600"
+              />
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-sm font-medium text-heading">{cv.title}</span>
+                <span className="text-xs text-gray-400">{cv.createdText}</span>
+              </span>
+              <a
+                href={cv.pdfUrl}
+                onClick={(e) => e.stopPropagation()}
+                className="flex shrink-0 items-center gap-1 text-xs font-medium text-primary-600 hover:underline"
+              >
+                Xem PDF <ExternalLink size={12} aria-hidden />
+              </a>
+            </label>
+          );
+        })}
+      </div>
+      {error && (
+        <p role="alert" className="mt-2 text-xs text-red-500">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

@@ -1,15 +1,6 @@
-import type { JobPublisher } from "../../types/job.types";
+import type { JobDetailOwner } from "../../types/jobDetail.types";
 
-/** Chữ viết tắt từ hai từ cuối của họ tên: "Trần Hoài Linh" -> "HL" */
-const initials = (name: string): string =>
-  name
-    .trim()
-    .split(/\s+/)
-    .slice(-2)
-    .map((w) => w.charAt(0).toUpperCase())
-    .join("");
-
-export default function JobOwnerCard({ owner }: { owner: JobPublisher }) {
+export default function JobOwnerCard({ owner }: { owner: JobDetailOwner }) {
   return (
     <section className="rounded-3xl border border-line bg-white p-6 shadow-sm" aria-labelledby="owner-title">
       <h2 id="owner-title" className="text-lg font-medium text-heading">
@@ -23,7 +14,7 @@ export default function JobOwnerCard({ owner }: { owner: JobPublisher }) {
             aria-hidden
             className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 text-sm font-semibold text-primary-700"
           >
-            {initials(owner.name)}
+            {owner.initials}
           </span>
         )}
         <div>

@@ -95,13 +95,6 @@ export interface JobType {
   name: string;
 }
 
-/** Thông tin công khai của người đăng tin (Users) */
-export interface JobPublisher {
-  id: number;
-  name: string;
-  avatarUrl?: string;
-}
-
 /**
  * Dữ liệu hiển thị bổ sung CHƯA có trong DB (công ty, hoa hồng, dự án...).
  * Optional: component chỉ vẽ khi có dữ liệu, để sau này backend bổ sung là bật lên.
@@ -122,20 +115,16 @@ export interface Job extends JobDisplayExtras {
   id: number;
   title: string;
   jobType: JobType;
-  department: string;
   location: string;
   salaryMin: number | null; // triệu đồng/tháng (null nếu không có)
   salaryMax: number | null;
   currency: string; // "VND" | "USD"
   salaryNegotiable: boolean;
   experience: string; // vd: "1 năm"
-  quantity: number;
-  description: string; // HTML, phải sanitize trước khi render
   deadline: string; // ISO
   status: JobStatus;
   publishedAt: string; // ISO
   updatedAt: string; // ISO
-  createdBy: JobPublisher;
 }
 
 /** Bản ghi đầy đủ phía server (mock). Không bao giờ gửi nguyên cho client. */
@@ -144,71 +133,6 @@ export interface JobRecord extends Job {
   updatedBy?: number;
   deletedAt: string | null;
 }
-
-export interface Cv {
-  id: number;
-  title: string;
-  createdAt: string;
-  pdfUrl: string;
-}
-
-export type ApplicationStatus = "pending" | "reviewing" | "accepted" | "rejected";
-
-export const APPLICATION_STATUS_LABEL: Record<ApplicationStatus, string> = {
-  pending: "Chờ duyệt",
-  reviewing: "Đang xem xét",
-  accepted: "Đã chấp nhận",
-  rejected: "Không phù hợp",
-};
-
-/** Đơn ứng tuyển trả về client (không có admin_note, reviewed_by, deleted_at) */
-export interface Application {
-  id: number;
-  jobId: number;
-  cvId: number | null;
-  fullName: string;
-  email: string;
-  phone: string;
-  cvUrl: string;
-  cvFileName: string | null;
-  cvFileSize: number | null;
-  cvMimeType: string | null;
-  coverLetter: string | null;
-  sources: string;
-  status: ApplicationStatus;
-  statusChangedAt: string;
-  createdAt: string;
-}
-
-export interface ApplicationStatusLog {
-  id: number;
-  applicationId: number;
-  changedBy: number;
-  fromStatus: ApplicationStatus | null;
-  toStatus: ApplicationStatus;
-  note: string | null;
-  createdAt: string;
-}
-
-export interface ApplyPayload {
-  fullName: string;
-  email: string;
-  phone: string;
-  /** chọn CV có sẵn HOẶC tải file lên */
-  cvId?: number;
-  file?: File;
-  coverLetter?: string;
-  sources: string;
-}
-
-export const APPLY_SOURCES = [
-  "NovaLand Hub",
-  "Facebook",
-  "Zalo",
-  "Google",
-  "Bạn bè giới thiệu",
-  "Khác",
-] as const;
 
 /** Việc làm gợi ý theo hồ sơ, kèm % phù hợp */
 export interface SuggestedJob {

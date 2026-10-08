@@ -1,14 +1,15 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { User, Heart, FileText, CalendarCheck, Briefcase, Bell } from "lucide-react";
+import { User, Heart, FileText, CalendarCheck, Briefcase, Bell, BookmarkCheck } from "lucide-react";
 import { CURRENT_USER } from "../../data/mockAccount";
 
 const MENU = [
-  { to: "/tai-khoan", icon: User, label: "Hồ sơ cá nhân", end: true },
-  { to: "/tai-khoan/quan-tam", icon: Heart, label: "Bất động sản đã lưu" },
-  { to: "/tai-khoan/tin-da-dang", icon: FileText, label: "Tin đã đăng" },
-  { to: "/tai-khoan/booking", icon: CalendarCheck, label: "Danh sách booking" },
-  { to: "/tai-khoan/ung-tuyen", icon: Briefcase, label: "Lịch sử ứng tuyển" },
-  { to: "/tai-khoan/thong-bao", icon: Bell, label: "Thông báo" },
+  { to: "/account", icon: User, label: "Hồ sơ cá nhân", end: true },
+  { to: "/account/favorites", icon: Heart, label: "Bất động sản đã lưu" },
+  { to: "/account/my-listings", icon: FileText, label: "Tin đã đăng" },
+  { to: "/account/saved-jobs", icon: BookmarkCheck, label: "Tin tuyển dụng đã lưu" },
+  { to: "/account/bookings", icon: CalendarCheck, label: "Danh sách booking" },
+  { to: "/account/applications", icon: Briefcase, label: "Lịch sử ứng tuyển" },
+  { to: "/account/notifications", icon: Bell, label: "Thông báo" },
 ];
 
 const initials = (name: string) =>
@@ -62,9 +63,9 @@ export default function AccountLayout() {
           </nav>
         </aside>
 
-        <main className="min-w-0">
+        <div className="min-w-0">
           <Outlet />
-        </main>
+        </div>
       </div>
     </div>
   );

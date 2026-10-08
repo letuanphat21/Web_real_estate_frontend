@@ -1,6 +1,4 @@
 import { Link } from "react-router-dom";
-import { ChevronRight } from "lucide-react";
-import { buildJobPath } from "./jobUtils";
 import type { SuggestedJob } from "../../types/job.types";
 
 export default function SuggestedJobs({ jobs }: { jobs: SuggestedJob[] }) {
@@ -21,12 +19,9 @@ export default function SuggestedJobs({ jobs }: { jobs: SuggestedJob[] }) {
       <ul className="space-y-4">
         {jobs.map((job) => (
           <li key={job.id}>
-            <Link
-              to={buildJobPath(job)}
-              className="group flex items-center gap-3 rounded-xl transition hover:bg-primary-50"
-            >
+            <div className="flex items-center gap-3">
               <span
-                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-50 text-xs font-medium text-primary-600 group-hover:bg-white"
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-50 text-xs font-medium text-primary-600"
                 aria-label={`Phù hợp ${job.matchPercent}%`}
               >
                 {job.matchPercent}%
@@ -35,8 +30,7 @@ export default function SuggestedJobs({ jobs }: { jobs: SuggestedJob[] }) {
                 <p className="truncate text-sm font-medium text-heading">{job.title}</p>
                 <p className="truncate text-xs text-muted">{job.companyName}</p>
               </div>
-              <ChevronRight size={16} className="shrink-0 text-muted" aria-hidden />
-            </Link>
+            </div>
           </li>
         ))}
       </ul>

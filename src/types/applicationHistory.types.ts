@@ -62,12 +62,6 @@ export interface UpcomingInterview {
   confirmed: boolean;
 }
 
-export interface AccountSummary {
-  fullName: string;
-  email: string;
-  avatarUrl: string;
-}
-
 export type ApplicationRange = "1m" | "3m" | "6m" | "all";
 
 export const APPLICATION_RANGE_LABEL: Record<ApplicationRange, string> = {

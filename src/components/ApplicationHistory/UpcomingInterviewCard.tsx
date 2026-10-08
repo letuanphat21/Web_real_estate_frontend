@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { CalendarClock, CalendarPlus, CheckCircle2, Clock, Video } from "lucide-react";
 import {
   TONE_CLASS,
@@ -7,7 +6,6 @@ import {
   formatTimeOfDay,
   weekdayName,
 } from "./applicationHistoryUtils";
-import { buildJobPath } from "../Recruitment/jobUtils";
 import type { UpcomingInterview } from "../../types/applicationHistory.types";
 
 /** Thẻ nổi bật "Lịch phỏng vấn sắp tới"; trả null nếu không có lịch */
@@ -75,12 +73,6 @@ export default function UpcomingInterviewCard({ interview }: { interview: Upcomi
         </div>
 
         <div className="flex gap-2 md:ml-auto md:w-44 md:flex-col">
-          <Link
-            to={buildJobPath({ id: interview.jobId, title: interview.jobTitle })}
-            className="flex h-10 flex-1 items-center justify-center rounded-lg bg-primary-600 px-4 text-sm font-medium text-white transition hover:bg-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
-          >
-            Xem chi tiết
-          </Link>
           <button
             type="button"
             onClick={() => downloadInterviewIcs(interview)}
