@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Plus, Search, Bell, ChevronDown, ChevronRight, User, LogOut, FileText, Heart, Briefcase, ArrowUpRight, CalendarCheck, BookmarkCheck } from "lucide-react";
 import { CURRENT_USER } from "../../data/mockAccount";
 import useSavedJobs from "../../components/Recruitment/useSavedJobs";
+import useUnreadNotificationCount from "../../components/Notification/useUnreadNotificationCount";
 import NotificationDrawer from "../../components/Notification/NotificationDrawer";
 import logo from "../../assets/images/logo.jpg";
 
@@ -31,7 +32,7 @@ const ACCOUNT_MENU = [
   { to: "/account/my-listings", icon: FileText, label: "Tin đã đăng", count: 3 },
   { to: "/account/saved-jobs", icon: BookmarkCheck, label: "Tin tuyển dụng đã lưu", count: 0 },
   { to: "/account/bookings", icon: CalendarCheck, label: "Danh sách booking", count: 0 },
-  { to: "/account/applications", icon: Briefcase, label: "Lịch sử ứng tuyển", count: 0 },
+  { to: "/applications", icon: Briefcase, label: "Lịch sử ứng tuyển", count: 0 },
   { to: "/account/notifications", icon: Bell, label: "Thông báo", count: 6 },
 ];
 
@@ -42,6 +43,7 @@ function UserMenu() {
   const [open, setOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const { savedIds } = useSavedJobs();
+  const unreadNotifications = useUnreadNotificationCount();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -150,7 +152,12 @@ function UserMenu() {
               {ACCOUNT_MENU.map(({ to, icon: Icon, label, count: baseCount }) => {
                 const active = pathname === to;
                 // số tin tuyển dụng đã lưu lấy trực tiếp từ danh sách đang lưu
-                const count = to === "/account/saved-jobs" ? savedIds.length : baseCount;
+                const count =
+                  to === "/account/saved-jobs"
+                    ? savedIds.length
+                    : to === "/account/notifications"
+                      ? unreadNotifications
+                      : baseCount;
                 return (
                   <li key={to}>
                     <Link

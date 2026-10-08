@@ -32,7 +32,7 @@ export default function ApplySuccess({
 
       <p className="mt-5 text-xs text-body">
         Theo dõi phản hồi trong{" "}
-        <Link to="/account/applications" className="font-medium text-primary-600 hover:underline">
+        <Link to="/applications" className="font-medium text-primary-600 hover:underline">
           Lịch sử ứng tuyển
         </Link>
         .
