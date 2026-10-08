@@ -1,4 +1,7 @@
-import { EVENT_STATUS_META, type EventStatus } from "../../types/event.types";
+import {
+  EVENT_STATUS_META,
+  type EventStatus,
+} from "../../types/event/event.types";
 
 export default function EventStatusBadge({ status }: { status: EventStatus }) {
   const meta = EVENT_STATUS_META[status];

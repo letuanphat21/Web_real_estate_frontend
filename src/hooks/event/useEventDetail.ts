@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import eventService from "../../services/eventService";
+import eventService from "../../services/event/eventService";
 import { getErrorMessage } from "../../api/http";
-import type { Event } from "../../types/event.types";
+import type { Event } from "../../types/event/event.types";
 
 export function useEventDetail(id: number) {
   const [event, setEvent] = useState<Event | null>(null);

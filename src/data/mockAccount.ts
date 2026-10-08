@@ -1,7 +1,7 @@
 // TODO: thay bằng dữ liệu gọi từ API (booking của người dùng, bảng favorites)
 const img = (id: string): string => `https://images.unsplash.com/${id}?w=700&q=80`;
 
-import type { AuthUser } from "../types/auth.types";
+import type { AuthUser } from "../types/auth/auth.types";
 
 // TODO: thay bằng người dùng đăng nhập thật khi có xác thực
 export const CURRENT_USER: AuthUser = { id: 1, fullName: "Nguyễn Văn A", email: "hello@datvietgroup.vn" };

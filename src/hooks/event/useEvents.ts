@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import eventService from "../../services/eventService";
+import { useCallback, useEffect, useState } from "react";
+import eventService from "../../services/event/eventService";
+import type { GetEventsParams } from "../../services/event/eventService";
 import { getErrorMessage } from "../../api/http";
-import type { GetEventsParams } from "../../api/event.api";
-import type { Event, PageResponse } from "../../types/event.types";
+import type { Event, PageResponse } from "../../types/event/event.types";
 
 const emptyPage = (size: number): PageResponse<Event> => ({
   content: [],
@@ -13,10 +13,12 @@ const emptyPage = (size: number): PageResponse<Event> => ({
 });
 
 export function useEvents({ filter, sort, page, size }: GetEventsParams) {
-  const [data, setData] = useState<PageResponse<Event>>(emptyPage(size));
+  const [data, setData] = useState<PageResponse<Event>>(() => emptyPage(size));
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [reloadKey, setReloadKey] = useState(0);
+  const [reloadKey, setReloadKey] = useState<number>(0);
+
+  const filterKey = JSON.stringify(filter);
 
   useEffect(() => {
     let ignore = false;
@@ -24,21 +26,25 @@ export function useEvents({ filter, sort, page, size }: GetEventsParams) {
     setError(null);
 
     eventService
-      .getEvents({ filter, sort, page, size })
-      .then((res) => !ignore && setData(res))
+      .getEvents({ filter: JSON.parse(filterKey), sort, page, size })
+      .then((res) => {
+        if (!ignore) setData(res);
+      })
       .catch((err) => {
         if (ignore) return;
         setData(emptyPage(size));
         setError(getErrorMessage(err));
       })
-      .finally(() => !ignore && setLoading(false));
+      .finally(() => {
+        if (!ignore) setLoading(false);
+      });
 
     return () => {
       ignore = true;
     };
-  }, [filter, sort, page, size, reloadKey]);
+  }, [filterKey, sort, page, size, reloadKey]);
 
-  const refetch = () => setReloadKey((k) => k + 1);
+  const refetch = useCallback(() => setReloadKey((k) => k + 1), []);
 
   return { data, loading, error, refetch };
 }

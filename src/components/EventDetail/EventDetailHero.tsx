@@ -10,8 +10,8 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import EventStatusBadge from "../Event/EventStatusBadge";
-import { EVENT_STATUS } from "../../types/event.types";
-import type { Event } from "../../types/event.types";
+import { EVENT_STATUS } from "../../types/event/event.types";
+import type { Event } from "../../types/event/event.types";
 import { formatEventTime, formatWeekdayDate } from "../../utils/formatDate";
 
 const FALLBACK_IMAGE =

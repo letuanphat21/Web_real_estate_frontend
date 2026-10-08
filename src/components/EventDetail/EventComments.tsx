@@ -3,7 +3,7 @@ import type { FormEvent, KeyboardEvent } from "react";
 import { Link } from "react-router-dom";
 import { MessageCircleMore, Send, Trash2 } from "lucide-react";
 import { formatRelativeTime } from "../../utils/formatDate";
-import type { EventComment, UserSummary } from "../../types/event.types";
+import type { EventComment, UserSummary } from "../../types/event/event.types";
 
 const MAX_LENGTH = 500;
 const PAGE_SIZE = 5;

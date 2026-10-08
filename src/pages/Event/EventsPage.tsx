@@ -7,7 +7,7 @@ import {
   EVENT_SORT,
   type EventFilter,
   type EventSort,
-} from "../../types/event.types";
+} from "../../types/event/event.types";
 
 const PAGE_SIZE = 6;
 

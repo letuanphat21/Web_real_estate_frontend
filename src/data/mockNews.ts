@@ -4,7 +4,7 @@ import type {
   NewsImage,
   ProjectSummary,
 } from "../types/news.types";
-import type { UserSummary } from "../types/event.types";
+import type { UserSummary } from "../types/event/event.types";
 
 const img = (id: string): string =>
   `https://images.unsplash.com/${id}?w=800&q=80`;

@@ -1,6 +1,6 @@
 import { Sparkles, ShieldCheck, Gift } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import type { Event } from "../../types/event.types";
+import type { Event } from "../../types/event/event.types";
 
 interface Highlight {
   icon: LucideIcon;

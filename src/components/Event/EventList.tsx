@@ -6,7 +6,7 @@ import {
   EVENT_SORT_LABEL,
   type Event,
   type EventSort,
-} from "../../types/event.types";
+} from "../../types/event/event.types";
 
 type EventListProps = {
   events: Event[];

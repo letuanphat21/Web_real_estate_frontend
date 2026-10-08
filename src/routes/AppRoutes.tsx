@@ -28,6 +28,7 @@ import AccountLayout from "../layouts/AccountLayout";
 import NewsPage from "../pages/News/NewsPage";
 import NewsDetailPage from "../pages/News/NewsDetailPage";
 import SocialPage from "../pages/Social/SocialPage";
+import ProtectedRoute from "./ProtectedRoute";
 
 const AppRoutes = () => {
   return (
@@ -43,7 +44,6 @@ const AppRoutes = () => {
         <Route path="/news/:id" element={<NewsDetailPage />} />
 
         <Route path="/projects" element={<ProjectsPage />} />
-        <Route path="/social" element={<SocialPage />} />
         <Route path="/projects/:id" element={<ProjectDetailPage />} />
         <Route path="/projects/:id/location" element={<ProjectLocationPage />} />
         <Route path="/projects/:id/zones" element={<ProjectZonesPage />} />
@@ -57,13 +57,18 @@ const AppRoutes = () => {
             <Route path="/jobs" element={<RecruitmentPage />} />
         <Route path="/jobs/create-cv" element={<CvBuilderPage />} />
         <Route path="/jobs/:id" element={<JobDetailPage />} />
-        {/* Trang tài khoản: nằm trong UserLayout để có Header/Footer, AccountLayout thêm sidebar */}
-        <Route element={<AccountLayout />}>
-          <Route path="/account/bookings" element={<MyBookingsPage />} />
-          <Route path="/account/favorites" element={<FavoritesPage />} />
-          <Route path="/applications" element={<ApplicationHistoryPage />} />
-          <Route path="/account/saved-jobs" element={<SavedJobsPage />} />
-          <Route path="/account/notifications" element={<NotificationsPage />} />
+        {/* Các trang cần đăng nhập: chưa đăng nhập → về /login */}
+        <Route element={<ProtectedRoute />}>
+          {/* BE yêu cầu đăng nhập mới xem được bài viết cộng đồng */}
+          <Route path="/social" element={<SocialPage />} />
+          {/* Trang tài khoản: nằm trong UserLayout để có Header/Footer, AccountLayout thêm sidebar */}
+          <Route element={<AccountLayout />}>
+            <Route path="/account/bookings" element={<MyBookingsPage />} />
+            <Route path="/account/favorites" element={<FavoritesPage />} />
+            <Route path="/applications" element={<ApplicationHistoryPage />} />
+            <Route path="/account/saved-jobs" element={<SavedJobsPage />} />
+            <Route path="/account/notifications" element={<NotificationsPage />} />
+          </Route>
         </Route>
       </Route>
 

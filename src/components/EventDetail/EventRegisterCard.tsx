@@ -8,8 +8,8 @@ import {
   Phone,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { EVENT_STATUS } from "../../types/event.types";
-import type { Event } from "../../types/event.types";
+import { EVENT_STATUS } from "../../types/event/event.types";
+import type { Event } from "../../types/event/event.types";
 import { formatEventTime } from "../../utils/formatDate";
 
 interface EventRegisterCardProps {

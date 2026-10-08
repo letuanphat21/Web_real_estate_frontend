@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import eventService from "../../services/eventService";
+import eventService from "../../services/event/eventService";
 import { getErrorMessage } from "../../api/http";
-import type { EventComment } from "../../types/event.types";
+import type { EventComment } from "../../types/event/event.types";
 
 export function useEventComments(eventId: number, size = 50) {
   const [comments, setComments] = useState<EventComment[]>([]);

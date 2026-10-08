@@ -6,7 +6,7 @@ import type {
   NewsSort,
   ProjectWithCount,
 } from "../types/news.types";
-import type { PageResponse } from "../types/event.types";
+import type { PageResponse } from "../types/event/event.types";
 
 interface GetNewsParams {
   filter: NewsFilter;

@@ -4,7 +4,7 @@ import {
   DEFAULT_EVENT_FILTER,
   EVENT_STATUS_META,
   type EventFilter,
-} from "../../types/event.types";
+} from "../../types/event/event.types";
 
 const fieldClass =
   "h-11 w-full rounded-xl border border-line bg-white px-4 text-sm text-heading outline-none transition focus:border-primary-400 focus:ring-2 focus:ring-primary-100";

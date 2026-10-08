@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { CalendarDays, MapPin, ArrowRight, Users } from "lucide-react";
 import EventStatusBadge from "./EventStatusBadge";
-import { EVENT_STATUS, type Event } from "../../types/event.types";
+import { EVENT_STATUS, type Event } from "../../types/event/event.types";
 import { formatEventTime } from "../../utils/formatDate";
 
 const FALLBACK_IMAGE =
