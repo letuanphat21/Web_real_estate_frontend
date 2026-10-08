@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { HelpCircle } from "lucide-react";
 import logo from "../../assets/images/logo.jpg";
 import { AUTH_COPY, AUTH_HERO } from "../../data/authContent";
-import type { AuthLocale } from "../../types/auth.types";
+import type { AuthLocale } from "../../types/auth/auth.types";
 
 type Props = {
   children: ReactNode;

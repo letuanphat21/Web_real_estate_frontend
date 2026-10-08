@@ -118,13 +118,8 @@ export interface EventFilter {
   to: string;
 }
 
-export interface PageResponse<T> {
-  content: T[];
-  totalElements: number;
-  totalPages: number;
-  number: number;
-  size: number;
-}
+// Giữ export cũ để các file đang import từ đây không bị lỗi
+export type { PageResponse } from "./common.types";
 
 export const DEFAULT_EVENT_FILTER: EventFilter = {
   keyword: "",
