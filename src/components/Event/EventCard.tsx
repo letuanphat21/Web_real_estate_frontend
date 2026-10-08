@@ -1,21 +1,20 @@
 import { Link } from "react-router-dom";
-import { CalendarDays, MapPin, ArrowRight } from "lucide-react";
+import { CalendarDays, MapPin, ArrowRight, Users } from "lucide-react";
 import EventStatusBadge from "./EventStatusBadge";
-import { EVENT_STATUS, EVENT_CATEGORY_LABEL, type Event } from "../../types/event.types";
+import { EVENT_STATUS, type Event } from "../../types/event.types";
 import { formatEventTime } from "../../utils/formatDate";
 
 const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80";
 
-/** Trạng thái đăng ký hiển thị ở chân card, suy ra từ status + số chỗ */
 function getRegistration(event: Event) {
   if (event.status === EVENT_STATUS.CANCELLED) {
     return { text: "Sự kiện đã hủy", className: "text-danger" };
   }
-  if (event.status === EVENT_STATUS.ENDED) {
+  if (event.status === EVENT_STATUS.COMPLETED) {
     return { text: "Đã đóng đăng ký", className: "text-body" };
   }
-  const remaining = event.maxAttendees - event.memberCount;
+  const remaining = event.maxAttendees - event.attendeeCount;
   if (remaining <= 0) {
     return { text: "Hết chỗ", className: "text-danger" };
   }
@@ -25,7 +24,6 @@ function getRegistration(event: Event) {
   return { text: "Còn chỗ · Đăng ký miễn phí", className: "text-success" };
 }
 
-/** @param {{ event: import("../../../types/event.types").Event }} props */
 export default function EventCard({ event }: { event: Event }) {
   const cover = event.images?.[0]?.imageUrl || FALLBACK_IMAGE;
   const registration = getRegistration(event);
@@ -53,9 +51,9 @@ export default function EventCard({ event }: { event: Event }) {
       </Link>
 
       <div className="flex flex-1 flex-col p-5">
-        {event.category && (
+        {event.createdBy?.fullName && (
           <span className="text-[11px] font-semibold uppercase tracking-wide text-primary-600">
-            {EVENT_CATEGORY_LABEL[event.category]}
+            {event.createdBy.fullName}
           </span>
         )}
 
@@ -73,6 +71,10 @@ export default function EventCard({ event }: { event: Event }) {
           <li className="flex items-center gap-2">
             <MapPin size={15} className="shrink-0" />
             <span className="truncate">{event.location}</span>
+          </li>
+          <li className="flex items-center gap-2">
+            <Users size={15} className="shrink-0" />
+            {event.attendeeCount}/{event.maxAttendees} người tham dự
           </li>
         </ul>
 

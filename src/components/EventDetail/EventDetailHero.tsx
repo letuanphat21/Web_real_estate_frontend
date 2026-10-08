@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ChevronRight,
@@ -9,14 +10,15 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import EventStatusBadge from "../Event/EventStatusBadge";
-import { EVENT_CATEGORY_LABEL, EVENT_STATUS } from "../../types/event.types";
+import { EVENT_STATUS } from "../../types/event.types";
 import type { Event } from "../../types/event.types";
 import { formatEventTime, formatWeekdayDate } from "../../utils/formatDate";
 
 const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&q=80";
 
-/** Số ngày còn lại tới lúc bắt đầu */
+const SLIDE_INTERVAL = 4000;
+
 const daysUntil = (iso: string): number =>
   Math.ceil((new Date(iso).getTime() - Date.now()) / 86400000);
 
@@ -25,8 +27,24 @@ interface EventDetailHeroProps {
 }
 
 export default function EventDetailHero({ event }: EventDetailHeroProps) {
-  const cover = event.images?.[0]?.imageUrl || FALLBACK_IMAGE;
-  const remaining = event.maxAttendees - event.memberCount;
+  const images = event.images?.length
+    ? event.images.map((img) => img.imageUrl)
+    : [FALLBACK_IMAGE];
+  const [current, setCurrent] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  // Tự chuyển ảnh khi có nhiều hơn 1 ảnh, dừng khi rê chuột vào
+  useEffect(() => {
+    if (images.length <= 1 || paused) return;
+    const timer = setInterval(
+      () => setCurrent((i) => (i + 1) % images.length),
+      SLIDE_INTERVAL
+    );
+    return () => clearInterval(timer);
+  }, [images.length, paused]);
+
+  const active = current < images.length ? current : 0;
+  const remaining = event.maxAttendees - event.attendeeCount;
   const days = daysUntil(event.startTime);
   const canRegister =
     event.status === EVENT_STATUS.UPCOMING ||
@@ -56,11 +74,6 @@ export default function EventDetailHero({ event }: EventDetailHeroProps) {
           <div>
             <div className="flex flex-wrap items-center gap-2">
               <EventStatusBadge status={event.status} />
-              {event.category && (
-                <span className="rounded-full bg-primary-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary-600">
-                  {EVENT_CATEGORY_LABEL[event.category]}
-                </span>
-              )}
             </div>
 
             <h1 className="mt-5 text-3xl font-bold leading-tight tracking-tight text-heading md:text-5xl">
@@ -80,8 +93,9 @@ export default function EventDetailHero({ event }: EventDetailHeroProps) {
               </li>
               <li className="flex items-center gap-3">
                 <Users size={18} className="shrink-0 text-primary-600" />
-                {event.maxAttendees} chỗ · Tổ chức bởi{" "}
-                {event.organizer.fullName}
+                {event.maxAttendees} chỗ
+                {event.createdBy?.fullName &&
+                  ` · Tổ chức bởi ${event.createdBy.fullName}`}
               </li>
             </ul>
 
@@ -97,12 +111,43 @@ export default function EventDetailHero({ event }: EventDetailHeroProps) {
             </div>
           </div>
 
-          <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-2xl shadow-primary-200">
-            <img
-              src={cover}
-              alt={event.title}
-              className="h-full w-full object-cover"
-            />
+          <div
+            className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-2xl shadow-primary-200"
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+          >
+            {images.map((src, i) => (
+              <img
+                key={src + i}
+                src={src}
+                alt={`${event.title} - ảnh ${i + 1}`}
+                onError={(e) => {
+                  if (e.currentTarget.src !== FALLBACK_IMAGE)
+                    e.currentTarget.src = FALLBACK_IMAGE;
+                }}
+                className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+                  i === active ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            ))}
+
+            {images.length > 1 && (
+              <div className="absolute left-4 top-4 flex gap-1.5 rounded-full bg-black/30 px-2.5 py-1.5 backdrop-blur">
+                {images.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    aria-label={`Xem ảnh ${i + 1}`}
+                    onClick={() => setCurrent(i)}
+                    className={`h-1.5 rounded-full transition-all ${
+                      i === active
+                        ? "w-5 bg-white"
+                        : "w-1.5 bg-white/60 hover:bg-white"
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
 
             {days > 0 && canRegister && (
               <span className="absolute right-4 top-4 flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-xs font-medium text-heading shadow backdrop-blur">
@@ -121,7 +166,7 @@ export default function EventDetailHero({ event }: EventDetailHeroProps) {
                 {event.location}
               </p>
               <p className="mt-0.5 text-xs text-body">
-                {event.memberCount} người đã đăng ký tham dự
+                {event.attendeeCount} người đã đăng ký tham dự
               </p>
             </div>
           </div>

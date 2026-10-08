@@ -1,82 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import EventDetailHero from "../../components/EventDetail/EventDetailHero";
 import EventAbout from "../../components/EventDetail/EventAbout";
-import EventSpeakers from "../../components/EventDetail/EventSpeakers";
 import EventRegisterCard from "../../components/EventDetail/EventRegisterCard";
 import EventLocation from "../../components/EventDetail/EventLocation";
 import EventComments from "../../components/EventDetail/EventComments";
-import eventService from "../../services/eventService";
-import { MOCK_CURRENT_USER } from "../../data/mockEventDetail";
-import type {
-  Event,
-  EventComment,
-  EventSpeaker,
-} from "../../types/event.types";
+import { useEventDetail } from "../../hooks/event/useEventDetail";
+import { useEventComments } from "../../hooks/event/useEventComments";
 
 export default function EventDetailPage() {
   const { id } = useParams<{ id: string }>();
   const eventId = Number(id);
 
-  const [event, setEvent] = useState<Event | null>(null);
-  const [speakers, setSpeakers] = useState<EventSpeaker[]>([]);
-  const [comments, setComments] = useState<EventComment[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  const [joined, setJoined] = useState<boolean>(false);
-  const [joining, setJoining] = useState<boolean>(false);
+  const { event, loading, error } = useEventDetail(eventId);
+  const { comments } = useEventComments(eventId);
 
   // TODO: lấy từ người dùng đăng nhập khi có xác thực
-  const currentUser = MOCK_CURRENT_USER;
+  const currentUser = null;
 
   useEffect(() => {
-    let ignore = false;
-    setLoading(true);
-
-    Promise.all([
-      eventService.getEventById(eventId),
-      eventService.getSpeakers(eventId),
-      eventService.getComments(eventId),
-      eventService.isJoined(eventId),
-    ])
-      .then(([ev, sp, cm, jn]) => {
-        if (ignore) return;
-        setEvent(ev);
-        setSpeakers(sp);
-        setComments(cm);
-        setJoined(jn);
-      })
-      .finally(() => {
-        if (!ignore) setLoading(false);
-      });
-
     window.scrollTo(0, 0);
-    return () => {
-      ignore = true;
-    };
   }, [eventId]);
 
-  const handleJoin = async () => {
-    setJoining(true);
-    try {
-      await eventService.joinEvent(eventId);
-      setJoined(true);
-      setEvent((ev) => (ev ? { ...ev, memberCount: ev.memberCount + 1 } : ev));
-    } finally {
-      setJoining(false);
-    }
+  // TODO: gọi API đăng ký / bình luận khi BE có endpoint
+  const handleJoin = () => {
+    window.alert("Tính năng đăng ký tham dự đang được phát triển.");
   };
-
-  const handleAddComment = async (content: string) => {
-    const newComment = await eventService.addComment(eventId, content);
-    setComments((list) => [newComment, ...list]);
-  };
-
-  const handleDeleteComment = async (commentId: number) => {
-    if (!window.confirm("Xóa bình luận này?")) return;
-    await eventService.deleteComment(commentId);
-    setComments((list) => list.filter((c) => c.id !== commentId));
-  };
+  const handleAddComment = async () => {};
+  const handleDeleteComment = () => {};
 
   if (loading) {
     return (
@@ -94,14 +45,14 @@ export default function EventDetailPage() {
     );
   }
 
-  if (!event) {
+  if (error || !event) {
     return (
       <div className="container mx-auto px-4 py-24 text-center">
         <h1 className="text-2xl font-semibold text-heading">
           Không tìm thấy sự kiện
         </h1>
         <p className="mt-2 text-body">
-          Sự kiện có thể đã bị xóa hoặc đường dẫn không đúng.
+          {error ?? "Sự kiện có thể đã bị xóa hoặc đường dẫn không đúng."}
         </p>
         <Link
           to="/events"
@@ -121,7 +72,6 @@ export default function EventDetailPage() {
         <div className="container mx-auto grid items-start gap-6 px-4 lg:grid-cols-[1fr_360px] lg:px-8">
           <div className="space-y-6">
             <EventAbout event={event} />
-            <EventSpeakers speakers={speakers} />
             <EventComments
               comments={comments}
               currentUser={currentUser}
@@ -131,8 +81,8 @@ export default function EventDetailPage() {
           </div>
           <EventRegisterCard
             event={event}
-            joined={joined}
-            joining={joining}
+            joined={false}
+            joining={false}
             onJoin={handleJoin}
           />
         </div>

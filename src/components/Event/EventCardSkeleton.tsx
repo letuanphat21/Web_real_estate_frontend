@@ -1,4 +1,3 @@
-/** Khung xám nhấp nháy hiển thị trong lúc tải dữ liệu */
 export default function EventCardSkeleton() {
   return (
     <div className="animate-pulse overflow-hidden rounded-2xl border border-line bg-white">

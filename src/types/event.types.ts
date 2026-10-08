@@ -1,9 +1,9 @@
-export type EventStatus = "UPCOMING" | "ONGOING" | "ENDED" | "CANCELLED";
+export type EventStatus = "UPCOMING" | "ONGOING" | "COMPLETED" | "CANCELLED";
 
 export const EVENT_STATUS = {
   UPCOMING: "UPCOMING",
   ONGOING: "ONGOING",
-  ENDED: "ENDED",
+  COMPLETED: "COMPLETED",
   CANCELLED: "CANCELLED",
 } as const;
 
@@ -17,62 +17,55 @@ export const EVENT_STATUS_META: Record<
     text: "text-amber-600",
   },
   ONGOING: { label: "Đang diễn ra", dot: "bg-success", text: "text-success" },
-  ENDED: { label: "Đã kết thúc", dot: "bg-gray-400", text: "text-body" },
+  COMPLETED: { label: "Đã kết thúc", dot: "bg-gray-400", text: "text-body" },
   CANCELLED: { label: "Đã hủy", dot: "bg-danger", text: "text-danger" },
 };
 
-// Loại sự kiện
-export type EventCategory =
-  | "PROJECT_LAUNCH"
-  | "MODEL_HOUSE_TOUR"
-  | "INVESTMENT_SEMINAR"
-  | "LEGAL_WEBINAR"
-  | "BROKER_TRAINING"
-  | "SITE_VISIT";
-
-export const EVENT_CATEGORY = {
-  PROJECT_LAUNCH: "PROJECT_LAUNCH",
-  MODEL_HOUSE_TOUR: "MODEL_HOUSE_TOUR",
-  INVESTMENT_SEMINAR: "INVESTMENT_SEMINAR",
-  LEGAL_WEBINAR: "LEGAL_WEBINAR",
-  BROKER_TRAINING: "BROKER_TRAINING",
-  SITE_VISIT: "SITE_VISIT",
-} as const;
-
-export const EVENT_CATEGORY_LABEL: Record<EventCategory, string> = {
-  PROJECT_LAUNCH: "Mở bán dự án",
-  MODEL_HOUSE_TOUR: "Tham quan nhà mẫu",
-  INVESTMENT_SEMINAR: "Hội thảo đầu tư",
-  LEGAL_WEBINAR: "Webinar pháp lý",
-  BROKER_TRAINING: "Đào tạo môi giới",
-  SITE_VISIT: "Tham quan thực địa",
-};
-
-export type EventSort = "NEWEST" | "SOONEST" | "POPULAR";
+export type EventSort = "NEWEST" | "SOONEST" | "LATEST";
 
 export const EVENT_SORT = {
   NEWEST: "NEWEST",
   SOONEST: "SOONEST",
-  POPULAR: "POPULAR",
+  LATEST: "LATEST",
 } as const;
 
 export const EVENT_SORT_LABEL: Record<EventSort, string> = {
-  NEWEST: "Mới nhất",
+  NEWEST: "Mới đăng",
   SOONEST: "Sắp diễn ra trước",
-  POPULAR: "Nhiều người tham gia",
+  LATEST: "Diễn ra muộn nhất",
 };
 
-//  Dữ liệu backend trả về
+export const EVENT_SORT_PARAM: Record<EventSort, string> = {
+  NEWEST: "createdAt,desc",
+  SOONEST: "startTime,asc",
+  LATEST: "startTime,desc",
+};
+
 export interface UserSummary {
   id: number;
   fullName: string;
-  avatarUrl?: string;
+  avatarUrl?: string | null;
 }
 
 export interface EventImage {
   id: number;
   imageUrl: string;
+}
+
+export interface Event {
+  id: number;
+  title: string;
+  content: string;
+  location: string;
+  maxAttendees: number;
+  attendeeCount: number;
+  startTime: string;
+  endTime: string;
+  status: EventStatus;
+  createdBy: UserSummary;
+  images: EventImage[];
   createdAt: string;
+  updatedAt: string;
 }
 
 export interface EventComment {
@@ -81,63 +74,25 @@ export interface EventComment {
   user: UserSummary;
   content: string;
   createdAt: string;
-  active: boolean;
 }
 
 export interface EventMember {
   id: number;
-  eventId: number;
   user: UserSummary;
   joinedAt: string;
-}
-
-export interface Event {
-  id: number;
-  organizer: UserSummary;
-  title: string;
-  content: string;
-  location: string;
-  maxAttendees: number;
-  startTime: string;
-  endTime: string;
-  status: EventStatus;
-  category?: EventCategory;
-  images: EventImage[];
-  memberCount: number;
-  commentCount: number;
-  createdAt: string;
-  updatedAt: string;
-}
-
-//  Bộ lọc & phân trang
-export interface EventFilter {
-  keyword: string;
-  category: EventCategory | "";
-  status: EventStatus | "";
-  from: string;
-  to: string;
 }
 
 export interface PageResponse<T> {
   content: T[];
   totalElements: number;
   totalPages: number;
-  number: number;
+  number: number; // trang hiện tại, bắt đầu từ 0
   size: number;
 }
 
-export const DEFAULT_EVENT_FILTER: EventFilter = {
-  keyword: "",
-  category: "",
-  status: "",
-  from: "",
-  to: "",
-};
-
-// Diễn giả
-export interface EventSpeaker {
-  id: number;
-  fullName: string;
-  title: string;
-  avatarUrl: string;
+export interface EventFilter {
+  keyword: string;
+  status: EventStatus | "";
 }
+
+export const DEFAULT_EVENT_FILTER: EventFilter = { keyword: "", status: "" };
