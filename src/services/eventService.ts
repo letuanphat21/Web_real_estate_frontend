@@ -1,13 +1,8 @@
 import eventApi from "../api/event.api";
 import type { GetEventsParams } from "../api/event.api";
-import type {
-  Event,
-  EventComment,
-  PageResponse,
-} from "../types/event.types";
+import type { Event, EventComment, PageResponse } from "../types/event.types";
 
 // Service: lớp nghiệp vụ giữa hook và API (chuẩn hóa tham số, dữ liệu trả về)
-
 function getEvents(params: GetEventsParams): Promise<PageResponse<Event>> {
   return eventApi.getEvents({
     ...params,

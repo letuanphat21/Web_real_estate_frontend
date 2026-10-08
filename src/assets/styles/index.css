@@ -8,7 +8,7 @@
   --color-primary-500: #8b5cf6;
   --color-primary-600: #7c3aed;
   --color-primary-700: #6d28d9;
-
+  --color-red: #ef4444;
   --color-heading: #111827;
   --color-body: #4b5563;
   --color-line: #f3f4f6;
@@ -38,22 +38,41 @@ body {
 
 /* ===== Home animations ===== */
 @keyframes rise-in {
-  from { opacity: 0; transform: translateY(28px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 @keyframes float-y {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 @keyframes marquee {
-  to { transform: translateX(-50%); }
+  to {
+    transform: translateX(-50%);
+  }
 }
 @utility animate-rise-in {
   animation: rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 @keyframes page-in {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 @utility animate-page-in {
   animation: page-in 0.45s ease-out both;
@@ -65,5 +84,10 @@ body {
   animation: marquee 30s linear infinite;
 }
 @media (prefers-reduced-motion: reduce) {
-  .animate-rise-in, .animate-page-in, .animate-float-y, .animate-marquee { animation: none !important; }
+  .animate-rise-in,
+  .animate-page-in,
+  .animate-float-y,
+  .animate-marquee {
+    animation: none !important;
+  }
 }

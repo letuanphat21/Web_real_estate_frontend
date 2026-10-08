@@ -61,7 +61,6 @@ export default function EventFilterBar({
         <select
           value={draft.status}
           onChange={(e) => {
-            // Đổi trạng thái là lọc ngay, không cần bấm "Tìm kiếm"
             const next = { ...draft, status: e.target.value } as EventFilter;
             setDraft(next);
             onSearch(next);

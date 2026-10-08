@@ -19,7 +19,7 @@ function getRegistration(event: Event) {
     return { text: "Hết chỗ", className: "text-danger" };
   }
   if (remaining <= 10) {
-    return { text: `Chỉ còn ${remaining} chỗ`, className: "text-amber-600" };
+    return { text: `Chỉ còn ${remaining} chỗ`, className: "text-green-600" };
   }
   return { text: "Còn chỗ · Đăng ký miễn phí", className: "text-success" };
 }
