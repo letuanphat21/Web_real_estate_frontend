@@ -1,3 +1,5 @@
+import HeroSection from "../../components/Home/HeroSection";
+import StatsBand from "../../components/Home/StatsBand";
 import ProjectsSection from "../../components/Home/ProjectsSection";
 import MapSection from "../../components/Home/MapSection";
 import AiAssistantSection from "../../components/Home/AiAssistantSection";
@@ -9,6 +11,8 @@ import CareerSection from "../../components/Home/CareerSection";
 export default function HomePage() {
   return (
     <>
+      <HeroSection />
+      <StatsBand />
       <ProjectsSection />
       <MapSection />
       <AiAssistantSection />

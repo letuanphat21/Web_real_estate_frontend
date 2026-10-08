@@ -15,14 +15,14 @@ export default function ProjectsHero({ filters, onRemoveFilter, onClearFilters }
           Trang chủ <span className="mx-1.5">›</span>
           <span className="text-primary-600">Dự án</span>
         </nav>
-        <h1 className="mt-5 text-4xl font-extrabold uppercase tracking-tight text-heading">
+        <h1 className="animate-rise-in mt-5 text-4xl font-extrabold uppercase tracking-tight text-heading">
           Khám phá dự án bất động sản
         </h1>
-        <p className="mt-3 max-w-xl text-sm text-body">
+        <p className="animate-rise-in mt-3 max-w-xl text-sm text-body [animation-delay:150ms]">
           Dữ liệu xác thực, tiến độ minh bạch và lựa chọn phù hợp — giúp bạn tìm đúng dự án chỉ trong vài phút.
         </p>
 
-        <div className="mt-8 rounded-2xl border border-primary-200 bg-white/80 p-5 shadow-lg shadow-primary-100 backdrop-blur">
+        <div className="animate-rise-in mt-8 rounded-2xl border border-primary-200 [animation-delay:300ms] bg-white/80 p-5 shadow-lg shadow-primary-100 backdrop-blur">
           <div className="flex h-12 items-center gap-3 rounded-xl border border-primary-200 bg-primary-50 px-4">
             <Search size={16} className="text-primary-500" />
             <input

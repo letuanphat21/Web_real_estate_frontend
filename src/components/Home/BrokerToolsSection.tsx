@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { LayoutDashboard, Users, FileText, BarChart3, Settings, Zap, ShieldCheck, ArrowRight } from "lucide-react";
+import Reveal from "../common/Reveal";
 
 const MENU = [
   { icon: LayoutDashboard, label: "Tổng quan", active: true },
@@ -23,6 +24,7 @@ export default function BrokerToolsSection() {
     <section className="bg-primary-50 py-20">
       <div className="container mx-auto grid items-center gap-12 px-4 lg:grid-cols-[1.2fr_1fr] lg:px-8">
         {/* Dashboard mô phỏng */}
+        <Reveal variant="left">
         <div className="flex overflow-hidden rounded-3xl bg-white shadow-xl shadow-primary-100">
           <aside className="hidden w-44 shrink-0 border-r border-line p-4 sm:block">
             <p className="mb-6 text-sm font-semibold text-heading">NovaLand Pro</p>
@@ -72,8 +74,10 @@ export default function BrokerToolsSection() {
             </div>
           </div>
         </div>
+        </Reveal>
 
         {/* Nội dung phải */}
+        <Reveal variant="right">
         <div>
           <span className="inline-block rounded-full bg-white px-3 py-1 text-xs font-medium text-primary-600">
             Dành cho môi giới
@@ -103,6 +107,7 @@ export default function BrokerToolsSection() {
             Dùng thử miễn phí <ArrowRight size={16} />
           </Link>
         </div>
+        </Reveal>
       </div>
     </section>
   );

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Reveal from "../common/Reveal";
 type Props = {
   badge?: string;
   title: ReactNode;
@@ -9,7 +10,7 @@ type Props = {
 
 export default function SectionHeading({ badge, title, desc, dark = false, action }: Props) {
   return (
-    <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+    <Reveal className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
       <div className="max-w-2xl">
         {badge && (
           <span
@@ -34,6 +35,6 @@ export default function SectionHeading({ badge, title, desc, dark = false, actio
         )}
       </div>
       {action}
-    </div>
+    </Reveal>
   );
 }
