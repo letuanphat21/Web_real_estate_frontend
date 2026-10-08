@@ -1,6 +1,5 @@
-import { isAxiosError } from "axios";
 import type { AxiosInstance, AxiosRequestConfig } from "axios";
-import { authApi, publicApi } from "./axiosInstance";
+import { authApi, publicApi } from "./core/axiosClient";
 
 /**
  BE bọc kết quả trong ApiResponse { code, message, data } → chỉ lấy data.
@@ -52,18 +51,7 @@ export const publicHttp = createHttp(publicApi);
 // API cần đăng nhập
 export const authHttp = createHttp(authApi);
 
-// Tiện ích xử lý lỗi
-export const getErrorStatus = (err: unknown): number =>
-  isAxiosError(err) ? err.response?.status ?? 0 : 0;
-
-export const getErrorMessage = (err: unknown): string => {
-  if (isAxiosError<{ message?: string }>(err)) {
-    if (!err.response) return "Không kết nối được máy chủ";
-    return err.response.data?.message ?? "Đã có lỗi xảy ra, vui lòng thử lại";
-  }
-  return "Đã có lỗi xảy ra, vui lòng thử lại";
-};
-
+// Bỏ các param rỗng trước khi gửi query string
 export const cleanParams = (obj: object): Record<string, unknown> =>
   Object.fromEntries(
     Object.entries(obj).filter(

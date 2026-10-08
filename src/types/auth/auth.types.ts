@@ -4,10 +4,13 @@ export interface LoginRequest {
   remember: boolean;
 }
 
+// Khớp RegisterRequest bên BE
 export interface RegisterRequest {
   fullName: string;
-  identifier: string;
+  email: string;
+  phone: string;
   password: string;
+  confirmPassword: string;
 }
 
 export interface AuthUser {
@@ -17,8 +20,8 @@ export interface AuthUser {
   avatarUrl?: string;
 }
 
+// Khớp JwtAuthResponse bên BE: chỉ trả access token
 export interface AuthResponse {
-  user: AuthUser;
   token: string;
 }
 

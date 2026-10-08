@@ -4,7 +4,7 @@ import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import AuthSplitLayout from "../../components/Auth/AuthSplitLayout";
 import { AUTH_COPY, LOGIN_COPY } from "../../data/authContent";
-import authService from "../../services/authService";
+import authService from "../../services/auth/authService";
 
 const inputCls =
   "h-14 w-full rounded-xl border border-blue-100 bg-white pl-12 pr-4 text-[15px] text-heading shadow-sm outline-none placeholder:text-body focus:border-primary-300";
@@ -24,7 +24,9 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await authService.login({ identifier, password, remember });
-      navigate("/");
+      // Quay lại trang trước khi bị đá về login (do axios gắn ?redirect=)
+      const redirect = new URLSearchParams(window.location.search).get("redirect");
+      navigate(redirect?.startsWith("/") ? redirect : "/", { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Đăng nhập không thành công.");
     } finally {

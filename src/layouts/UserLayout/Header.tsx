@@ -5,6 +5,7 @@ import { CURRENT_USER } from "../../data/mockAccount";
 import useSavedJobs from "../../components/Recruitment/useSavedJobs";
 import useUnreadNotificationCount from "../../components/Notification/useUnreadNotificationCount";
 import NotificationDrawer from "../../components/Notification/NotificationDrawer";
+import authService from "../../services/auth/authService";
 import logo from "../../assets/images/logo.jpg";
 
 const NAV_ITEMS = [
@@ -55,9 +56,10 @@ function UserMenu() {
     return () => document.removeEventListener("mousedown", close);
   }, []);
 
-  const logout = () => {
+  const logout = async () => {
     setOpen(false);
-    navigate("/login");
+    await authService.logout();
+    navigate("/login", { replace: true });
   };
 
   return (
