@@ -3,7 +3,12 @@ import type { BookingUnit } from "../../components/ProjectDetail/BookingLockModa
 // TODO: thay bằng dữ liệu gọi từ API theo :id (bảng property: property_code, area, price, direction, floor, status, bedrooms)
 export const PROJECT = { name: "Aurelia Riverside" };
 
-// Vị trí căn trên mặt bằng tầng (toạ độ % trên khung sơ đồ)
+// TODO: thay bằng ảnh mặt bằng tổng thể của dự án (từ API)
+export const MASTER_PLAN_IMAGE = "https://images.unsplash.com/photo-1524813686514-a57563d77965?w=2000&q=80";
+// Kích thước pixel gốc của ảnh (dùng làm hệ toạ độ cho Leaflet)
+export const MASTER_PLAN_SIZE = { width: 2000, height: 1333 };
+
+// Vị trí căn trên ảnh mặt bằng (toạ độ % theo chiều rộng/cao của ảnh, gốc ở góc trên trái)
 export const UNITS = [
   { no: "1201", left: "19%", top: "21%", status: "available" },
   { no: "1202", left: "40%", top: "17%", status: "holding" },

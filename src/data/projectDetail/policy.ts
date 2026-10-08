@@ -1,7 +1,11 @@
 import { Landmark, Percent, Armchair, Gem } from "lucide-react";
+import policyImg1 from "../../assets/images/policy/policy-1.png";
 
 // TODO: thay bằng dữ liệu gọi từ API theo :id (policy_images + nội dung chính sách)
 export const PROJECT = { name: "Aurelia Riverside" };
+
+// Ảnh chính sách bán hàng (policy_images), xếp dọc theo thứ tự
+export const POLICY_IMAGES: string[] = [policyImg1];
 
 export const HIGHLIGHTS = [
   { icon: Percent, tag: "Thanh toán sớm", title: "Chiết khấu 8%", sub: "Tối ưu giá trị đầu tư", subTone: "text-primary-600", iconBg: "bg-primary-100 text-primary-600", desc: "Áp dụng khi thanh toán 95% giá trị căn hộ trong 15 ngày từ ngày ký hợp đồng." },
