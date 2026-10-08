@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MOCK_NOTIFICATIONS } from "../../data/mockNotifications";
+import { MOCK_NOTIFICATIONS } from "../../data/mockProjects";
 import { NOTIFICATION_TABS, type NotificationTab } from "../../types/notification.types";
 
 /**
