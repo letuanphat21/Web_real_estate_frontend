@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, FileText } from "lucide-react";
 import CareerMockup from "./CareerMockup";
+import Reveal from "../common/Reveal";
 
 const HIGHLIGHTS = [
   "Hơn 460 vị trí mới đang tuyển",
@@ -10,8 +11,10 @@ const HIGHLIGHTS = [
 
 export default function CareerSection() {
   return (
-    <section className="bg-footer py-20" aria-labelledby="career-heading">
-      <div className="container mx-auto grid items-center gap-12 px-4 lg:grid-cols-[1fr_1.15fr] lg:px-8">
+    <section className="relative overflow-hidden bg-gradient-to-br from-primary-600 via-primary-700 to-primary-500 py-20" aria-labelledby="career-heading">
+      <span className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
+      <div className="container relative mx-auto grid items-center gap-12 px-4 lg:grid-cols-[1fr_1.15fr] lg:px-8">
+        <Reveal variant="left">
         <div>
           <span className="inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-primary-300">
             Cơ hội nghề nghiệp
@@ -53,8 +56,11 @@ export default function CareerSection() {
             </Link>
           </div>
         </div>
+        </Reveal>
 
-        <CareerMockup />
+        <Reveal variant="right" delay={150}>
+          <CareerMockup />
+        </Reveal>
       </div>
     </section>
   );

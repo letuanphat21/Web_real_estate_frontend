@@ -1,5 +1,6 @@
 import { ChevronDown, ChevronLeft, ChevronRight, LayoutGrid, List } from "lucide-react";
 import ProjectCard from "./ProjectCard";
+import Reveal from "../common/Reveal";
 import type { Project } from "../../data/mockProjects";
 
 export type ProjectsView = "grid" | "list";
@@ -46,8 +47,10 @@ export default function ProjectsResults({ projects, total, view, onViewChange, p
         </div>
 
         <div className={`mt-6 grid gap-6 ${view === "grid" ? "sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"}`}>
-          {projects.map((p) => (
-            <ProjectCard key={p.id} project={p} />
+          {projects.map((p, i) => (
+            <Reveal key={p.id} delay={(i % 3) * 120}>
+              <ProjectCard project={p} view={view} />
+            </Reveal>
           ))}
         </div>
 

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Clock } from "lucide-react";
 import SectionHeading from "./SectionHeading";
+import Reveal from "../common/Reveal";
 
 const FEATURED = {
   id: 1,
@@ -42,9 +43,10 @@ export default function NewsSection() {
 
         <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
           {/* Tin nổi bật */}
+          <Reveal variant="left" className="h-full">
           <Link
             to={`/news/${FEATURED.id}`}
-            className="group relative min-h-[420px] overflow-hidden rounded-3xl"
+            className="group relative block h-full min-h-[420px] overflow-hidden rounded-3xl"
           >
             <img
               src={FEATURED.image}
@@ -64,8 +66,10 @@ export default function NewsSection() {
               </p>
             </div>
           </Link>
+          </Reveal>
 
           {/* Cột phải */}
+          <Reveal variant="right" delay={150}>
           <div className="flex flex-col gap-6">
             <div className="rounded-3xl border border-line p-6">
               <h3 className="font-semibold text-heading">Tin mới nhất</h3>
@@ -101,6 +105,7 @@ export default function NewsSection() {
               </div>
             </div>
           </div>
+          </Reveal>
         </div>
       </div>
     </section>

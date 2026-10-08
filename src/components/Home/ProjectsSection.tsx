@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { MapPin, BedDouble, Maximize, Heart, ArrowUpRight } from "lucide-react";
+import { MapPin, BedDouble, Maximize, Heart, ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import SectionHeading from "./SectionHeading";
+import Reveal from "../common/Reveal";
 
 const FILTERS = ["Tất cả", "Căn hộ", "Biệt thự", "Nhà phố"];
 
@@ -49,7 +50,7 @@ function ProjectCard({ project }: { project: (typeof PROJECTS)[number] }) {
   return (
     <Link
       to={`/projects/${project.id}`}
-      className="group overflow-hidden rounded-2xl border border-line bg-white transition hover:-translate-y-1 hover:shadow-xl hover:shadow-primary-100"
+      className="group block h-full overflow-hidden rounded-2xl border border-line bg-white transition hover:-translate-y-1 hover:shadow-xl hover:shadow-primary-100"
     >
       <div className="relative aspect-[4/3] overflow-hidden">
         <img
@@ -101,6 +102,13 @@ function ProjectCard({ project }: { project: (typeof PROJECTS)[number] }) {
 export default function ProjectsSection() {
   const [filter, setFilter] = useState("Tất cả");
   const list = filter === "Tất cả" ? PROJECTS : PROJECTS.filter((p) => p.type === filter);
+  const track = useRef<HTMLDivElement>(null);
+
+  // Trượt tới/lui theo bề rộng một thẻ
+  const slide = (dir: 1 | -1) => {
+    const el = track.current;
+    if (el) el.scrollBy({ left: dir * (el.clientWidth * 0.8), behavior: "smooth" });
+  };
 
   return (
     <section className="bg-gradient-to-b from-primary-50 to-white py-20">
@@ -128,10 +136,29 @@ export default function ProjectsSection() {
           }
         />
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {list.map((p) => (
-            <ProjectCard key={p.id} project={p} />
-          ))}
+        <div className="relative">
+          <div
+            ref={track}
+            className="-mx-4 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth px-4 pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {list.map((p, i) => (
+              <Reveal key={p.id} delay={i * 120} className="w-[85%] shrink-0 snap-start sm:w-[46%] lg:w-[calc((100%-3rem)/3)]">
+                <ProjectCard project={p} />
+              </Reveal>
+            ))}
+          </div>
+          <div className="mt-2 flex justify-end gap-2">
+            {([-1, 1] as const).map((d) => (
+              <button
+                key={d}
+                onClick={() => slide(d)}
+                aria-label={d < 0 ? "Trượt về trước" : "Trượt tới sau"}
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-heading transition hover:bg-primary-600 hover:text-white"
+              >
+                {d < 0 ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}
+              </button>
+            ))}
+          </div>
         </div>
 
         {list.length === 0 && (

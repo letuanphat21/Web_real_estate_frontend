@@ -35,3 +35,35 @@
 body {
   @apply bg-white text-gray-800 antialiased;
 }
+
+/* ===== Home animations ===== */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+@utility animate-rise-in {
+  animation: rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@utility animate-page-in {
+  animation: page-in 0.45s ease-out both;
+}
+@utility animate-float-y {
+  animation: float-y 5s ease-in-out infinite;
+}
+@utility animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise-in, .animate-page-in, .animate-float-y, .animate-marquee { animation: none !important; }
+}

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Check, Sparkles, Send, MapPin } from "lucide-react";
 import SectionHeading from "./SectionHeading";
+import Reveal from "../common/Reveal";
 
 const FEATURES = [
   "Gợi ý căn phù hợp theo ngân sách và nhu cầu",
@@ -12,6 +13,7 @@ export default function AiAssistantSection() {
   return (
     <section className="bg-footer py-20">
       <div className="container mx-auto grid items-center gap-12 px-4 lg:grid-cols-2 lg:px-8">
+        <Reveal variant="left">
         <div>
           <SectionHeading
             dark
@@ -49,8 +51,10 @@ export default function AiAssistantSection() {
             </Link>
           </div>
         </div>
+        </Reveal>
 
         {/* Khung chat mô phỏng */}
+        <Reveal variant="right">
         <div className="rounded-3xl bg-white p-5 shadow-2xl shadow-black/30">
           <div className="flex items-center gap-3 border-b border-line pb-4">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-600 text-white">
@@ -103,6 +107,7 @@ export default function AiAssistantSection() {
             </button>
           </div>
         </div>
+        </Reveal>
       </div>
     </section>
   );
