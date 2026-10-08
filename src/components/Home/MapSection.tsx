@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Search, TrendingUp, TrendingDown, ArrowRight } from "lucide-react";
+import { Search, ArrowRight } from "lucide-react";
 import SectionHeading from "./SectionHeading";
+import Reveal from "../common/Reveal";
 
 // Vị trí ghim tính theo % trên ảnh bản đồ
 const PINS = [
@@ -11,11 +12,12 @@ const PINS = [
   { id: 4, label: "3,9 tỷ", top: "70%", left: "30%" },
 ];
 
-const DISTRICTS = [
-  { name: "Thủ Đức", price: "72 tr/m²", change: 4.2 },
-  { name: "Quận 7", price: "85 tr/m²", change: 2.8 },
-  { name: "Quận 2", price: "160 tr/m²", change: -1.1 },
-  { name: "Bình Thạnh", price: "95 tr/m²", change: 3.5 },
+// TODO: thay bằng dữ liệu gọi từ API
+const FILTERS = ["Giá 3–8 tỷ", "Tòa 9–10", "Hướng Đông", "2–3 PN"];
+const UNITS = [
+  { code: "A1-1208", detail: "Tầng 12 · Đông Nam · 92 m²", price: "4,95 tỷ", status: "Còn trống", ok: true },
+  { code: "B2-1806", detail: "Tầng 18 · Tây Bắc · 86 m²", price: "5,28 tỷ", status: "Còn trống", ok: true },
+  { code: "A3-0902", detail: "Tầng 9 · Đông Bắc · 78 m²", price: "4,12 tỷ", status: "Giữ chỗ", ok: false },
 ];
 
 export default function MapSection() {
@@ -25,13 +27,23 @@ export default function MapSection() {
     <section className="bg-white py-20">
       <div className="container mx-auto px-4 lg:px-8">
         <SectionHeading
-          badge="Bản đồ thông minh"
+          badge="Bản đồ & quỹ căn"
           title="Nhìn toàn cảnh, chọn đúng từng căn"
-          desc="Xem giá, tiện ích và quy hoạch ngay trên bản đồ — so sánh khu vực chỉ trong vài giây."
+          desc="Dữ liệu từng căn được xác thực — kiểm tra giá, hướng, diện tích, tầng ngay trên bản đồ."
+          action={
+            <div className="flex flex-wrap gap-2">
+              {FILTERS.map((f) => (
+                <span key={f} className="rounded-full border border-line bg-white px-3 py-1.5 text-xs text-body transition hover:border-primary-300 hover:text-primary-600">
+                  {f}
+                </span>
+              ))}
+            </div>
+          }
         />
 
         <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
           {/* Bản đồ */}
+          <Reveal variant="left">
           <div className="relative min-h-[420px] overflow-hidden rounded-3xl border border-line bg-primary-50">
             <img
               src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1400&q=80"
@@ -64,42 +76,39 @@ export default function MapSection() {
               </button>
             ))}
           </div>
+          </Reveal>
 
-          {/* Bảng giá khu vực */}
+          {/* Quỹ căn */}
+          <Reveal variant="right" delay={150}>
           <div className="rounded-3xl border border-line bg-white p-6">
-            <h3 className="font-semibold text-heading">Giá trung bình theo khu vực</h3>
-            <p className="mt-1 text-xs text-body">Cập nhật tháng này</p>
+            <h3 className="font-semibold text-heading">Quỹ căn The Lumen</h3>
+            <p className="mt-1 text-xs text-body">Cập nhật real-time · 5 phút trước</p>
 
             <ul className="mt-5 divide-y divide-line">
-              {DISTRICTS.map((d) => {
-                const up = d.change >= 0;
-                return (
-                  <li key={d.name} className="flex items-center justify-between py-4">
-                    <div>
-                      <p className="text-sm font-medium text-heading">{d.name}</p>
-                      <p className="text-xs text-body">{d.price}</p>
-                    </div>
-                    <span
-                      className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ${
-                        up ? "bg-success/10 text-success" : "bg-danger/10 text-danger"
-                      }`}
-                    >
-                      {up ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
-                      {up ? "+" : ""}
-                      {d.change}%
+              {UNITS.map((u) => (
+                <li key={u.code} className="-mx-3 flex items-center justify-between rounded-xl px-3 py-4 transition hover:bg-primary-50">
+                  <div>
+                    <p className="text-sm font-semibold text-heading">{u.code}</p>
+                    <p className="text-xs text-body">{u.detail}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-semibold text-primary-600">{u.price}</p>
+                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${u.ok ? "bg-success/10 text-success" : "bg-warning/10 text-warning"}`}>
+                      {u.status}
                     </span>
-                  </li>
-                );
-              })}
+                  </div>
+                </li>
+              ))}
             </ul>
 
             <Link
               to="/ban-do"
               className="mt-4 flex items-center justify-center gap-2 rounded-full bg-primary-50 py-3 text-sm font-medium text-primary-600 transition hover:bg-primary-600 hover:text-white"
             >
-              Mở bản đồ đầy đủ <ArrowRight size={16} />
+              Xem toàn bộ quỹ căn <ArrowRight size={16} />
             </Link>
           </div>
+          </Reveal>
         </div>
       </div>
     </section>

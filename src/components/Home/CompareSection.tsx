@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Rotate3d, Play, ArrowRight } from "lucide-react";
 import SectionHeading from "./SectionHeading";
+import Reveal from "../common/Reveal";
 
 const ROWS = [
   { label: "Giá", a: "5,2 tỷ", b: "6,8 tỷ" },
@@ -31,6 +32,7 @@ export default function CompareSection() {
 
         <div className="grid gap-6 lg:grid-cols-[1fr_1.3fr]">
           {/* Bảng so sánh */}
+          <Reveal variant="left">
           <div className="overflow-hidden rounded-3xl border border-line">
             <div className="grid grid-cols-3 bg-primary-50 px-5 py-4 text-sm font-semibold text-heading">
               <span className="text-body">Tiêu chí</span>
@@ -48,8 +50,10 @@ export default function CompareSection() {
               </div>
             ))}
           </div>
+          </Reveal>
 
           {/* VR360 */}
+          <Reveal variant="right" delay={150}>
           <div className="group relative min-h-[360px] overflow-hidden rounded-3xl">
             <img
               src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&q=80"
@@ -74,6 +78,7 @@ export default function CompareSection() {
               <p className="text-sm text-white/80">The Lumen Riverside</p>
             </div>
           </div>
+          </Reveal>
         </div>
       </div>
     </section>
