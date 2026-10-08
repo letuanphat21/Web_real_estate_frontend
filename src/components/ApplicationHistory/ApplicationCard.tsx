@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { CalendarDays, FileText, MapPin, MessageSquareWarning, Wallet } from "lucide-react";
 import ApplicationStatusBadge from "./ApplicationStatusBadge";
 import ApplicationTimeline from "./ApplicationTimeline";
@@ -17,7 +18,7 @@ export default function ApplicationCard({
   const withdrawable = canWithdraw(item.status);
 
   return (
-    <article className="rounded-3xl border border-line bg-white p-4 shadow-sm md:p-5">
+    <article className="relative rounded-3xl border border-line bg-white p-4 shadow-sm transition hover:border-primary-200 hover:shadow-lg hover:shadow-primary-100 md:p-5">
       <div className="flex items-start gap-3">
         <span
           aria-hidden
@@ -26,7 +27,11 @@ export default function ApplicationCard({
           {item.company.initials}
         </span>
         <div className="min-w-0 flex-1">
-          <h3 className="text-base font-semibold text-heading md:text-lg">{item.jobTitle}</h3>
+          <h3 className="text-base font-semibold text-heading md:text-lg">
+            <Link to={`/jobs/${item.jobId}`} className="hover:text-primary-600 after:rounded-3xl after:absolute after:inset-0 after:content-[''] focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-primary-500">
+              {item.jobTitle}
+            </Link>
+          </h3>
           <p className="text-sm text-body">{item.company.name}</p>
           <p className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-body">
             <span className="flex items-center gap-1.5">
@@ -70,7 +75,7 @@ export default function ApplicationCard({
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-3">
         <div className="flex flex-wrap items-center gap-5 text-sm text-body">
-          <a href={item.cv.url} className="flex items-center gap-2 hover:text-primary-600">
+          <a href={item.cv.url} className="relative z-10 flex items-center gap-2 hover:text-primary-600">
             <FileText size={14} aria-hidden /> Xem CV
           </a>
         </div>
@@ -78,7 +83,7 @@ export default function ApplicationCard({
           <button
             type="button"
             onClick={() => onWithdraw(item.id)}
-            className="rounded-lg bg-red-50 px-4 py-2 text-xs font-semibold text-red-500 transition hover:bg-red-100 focus-visible:outline-2 focus-visible:outline-red-500"
+            className="relative z-10 rounded-lg bg-red-50 px-4 py-2 text-xs font-semibold text-red-500 transition hover:bg-red-100 focus-visible:outline-2 focus-visible:outline-red-500"
           >
             Rút hồ sơ
           </button>

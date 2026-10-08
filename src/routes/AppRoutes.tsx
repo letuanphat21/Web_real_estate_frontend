@@ -61,7 +61,7 @@ const AppRoutes = () => {
         <Route element={<AccountLayout />}>
           <Route path="/account/bookings" element={<MyBookingsPage />} />
           <Route path="/account/favorites" element={<FavoritesPage />} />
-          <Route path="/account/applications" element={<ApplicationHistoryPage />} />
+          <Route path="/applications" element={<ApplicationHistoryPage />} />
           <Route path="/account/saved-jobs" element={<SavedJobsPage />} />
           <Route path="/account/notifications" element={<NotificationsPage />} />
         </Route>

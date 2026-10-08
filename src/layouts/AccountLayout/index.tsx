@@ -8,7 +8,7 @@ const MENU = [
   { to: "/account/my-listings", icon: FileText, label: "Tin đã đăng" },
   { to: "/account/saved-jobs", icon: BookmarkCheck, label: "Tin tuyển dụng đã lưu" },
   { to: "/account/bookings", icon: CalendarCheck, label: "Danh sách booking" },
-  { to: "/account/applications", icon: Briefcase, label: "Lịch sử ứng tuyển" },
+  { to: "/applications", icon: Briefcase, label: "Lịch sử ứng tuyển" },
   { to: "/account/notifications", icon: Bell, label: "Thông báo" },
 ];
 
