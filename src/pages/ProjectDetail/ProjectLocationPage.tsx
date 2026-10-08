@@ -10,7 +10,7 @@ export default function ProjectLocationPage() {
   const { id } = useParams();
   const p = PROJECT;
 
-  const base = `/du-an/${id}`;
+  const base = `/projects/${id}`;
 
 
   return (

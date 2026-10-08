@@ -91,7 +91,7 @@ export default function FloorPlanSection({ projectId, pins, buildings, facilitie
                 </li>
               ))}
             </ul>
-            <Link to={`/du-an/${projectId}/mat-bang`} className="mt-4 flex items-center justify-center gap-2 rounded-full border border-primary-200 bg-primary-50 py-3 text-sm font-medium text-heading">
+            <Link to={`/projects/${projectId}/floor-plans`} className="mt-4 flex items-center justify-center gap-2 rounded-full border border-primary-200 bg-primary-50 py-3 text-sm font-medium text-heading">
               Xem quỹ căn theo tòa <ArrowRight size={15} />
             </Link>
           </div>
@@ -150,7 +150,7 @@ export default function FloorPlanSection({ projectId, pins, buildings, facilitie
           </div>
           <div className="mt-4 flex flex-wrap items-center justify-between gap-2 text-[11px] text-muted">
             <span>* Giá đã bao gồm VAT, chưa bao gồm phí bảo trì. Tình trạng có thể thay đổi theo thời gian thực.</span>
-            <Link to={`/du-an/${projectId}/quy-can`} className="flex items-center gap-1 text-xs font-semibold text-primary-600">
+            <Link to={`/projects/${projectId}/inventory`} className="flex items-center gap-1 text-xs font-semibold text-primary-600">
               Xem toàn bộ 126 căn <ArrowRight size={12} />
             </Link>
           </div>

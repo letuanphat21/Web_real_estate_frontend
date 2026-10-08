@@ -15,7 +15,7 @@ export default function BookingCard({ b, checked, onToggle }: { b: Booking; chec
             <span className="truncate text-[11px] text-muted">{b.type}</span>
           </label>
           <div className="flex items-center gap-4">
-            <Link to={`/du-an/${b.property.projectId}/mat-bang`} className="flex items-center gap-1 text-xs font-semibold text-primary-600">
+            <Link to={`/projects/${b.property.projectId}/floor-plans`} className="flex items-center gap-1 text-xs font-semibold text-primary-600">
               Xem chi tiết <ChevronRight size={14} />
             </Link>
             <button aria-label="Thao tác khác" className="text-body hover:text-heading"><Ellipsis size={16} /></button>

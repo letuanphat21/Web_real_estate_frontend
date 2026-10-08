@@ -6,7 +6,7 @@ export default function ProjectCard({ project }: { project: Project }) {
   return (
     <div className="group relative overflow-hidden rounded-2xl border border-line bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-primary-100">
       
-      <Link to={`/du-an/${project.id}`} className="block">
+      <Link to={`/projects/${project.id}`} className="block">
         <div className="relative h-52 overflow-hidden">
           <img src={project.image} alt={project.name} className="h-full w-full object-cover" />
           <span className="absolute left-3 top-3 rounded-full bg-primary-100 px-2.5 py-1 text-[11px] font-medium text-primary-700">
