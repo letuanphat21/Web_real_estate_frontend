@@ -19,7 +19,7 @@ export default function JobCard({
   const left = daysLeft(job.deadline);
 
   return (
-    <article className="rounded-3xl border border-line bg-white p-5 shadow-sm transition hover:shadow-xl hover:shadow-primary-100">
+    <article className="relative rounded-3xl border border-line bg-white p-5 shadow-sm transition hover:border-primary-200 hover:shadow-xl hover:shadow-primary-100">
       <div className="flex items-start gap-4">
         {job.company && <CompanyLogo company={job.company} size="h-14 w-14" />}
 
@@ -29,7 +29,7 @@ export default function JobCard({
             <JobBadge>{job.jobType.name}</JobBadge>
           </div>
           <h3 className="mt-2 text-xl font-medium leading-snug text-heading">
-            <Link to={`/jobs/${job.id}`} className="hover:text-primary-600">
+            <Link to={`/jobs/${job.id}`} className="hover:text-primary-600 after:rounded-3xl after:absolute after:inset-0 after:content-[''] focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-primary-500">
               {job.title}
             </Link>
           </h3>
@@ -43,7 +43,7 @@ export default function JobCard({
           onClick={() => onToggleSave(job.id)}
           aria-pressed={saved}
           aria-label={saved ? "Bỏ lưu tin" : "Lưu tin"}
-          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition ${
+          className={`relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition ${
             saved
               ? "bg-primary-600 text-white"
               : "bg-primary-50 text-primary-600 hover:bg-primary-100"
@@ -102,7 +102,7 @@ export default function JobCard({
         </p>
         <a
           href="#"
-          className="flex h-11 min-w-44 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary-500 to-primary-700 px-6 text-sm font-medium text-white shadow-lg shadow-primary-300/50 transition hover:opacity-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
+          className="relative z-10 flex h-11 min-w-44 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary-500 to-primary-700 px-6 text-sm font-medium text-white shadow-lg shadow-primary-300/50 transition hover:opacity-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
         >
           <Send size={15} aria-hidden /> Ứng tuyển nhanh
         </a>
