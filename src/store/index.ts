@@ -19,3 +19,6 @@ export const selectAccessToken = (state: RootState) => state.auth.accessToken;
 export const selectAuthStatus = (state: RootState) => state.auth.status;
 export const selectIsAuthenticated = (state: RootState) =>
   state.auth.status === "authenticated";
+
+// Thông tin user hiện tại (lấy từ GET /users/me), null nếu chưa đăng nhập
+export const selectCurrentUser = (state: RootState) => state.auth.user;

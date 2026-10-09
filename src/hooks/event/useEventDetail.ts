@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import eventService from "../../services/event/eventService";
 import { getErrorMessage } from "../../api/http";
 import type { Event } from "../../types/event/event.types";
@@ -7,6 +7,7 @@ export function useEventDetail(id: number) {
   const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [reloadKey, setReloadKey] = useState<number>(0);
 
   useEffect(() => {
     if (!Number.isInteger(id) || id <= 0) {
@@ -16,7 +17,8 @@ export function useEventDetail(id: number) {
     }
 
     let ignore = false;
-    setLoading(true);
+    // Tải lại ngầm (sau khi tham gia/rời) thì không hiện skeleton
+    if (reloadKey === 0) setLoading(true);
     setError(null);
 
     eventService
@@ -28,7 +30,9 @@ export function useEventDetail(id: number) {
     return () => {
       ignore = true;
     };
-  }, [id]);
+  }, [id, reloadKey]);
 
-  return { event, loading, error };
+  const refetch = useCallback(() => setReloadKey((k) => k + 1), []);
+
+  return { event, loading, error, refetch };
 }

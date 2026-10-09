@@ -1,4 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { AuthUser } from "../types/auth/auth.types";
 
 /**
  idle: chưa kiểm tra phiên (mới mở app)
@@ -10,11 +11,14 @@ interface AuthState {
   // Access token chỉ nằm trên RAM, reload trang sẽ mất → lấy lại bằng refresh cookie
   accessToken: string | null;
   status: AuthStatus;
+  // Thông tin người dùng đang đăng nhập, lấy từ GET /users/me
+  user: AuthUser | null;
 }
 
 const initialState: AuthState = {
   accessToken: null,
   status: "idle",
+  user: null,
 };
 
 const authSlice = createSlice({
@@ -28,12 +32,16 @@ const authSlice = createSlice({
       state.accessToken = action.payload;
       state.status = "authenticated";
     },
+    setUser: (state, action: PayloadAction<AuthUser>) => {
+      state.user = action.payload;
+    },
     clearAuth: (state) => {
       state.accessToken = null;
+      state.user = null;
       state.status = "unauthenticated";
     },
   },
 });
 
-export const { setChecking, setAccessToken, clearAuth } = authSlice.actions;
+export const { setChecking, setAccessToken, setUser, clearAuth } = authSlice.actions;
 export default authSlice.reducer;

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import EventDetailHero from "../../components/EventDetail/EventDetailHero";
 import EventAbout from "../../components/EventDetail/EventAbout";
 import EventRegisterCard from "../../components/EventDetail/EventRegisterCard";
@@ -7,27 +7,70 @@ import EventLocation from "../../components/EventDetail/EventLocation";
 import EventComments from "../../components/EventDetail/EventComments";
 import { useEventDetail } from "../../hooks/event/useEventDetail";
 import { useEventComments } from "../../hooks/event/useEventComments";
+import { useEventMembership } from "../../hooks/event/useEventMembership";
+import { getErrorMessage } from "../../api";
+import { selectCurrentUser, useAppSelector } from "../../store";
 
 export default function EventDetailPage() {
   const { id } = useParams<{ id: string }>();
   const eventId = Number(id);
 
-  const { event, loading, error } = useEventDetail(eventId);
-  const { comments } = useEventComments(eventId);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // TODO: lấy từ người dùng đăng nhập khi có xác thực
-  const currentUser = null;
+  const currentUser = useAppSelector(selectCurrentUser);
+  const { event, loading, error, refetch } = useEventDetail(eventId);
+  const { comments, addComment, deleteComment } = useEventComments(eventId);
+  const { joined, joining, join, leave } = useEventMembership(
+    eventId,
+    currentUser?.id ?? null
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [eventId]);
 
-  // TODO: gọi API đăng ký / bình luận khi BE có endpoint
-  const handleJoin = () => {
-    window.alert("Tính năng đăng ký tham dự đang được phát triển.");
+  // Chưa đăng nhập → sang login, xong quay lại đúng trang này
+  const goLogin = () =>
+    navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`);
+
+  const handleJoin = async () => {
+    if (!currentUser) return goLogin();
+    try {
+      await join();
+      refetch(); // cập nhật số người đã đăng ký
+    } catch (err) {
+      window.alert(getErrorMessage(err));
+    }
   };
-  const handleAddComment = async () => {};
-  const handleDeleteComment = () => {};
+
+  const handleLeave = async () => {
+    if (!window.confirm("Bạn chắc chắn muốn hủy đăng ký sự kiện này?")) return;
+    try {
+      await leave();
+      refetch();
+    } catch (err) {
+      window.alert(getErrorMessage(err));
+    }
+  };
+
+  const handleAddComment = async (content: string) => {
+    try {
+      await addComment(content);
+    } catch (err) {
+      window.alert(getErrorMessage(err));
+      throw err; // giữ nội dung trong ô nhập
+    }
+  };
+
+  const handleDeleteComment = async (commentId: number) => {
+    if (!window.confirm("Xóa bình luận này?")) return;
+    try {
+      await deleteComment(commentId);
+    } catch (err) {
+      window.alert(getErrorMessage(err));
+    }
+  };
 
   if (loading) {
     return (
@@ -81,9 +124,10 @@ export default function EventDetailPage() {
           </div>
           <EventRegisterCard
             event={event}
-            joined={false}
-            joining={false}
+            joined={joined}
+            joining={joining}
             onJoin={handleJoin}
+            onLeave={handleLeave}
           />
         </div>
       </section>
