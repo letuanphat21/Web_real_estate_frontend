@@ -1,5 +1,6 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { selectAuthStatus, useAppSelector } from "../store";
+import AuthRequiredModal from "../components/common/AuthRequiredModal";
 
 /**
  Bọc các route cần đăng nhập.
@@ -8,15 +9,12 @@ import { selectAuthStatus, useAppSelector } from "../store";
  */
 export default function ProtectedRoute() {
   const status = useAppSelector(selectAuthStatus);
-  const { pathname, search } = useLocation();
 
   if (status === "idle" || status === "checking") return null;
 
-  if (status === "unauthenticated") {
-    // Lưu trang hiện tại để đăng nhập xong quay lại đúng chỗ
-    const redirect = encodeURIComponent(pathname + search);
-    return <Navigate to={`/login?redirect=${redirect}`} replace />;
-  }
+  // Chưa đăng nhập: hiện modal thay vì đá thẳng sang /login.
+  // Modal tự gắn ?redirect=<trang hiện tại> để đăng nhập xong quay lại đúng chỗ.
+  if (status === "unauthenticated") return <AuthRequiredModal />;
 
   return <Outlet />;
 }

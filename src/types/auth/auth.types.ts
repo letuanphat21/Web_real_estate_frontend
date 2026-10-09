@@ -18,6 +18,8 @@ export interface AuthUser {
   fullName: string;
   email: string;
   avatarUrl?: string;
+  // Tên role bên BE, ví dụ "ROLE_USER"
+  role: string;
 }
 
 // Khớp JwtAuthResponse bên BE: chỉ trả access token

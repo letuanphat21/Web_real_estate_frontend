@@ -1,72 +1,69 @@
-import { useEffect, useRef, useState } from "react";
-import { Image, MapPin, Smile, Video } from "lucide-react";
-import { MOCK_SOCIAL_CURRENT_USER } from "../../data/mockSocial";
-
-const ACTIONS = [
-  { label: "Ảnh", icon: Image, color: "text-green-500" },
-  { label: "Video", icon: Video, color: "text-red-500" },
-  { label: "Cảm xúc", icon: Smile, color: "text-yellow-500" },
-];
+import Avatar from "../common/Avatar";
+import ErrorAlert from "../common/ErrorAlert";
+import ComposerImagePreviews from "./composer/ComposerImagePreviews";
+import ComposerToolbar from "./composer/ComposerToolbar";
+import ComposerVideoPreview from "./composer/ComposerVideoPreview";
+import { usePostComposer } from "../../hooks/social/usePostComposer";
+import {
+  POST_MAX_CONTENT_LENGTH,
+  POST_VIDEO_TYPES,
+  type CreatePostRequest,
+  type SocialUser,
+} from "../../types/social/social.types";
 
 type Props = {
-  user: typeof MOCK_SOCIAL_CURRENT_USER;
-  onSubmit: (content: string) => void;
+  user: SocialUser;
+  onSubmit: (request: CreatePostRequest) => Promise<unknown>;
 };
 
 export default function PostComposer({ user, onSubmit }: Props) {
-  const [content, setContent] = useState("");
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  // Tự giãn chiều cao theo nội dung, tới max-h thì mới hiện thanh cuộn
-  useEffect(() => {
-    const el = textareaRef.current;
-    if (!el) return;
-    el.style.height = "auto";
-    el.style.height = `${el.scrollHeight}px`;
-  }, [content]);
-
-  const handleSubmit = () => {
-    const text = content.trim();
-    if (!text) return;
-    onSubmit(text);
-    setContent("");
-  };
+  const c = usePostComposer(onSubmit);
 
   return (
     <div className="rounded-xl bg-white p-4 shadow-sm">
       <div className="flex gap-3">
-        <img src={user.avatarUrl} alt={user.fullName} className="h-10 w-10 rounded-full" />
+        <Avatar src={user.avatarUrl} fullName={user.fullName} className="h-10 w-10 shrink-0" />
         <textarea
-          ref={textareaRef}
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
+          ref={c.textareaRef}
+          value={c.content}
+          onChange={(e) => c.setContent(e.target.value)}
+          maxLength={POST_MAX_CONTENT_LENGTH}
+          disabled={c.submitting}
           placeholder={`${user.fullName} ơi, bạn đang nghĩ gì?`}
           rows={2}
           className="max-h-60 flex-1 resize-none overflow-y-auto rounded-lg bg-gray-100 px-3 py-2 text-sm outline-none"
         />
       </div>
-      <div className="mt-3 flex items-center justify-between border-t border-gray-100 pt-3">
-        <div className="flex items-center gap-1">
-          {ACTIONS.map(({ label, icon: Icon, color }) => (
-            <button
-              key={label}
-              type="button"
-              title={label}
-              className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-100"
-            >
-              <Icon size={20} className={color} />
-              <span className="hidden sm:inline">{label}</span>
-            </button>
-          ))}
-        </div>
-        <button
-          onClick={handleSubmit}
-          disabled={!content.trim()}
-          className="rounded-lg bg-blue-600 px-4 py-1.5 text-sm font-medium text-white disabled:opacity-40"
-        >
-          Đăng
-        </button>
-      </div>
+
+      <ComposerImagePreviews urls={c.imagePreviews} disabled={c.submitting} onRemove={c.removeImage} />
+      <ComposerVideoPreview
+        file={c.video}
+        url={c.videoPreview}
+        unplayable={c.videoUnplayable}
+        disabled={c.submitting}
+        onUnplayable={c.markVideoUnplayable}
+        onRemove={c.removeVideo}
+      />
+      <ErrorAlert message={c.error} onClose={c.clearError} className="mt-3" />
+
+      <input ref={c.imageInputRef} type="file" accept="image/*" multiple hidden onChange={c.pickImages} />
+      <input
+        ref={c.videoInputRef}
+        type="file"
+        accept={POST_VIDEO_TYPES.join(",")}
+        hidden
+        onChange={c.pickVideo}
+      />
+
+      <ComposerToolbar
+        imageCount={c.images.length}
+        submitting={c.submitting}
+        canSubmit={c.canSubmit}
+        onPickImages={c.openImagePicker}
+        onPickVideo={c.openVideoPicker}
+        onEmoji={c.insertEmoji}
+        onSubmit={c.submit}
+      />
     </div>
   );
 }

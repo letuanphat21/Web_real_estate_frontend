@@ -90,11 +90,29 @@ body {
 @utility animate-marquee {
   animation: marquee 30s linear infinite;
 }
+
+/* Khung chờ tải: khối xám có vệt sáng chạy ngang */
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+@utility skeleton {
+  background-color: #e5e7eb;
+  background-image: linear-gradient(90deg, #e5e7eb 0%, #f3f4f6 40%, #ffffff 50%, #f3f4f6 60%, #e5e7eb 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-rise-in,
   .animate-page-in,
   .animate-float-y,
-  .animate-marquee {
+  .animate-marquee,
+  .skeleton {
     animation: none !important;
   }
 }

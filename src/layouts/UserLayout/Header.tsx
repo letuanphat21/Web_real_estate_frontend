@@ -1,11 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import { Plus, Search, Bell, ChevronDown, ChevronRight, User, LogOut, FileText, Heart, Briefcase, ArrowUpRight, CalendarCheck, BookmarkCheck } from "lucide-react";
-import { CURRENT_USER } from "../../data/mockAccount";
-import useSavedJobs from "../../components/Recruitment/useSavedJobs";
-import useUnreadNotificationCount from "../../components/Notification/useUnreadNotificationCount";
+import { Link, NavLink } from "react-router-dom";
+import { Plus, Search, Bell, ChevronDown, ChevronRight, LogOut, ArrowUpRight } from "lucide-react";
 import NotificationDrawer from "../../components/Notification/NotificationDrawer";
-import authService from "../../services/auth/authService";
+import useHeader, { type HeaderController } from "./useHeader";
+import type { AuthUser } from "../../types/auth/auth.types";
 import logo from "../../assets/images/logo.jpg";
 
 const NAV_ITEMS = [
@@ -18,49 +15,20 @@ const NAV_ITEMS = [
   { label: "Tuyển dụng", path: "/jobs" },
 ];
 
-
-const initials = (name: string) =>
-  name
-    .trim()
-    .split(/\s+/)
-    .slice(-2)
-    .map((w) => w[0]?.toUpperCase())
-    .join("");
-
-const ACCOUNT_MENU = [
-  { to: "/account", icon: User, label: "Hồ sơ cá nhân", count: 0 },
-  { to: "/account/favorites", icon: Heart, label: "Bất động sản đã lưu", count: 0 },
-  { to: "/account/my-listings", icon: FileText, label: "Tin đã đăng", count: 3 },
-  { to: "/account/saved-jobs", icon: BookmarkCheck, label: "Tin tuyển dụng đã lưu", count: 0 },
-  { to: "/account/bookings", icon: CalendarCheck, label: "Danh sách booking", count: 0 },
-  { to: "/applications", icon: Briefcase, label: "Lịch sử ứng tuyển", count: 0 },
-  { to: "/account/notifications", icon: Bell, label: "Thông báo", count: 0 },
-];
-
-function UserMenu() {
-  const { pathname } = useLocation();
-  const user = CURRENT_USER;
-  const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
-  const [notifOpen, setNotifOpen] = useState(false);
-  const { savedIds } = useSavedJobs();
-  const unreadNotifications = useUnreadNotificationCount();
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const close = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node))
-        setOpen(false);
-    };
-    document.addEventListener("mousedown", close);
-    return () => document.removeEventListener("mousedown", close);
-  }, []);
-
-  const logout = async () => {
-    setOpen(false);
-    await authService.logout();
-    navigate("/login", { replace: true });
-  };
+function UserMenu({ header, user }: { header: HeaderController; user: AuthUser }) {
+  const {
+    initials,
+    roleLabel,
+    accountMenu,
+    menuRef,
+    menuOpen,
+    toggleMenu,
+    closeMenu,
+    notifOpen,
+    openNotif,
+    closeNotif,
+    logout,
+  } = header;
 
   return (
     <div className="flex items-center gap-1.5">
@@ -72,17 +40,17 @@ function UserMenu() {
       </button>
       <button
         aria-label="Thông báo"
-        onClick={() => setNotifOpen(true)}
+        onClick={openNotif}
         className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-heading hover:bg-primary-50 hover:text-primary-600"
       >
         <Bell size={17} />
       </button>
-      {notifOpen && <NotificationDrawer onClose={() => setNotifOpen(false)} />}
+      {notifOpen && <NotificationDrawer onClose={closeNotif} />}
 
-      <div ref={ref} className="relative">
+      <div ref={menuRef} className="relative">
         <button
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
+          onClick={toggleMenu}
+          aria-expanded={menuOpen}
           className="flex items-center gap-2 rounded-full border border-line bg-white py-1 pl-1 pr-3 shadow-sm hover:border-primary-300"
         >
           {user.avatarUrl ? (
@@ -93,7 +61,7 @@ function UserMenu() {
             />
           ) : (
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-100 text-xs font-semibold text-primary-700">
-              {initials(user.fullName)}
+              {initials}
             </span>
           )}
           <span className="hidden text-left leading-tight lg:block">
@@ -101,16 +69,16 @@ function UserMenu() {
               {user.fullName}
             </span>
             <span className="block whitespace-nowrap text-[11px] text-body">
-              Tài khoản cá nhân
+              {roleLabel}
             </span>
           </span>
           <ChevronDown
             size={16}
-            className={`text-body transition ${open ? "rotate-180" : ""}`}
+            className={`text-body transition ${menuOpen ? "rotate-180" : ""}`}
           />
         </button>
 
-        {open && (
+        {menuOpen && (
           <div className="absolute right-0 top-full z-50 mt-2.5 w-[264px] rounded-2xl border border-line bg-white p-1.5 shadow-xl shadow-primary-200/60">
             <span className="absolute -top-1.5 right-12 h-3 w-3 rotate-45 border-l border-t border-line bg-white" />
 
@@ -124,7 +92,7 @@ function UserMenu() {
                   />
                 ) : (
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary-500 to-primary-700 text-sm font-bold text-white">
-                    {initials(user.fullName)}
+                    {initials}
                   </span>
                 )}
                 <div className="min-w-0 flex-1">
@@ -133,7 +101,7 @@ function UserMenu() {
                       {user.fullName}
                     </p>
                     <span className="shrink-0 rounded-full bg-primary-100 px-2 py-0.5 text-[9px] font-semibold text-primary-700">
-                      Thành viên
+                      {roleLabel}
                     </span>
                   </div>
                   <p className="mt-0.5 truncate text-[11px] text-body">
@@ -143,7 +111,7 @@ function UserMenu() {
               </div>
               <Link
                 to="/account"
-                onClick={() => setOpen(false)}
+                onClick={closeMenu}
                 className="mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-primary-600 hover:text-primary-700"
               >
                 Xem hồ sơ <ArrowUpRight size={12} />
@@ -151,55 +119,43 @@ function UserMenu() {
             </div>
 
             <ul className="mt-1.5 space-y-px">
-              {ACCOUNT_MENU.map(({ to, icon: Icon, label, count: baseCount }) => {
-                const active = pathname === to;
-                // số tin tuyển dụng đã lưu lấy trực tiếp từ danh sách đang lưu
-                const count =
-                  to === "/account/saved-jobs"
-                    ? savedIds.length
-                    : to === "/account/notifications"
-                      ? unreadNotifications
-                      : baseCount;
-                return (
-                  <li key={to}>
-                    <Link
-                      to={to}
-                      onClick={() => setOpen(false)}
-                      className={`flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] ${
-                        active
-                          ? "bg-primary-50 font-semibold text-primary-600"
-                          : "font-medium text-heading hover:bg-primary-50"
+              {accountMenu.map(({ to, icon: Icon, label, count, active }) => (
+                <li key={to}>
+                  <Link
+                    to={to}
+                    onClick={closeMenu}
+                    className={`flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] ${
+                      active
+                        ? "bg-primary-50 font-semibold text-primary-600"
+                        : "font-medium text-heading hover:bg-primary-50"
+                    }`}
+                  >
+                    <span
+                      className={`flex h-7 w-7 items-center justify-center rounded-lg ${
+                        active ? "bg-primary-100" : "bg-primary-50"
                       }`}
                     >
-                      <span
-                        className={`flex h-7 w-7 items-center justify-center rounded-lg ${
-                          active ? "bg-primary-100" : "bg-primary-50"
-                        }`}
-                      >
-                        <Icon
-                          size={14}
-                          className={
-                            active ? "text-primary-600" : "text-heading"
-                          }
-                        />
+                      <Icon
+                        size={14}
+                        className={active ? "text-primary-600" : "text-heading"}
+                      />
+                    </span>
+                    {label}
+                    {count ? (
+                      <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-primary-100 px-1.5 text-[10px] font-semibold text-primary-700">
+                        {count}
                       </span>
-                      {label}
-                      {count ? (
-                        <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-primary-100 px-1.5 text-[10px] font-semibold text-primary-700">
-                          {count}
-                        </span>
-                      ) : (
-                        <ChevronRight
-                          size={13}
-                          className={`ml-auto ${
-                            active ? "text-primary-600" : "text-muted"
-                          }`}
-                        />
-                      )}
-                    </Link>
-                  </li>
-                );
-              })}
+                    ) : (
+                      <ChevronRight
+                        size={13}
+                        className={`ml-auto ${
+                          active ? "text-primary-600" : "text-muted"
+                        }`}
+                      />
+                    )}
+                  </Link>
+                </li>
+              ))}
             </ul>
 
             <div className="my-1.5 h-px bg-line" />
@@ -220,6 +176,8 @@ function UserMenu() {
 }
 
 export default function Header() {
+  const header = useHeader();
+
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-white shadow-sm">
       <div className="container mx-auto flex h-20 items-center justify-between gap-4 px-4 lg:px-6 xl:px-8">
@@ -263,7 +221,16 @@ export default function Header() {
         </nav>
 
         <div className="flex shrink-0 items-center gap-3">
-          <UserMenu />
+          {header.user ? (
+            <UserMenu header={header} user={header.user} />
+          ) : (
+            <Link
+              to="/login"
+              className="whitespace-nowrap rounded-full border border-primary-600 px-4 py-2 text-sm font-medium text-primary-600 transition-colors hover:bg-primary-50 xl:px-6 xl:py-2.5"
+            >
+              Đăng nhập
+            </Link>
+          )}
           <Link
             to="/post-listing"
             className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-gradient-to-r from-primary-500 to-primary-700 px-4 py-2 text-sm font-medium text-white transition-all xl:px-6 xl:py-2.5 hover:opacity-95 hover:shadow-md"
