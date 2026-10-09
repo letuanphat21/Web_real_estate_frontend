@@ -1,7 +1,7 @@
-import type { AuthResponse, LoginRequest, RegisterRequest } from "../../types/auth/auth.types";
-import { getErrorMessage, refreshAccessToken } from "../../api";
+import type { AuthResponse, AuthUser, LoginRequest, RegisterRequest } from "../../types/auth/auth.types";
+import { authHttp, getErrorMessage, refreshAccessToken } from "../../api";
 import { store } from "../../store";
-import { clearAuth, setAccessToken, setChecking } from "../../store/authSlice";
+import { clearAuth, setAccessToken, setChecking, setUser } from "../../store/authSlice";
 import BaseService from "../base/BaseService";
 
 // Ném Error có message tiếng Việt từ BE để trang hiển thị
@@ -20,6 +20,7 @@ class AuthService extends BaseService {
         "login"
       );
       store.dispatch(setAccessToken(res.token));
+      await this.fetchMe();
       return res;
     } catch (err) {
       throw toError(err);
@@ -48,7 +49,20 @@ class AuthService extends BaseService {
   async restoreSession(): Promise<void> {
     if (store.getState().auth.status !== "idle") return;
     store.dispatch(setChecking());
-    await refreshAccessToken().catch(() => undefined);
+    const token = await refreshAccessToken().catch(() => null);
+    if (token) await this.fetchMe();
+  }
+
+  // GET /users/me: lấy thông tin người dùng đang đăng nhập, lưu vào store
+  async fetchMe(): Promise<AuthUser | null> {
+    try {
+      const user = await authHttp.get<AuthUser>(this.url("me"));
+      store.dispatch(setUser(user));
+      return user;
+    } catch {
+      // Không lấy được thông tin thì vẫn giữ phiên, chỉ thiếu tên/avatar
+      return null;
+    }
   }
 }
 

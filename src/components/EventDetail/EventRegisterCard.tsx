@@ -17,6 +17,7 @@ interface EventRegisterCardProps {
   joined: boolean;
   joining: boolean;
   onJoin: () => void;
+  onLeave?: () => void;
 }
 
 interface ButtonState {
@@ -31,7 +32,7 @@ interface InfoRow {
 }
 
 function getButtonState(event: Event, joined: boolean): ButtonState {
-  if (joined) return { text: "Bạn đã đăng ký", disabled: true };
+  if (joined) return { text: "Đã đăng ký · Hủy", disabled: false };
   if (event.status === EVENT_STATUS.CANCELLED)
     return { text: "Sự kiện đã hủy", disabled: true };
   if (event.status === EVENT_STATUS.COMPLETED)
@@ -46,6 +47,7 @@ export default function EventRegisterCard({
   joined,
   joining,
   onJoin,
+  onLeave,
 }: EventRegisterCardProps) {
   const percent = Math.min(
     100,
@@ -119,7 +121,7 @@ export default function EventRegisterCard({
 
         <button
           type="button"
-          onClick={onJoin}
+          onClick={joined ? onLeave : onJoin}
           disabled={button.disabled || joining}
           className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary-500 to-primary-700 py-3.5 text-sm font-medium text-white shadow-lg shadow-primary-300/50 transition hover:opacity-95 disabled:cursor-not-allowed disabled:from-gray-300 disabled:to-gray-400 disabled:shadow-none"
         >

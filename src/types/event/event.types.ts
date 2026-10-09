@@ -96,3 +96,21 @@ export interface EventFilter {
 }
 
 export const DEFAULT_EVENT_FILTER: EventFilter = { keyword: "", status: "" };
+
+// Khớp EventRequest bên BE (tạo / sửa sự kiện)
+export interface EventRequest {
+  title: string;
+  content: string;
+  location: string;
+  maxAttendees: number;
+  startTime: string; // ISO, ví dụ 2026-10-20T09:00:00
+  endTime: string;
+}
+
+export interface EventStatusRequest {
+  status: EventStatus;
+}
+
+export interface CommentEventRequest {
+  content: string;
+}

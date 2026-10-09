@@ -32,7 +32,7 @@ interface EventCommentsProps {
   comments: EventComment[];
   currentUser: UserSummary | null;
   onAdd: (content: string) => Promise<void>;
-  onDelete: (commentId: number) => void;
+  onDelete: (commentId: number) => void | Promise<void>;
 }
 
 export default function EventComments({
@@ -53,6 +53,8 @@ export default function EventComments({
     try {
       await onAdd(content);
       setText("");
+    } catch {
+      // Lỗi đã được bên gọi hiển thị, giữ nguyên nội dung để gửi lại
     } finally {
       setSending(false);
     }
