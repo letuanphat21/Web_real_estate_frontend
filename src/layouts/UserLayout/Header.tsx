@@ -34,7 +34,7 @@ const ACCOUNT_MENU = [
   { to: "/account/saved-jobs", icon: BookmarkCheck, label: "Tin tuyển dụng đã lưu", count: 0 },
   { to: "/account/bookings", icon: CalendarCheck, label: "Danh sách booking", count: 0 },
   { to: "/applications", icon: Briefcase, label: "Lịch sử ứng tuyển", count: 0 },
-  { to: "/account/notifications", icon: Bell, label: "Thông báo", count: 6 },
+  { to: "/account/notifications", icon: Bell, label: "Thông báo", count: 0 },
 ];
 
 function UserMenu() {

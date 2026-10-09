@@ -1,32 +1,45 @@
-export type NotificationType = "INFO" | "ORDER" | "COMMISSION";
+// Khớp enum TargetType ở BE: đối tượng mà thông báo trỏ tới
+export type NotificationTargetType =
+  | "EVENT"
+  | "NEWS"
+  | "JOB"
+  | "APPLICATION"
+  | "PROJECT"
+  | "POST"
+  | "BOOKING"
+  | "PROPERTY"
+  | "SYSTEM";
 
-/** Một đoạn nội dung; `bold` để in đậm tên dự án trong câu thông báo */
-export interface NotificationSegment {
-  text: string;
-  bold?: boolean;
-}
-
+/** Một thông báo của người dùng đang đăng nhập (UserNotificationResponse) */
 export interface NotificationItem {
-  id: number;
-  type: NotificationType;
-  message: NotificationSegment[];
-  createdText: string; // đã định dạng sẵn, vd: "07/10/2026 08:50:07"
-  read: boolean;
-  /** đường dẫn mở khi bấm "Xem" */
-  href: string;
+  id: number; // id của bản ghi user_notification, dùng để đánh dấu đã đọc / xoá
+  isRead: boolean;
+  readAt: string | null;
+  notificationId: number;
+  title: string;
+  content: string;
+  image: string | null;
+  targetType: NotificationTargetType | null;
+  targetId: number | null;
+  actionUrl: string | null;
+  createdAt: string;
+  notificationTypeId: number;
+  notificationTypeName: string;
 }
 
-export type NotificationTab = "ALL" | NotificationType;
+/** Loại thông báo đang hiện, dùng dựng tab lọc (NotificationTypeResponse) */
+export interface NotificationTypeItem {
+  id: number;
+  name: string;
+  isActive: boolean;
+  createdAt: string;
+}
 
-export const NOTIFICATION_TABS: { id: NotificationTab; label: string }[] = [
-  { id: "ALL", label: "Tất cả" },
-  { id: "INFO", label: "Thông tin" },
-  { id: "ORDER", label: "Đơn hàng" },
-  { id: "COMMISSION", label: "Cơ chế hoa hồng" },
-];
+/** Số chưa đọc: total cho chuông, byType (key là notificationTypeId) cho từng tab */
+export interface UnreadCount {
+  total: number;
+  byType: Record<number, number>;
+}
 
-export const NOTIFICATION_TYPE_LABEL: Record<NotificationType, string> = {
-  INFO: "Thông tin",
-  ORDER: "Đơn hàng",
-  COMMISSION: "Cơ chế hoa hồng",
-};
+// "ALL" hoặc id loại thông báo
+export type NotificationTab = "ALL" | number;
