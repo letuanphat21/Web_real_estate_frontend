@@ -4,7 +4,7 @@ import NewsDetailHero from "../../components/NewDetail/NewsDetailHero";
 import NewsArticle from "../../components/NewDetail/NewsArticle";
 import NewsDetailSidebar from "../../components/NewDetail/NewsDetailSidebar";
 import NewsCard from "../../components/News/NewsCard";
-import newsService from "../../services/newsService";
+import newsService from "../../services/news/newsService";
 import type { News } from "../../types/news.types";
 
 export default function NewsDetailPage() {
@@ -29,12 +29,17 @@ export default function NewsDetailPage() {
         if (!item) return;
 
         const [rel, lat] = await Promise.all([
-          newsService.getRelatedNews(item),
-          newsService.getLatestNews(item.id),
+          // Phần phụ lỗi thì để trống, không ảnh hưởng bài chính
+          newsService.getRelatedNews(item).catch(() => []),
+          newsService.getLatestNews(item.id).catch(() => []),
         ]);
         if (ignore) return;
         setRelated(rel);
         setLatest(lat);
+      })
+      .catch(() => {
+        // 404 / bài đã ẩn → hiện màn "Không tìm thấy bài viết"
+        if (!ignore) setNews(null);
       })
       .finally(() => {
         if (!ignore) setLoading(false);
