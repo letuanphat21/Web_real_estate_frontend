@@ -8,8 +8,8 @@ import {
   Phone,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { EVENT_STATUS } from "../../types/event.types";
-import type { Event } from "../../types/event.types";
+import { EVENT_STATUS } from "../../types/event/event.types";
+import type { Event } from "../../types/event/event.types";
 import { formatEventTime } from "../../utils/formatDate";
 
 interface EventRegisterCardProps {
@@ -34,9 +34,9 @@ function getButtonState(event: Event, joined: boolean): ButtonState {
   if (joined) return { text: "Bạn đã đăng ký", disabled: true };
   if (event.status === EVENT_STATUS.CANCELLED)
     return { text: "Sự kiện đã hủy", disabled: true };
-  if (event.status === EVENT_STATUS.ENDED)
+  if (event.status === EVENT_STATUS.COMPLETED)
     return { text: "Sự kiện đã kết thúc", disabled: true };
-  if (event.memberCount >= event.maxAttendees)
+  if (event.attendeeCount >= event.maxAttendees)
     return { text: "Đã hết chỗ", disabled: true };
   return { text: "Đăng ký tham dự", disabled: false };
 }
@@ -49,7 +49,9 @@ export default function EventRegisterCard({
 }: EventRegisterCardProps) {
   const percent = Math.min(
     100,
-    Math.round((event.memberCount / event.maxAttendees) * 100)
+    event.maxAttendees > 0
+      ? Math.round((event.attendeeCount / event.maxAttendees) * 100)
+      : 0
   );
   const button = getButtonState(event, joined);
 
@@ -78,8 +80,8 @@ export default function EventRegisterCard({
             <p className="text-xs text-body">Phí tham gia</p>
             <p className="text-2xl font-bold text-success">Miễn phí</p>
           </div>
-          {event.memberCount < event.maxAttendees &&
-            event.status !== EVENT_STATUS.ENDED && (
+          {event.attendeeCount < event.maxAttendees &&
+            event.status !== EVENT_STATUS.COMPLETED && (
               <span className="rounded-full bg-success/10 px-2.5 py-1 text-xs font-medium text-success">
                 Còn chỗ
               </span>
@@ -103,7 +105,7 @@ export default function EventRegisterCard({
         <div className="mt-5">
           <div className="flex justify-between text-xs">
             <span className="font-medium text-heading">
-              {event.memberCount}/{event.maxAttendees} đã đăng ký
+              {event.attendeeCount}/{event.maxAttendees} đã đăng ký
             </span>
             <span className="text-primary-600">{percent}%</span>
           </div>

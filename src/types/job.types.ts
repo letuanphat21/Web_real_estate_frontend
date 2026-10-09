@@ -1,10 +1,16 @@
-export type { PageResponse } from "./event.types";
+export type { PageResponse } from "./event/event.types";
 
 export type JobBadgeType = "HOT" | "URGENT" | "FEATURED";
 
-export const JOB_BADGE_META: Record<JobBadgeType, { label: string; className: string }> = {
+export const JOB_BADGE_META: Record<
+  JobBadgeType,
+  { label: string; className: string }
+> = {
   HOT: { label: "Hot", className: "border-amber-200 bg-amber-50 text-warning" },
-  URGENT: { label: "Tuyển gấp", className: "border-danger/20 bg-danger/10 text-danger" },
+  URGENT: {
+    label: "Tuyển gấp",
+    className: "border-danger/20 bg-danger/10 text-danger",
+  },
   FEATURED: { label: "Nổi bật", className: "border-line bg-white text-body" },
 };
 
@@ -30,7 +36,10 @@ export const JOB_LEVEL_LABEL: Record<JobLevel, string> = {
 /** Loại hình BĐS: `label` dùng ở bộ lọc, `short` dùng trên card */
 export type PropertyType = "LUXURY_APARTMENT" | "VILLA" | "TOWNHOUSE" | "LAND";
 
-export const PROPERTY_TYPE_META: Record<PropertyType, { label: string; short: string }> = {
+export const PROPERTY_TYPE_META: Record<
+  PropertyType,
+  { label: string; short: string }
+> = {
   LUXURY_APARTMENT: { label: "Căn hộ cao cấp", short: "Căn hộ" },
   VILLA: { label: "Biệt thự", short: "Biệt thự" },
   TOWNHOUSE: { label: "Nhà phố", short: "Nhà phố" },
@@ -40,7 +49,10 @@ export const PROPERTY_TYPE_META: Record<PropertyType, { label: string; short: st
 export type SalaryRange = "UNDER_30" | "30_100" | "OVER_100";
 
 /** min/max tính theo triệu đồng/tháng */
-export const SALARY_RANGE_META: Record<SalaryRange, { label: string; min: number; max: number }> = {
+export const SALARY_RANGE_META: Record<
+  SalaryRange,
+  { label: string; min: number; max: number }
+> = {
   UNDER_30: { label: "Dưới 30 triệu", min: 0, max: 30 },
   "30_100": { label: "30–100 triệu", min: 30, max: 100 },
   OVER_100: { label: "Trên 100 triệu", min: 100, max: Infinity },

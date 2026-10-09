@@ -2,20 +2,15 @@ import { useState, useEffect, type ChangeEvent, type FormEvent } from "react";
 import { Search, RotateCcw } from "lucide-react";
 import {
   DEFAULT_EVENT_FILTER,
-  EVENT_CATEGORY_LABEL,
   EVENT_STATUS_META,
   type EventFilter,
-} from "../../types/event.types";
+} from "../../types/event/event.types";
 
 const fieldClass =
   "h-11 w-full rounded-xl border border-line bg-white px-4 text-sm text-heading outline-none transition focus:border-primary-400 focus:ring-2 focus:ring-primary-100";
 
 /**
  * Ô lọc: người dùng chỉnh thoải mái, chỉ khi bấm "Tìm kiếm" mới gửi lên trang cha.
- * @param {{
- *   value: import("../../../types/event.types").EventFilter,
- *   onSearch: (f: import("../../../types/event.types").EventFilter) => void
- * }} props
  */
 export default function EventFilterBar({
   value,
@@ -32,7 +27,7 @@ export default function EventFilterBar({
   const update =
     (key: keyof EventFilter) =>
     (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
-      setDraft((d) => ({ ...d, [key]: e.target.value }) as EventFilter);
+      setDraft((d) => ({ ...d, [key]: e.target.value } as EventFilter));
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,38 +44,27 @@ export default function EventFilterBar({
       onSubmit={handleSubmit}
       className="rounded-3xl bg-white p-5 shadow-xl shadow-primary-100/60 ring-1 ring-line md:p-6"
     >
-      {/* Ô tìm kiếm */}
-      <div className="relative">
-        <Search
-          size={18}
-          className="absolute left-4 top-1/2 -translate-y-1/2 text-body"
-        />
-        <input
-          value={draft.keyword}
-          onChange={update("keyword")}
-          placeholder="Tìm kiếm sự kiện, địa điểm..."
-          className={`${fieldClass} pl-11`}
-        />
-      </div>
-
-      {/* Hàng bộ lọc */}
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr_auto_auto] lg:items-end">
-        <select
-          value={draft.category}
-          onChange={update("category")}
-          className={fieldClass}
-        >
-          <option value="">Tất cả loại</option>
-          {Object.entries(EVENT_CATEGORY_LABEL).map(([key, label]) => (
-            <option key={key} value={key}>
-              {label}
-            </option>
-          ))}
-        </select>
+      <div className="grid gap-3 lg:grid-cols-[1fr_220px_auto_auto] lg:items-center">
+        <div className="relative">
+          <Search
+            size={18}
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-body"
+          />
+          <input
+            value={draft.keyword}
+            onChange={update("keyword")}
+            placeholder="Tìm kiếm sự kiện, địa điểm..."
+            className={`${fieldClass} pl-11`}
+          />
+        </div>
 
         <select
           value={draft.status}
-          onChange={update("status")}
+          onChange={(e) => {
+            const next = { ...draft, status: e.target.value } as EventFilter;
+            setDraft(next);
+            onSearch(next);
+          }}
           className={fieldClass}
         >
           <option value="">Tất cả trạng thái</option>
@@ -90,27 +74,6 @@ export default function EventFilterBar({
             </option>
           ))}
         </select>
-
-        <label className="block">
-          <span className="mb-1 block text-xs text-body">Từ</span>
-          <input
-            type="date"
-            value={draft.from}
-            onChange={update("from")}
-            className={fieldClass}
-          />
-        </label>
-
-        <label className="block">
-          <span className="mb-1 block text-xs text-body">Đến</span>
-          <input
-            type="date"
-            value={draft.to}
-            min={draft.from || undefined}
-            onChange={update("to")}
-            className={fieldClass}
-          />
-        </label>
 
         <button
           type="submit"

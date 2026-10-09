@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import EventFilterBar from "./EventFilterBar";
-import type { EventFilter } from "../../types/event.types";
+import type { EventFilter } from "../../types/event/event.types";
 
 interface EventsHeroProps {
   filter: EventFilter;

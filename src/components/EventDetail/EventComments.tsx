@@ -1,20 +1,19 @@
 import { useState } from "react";
 import type { FormEvent, KeyboardEvent } from "react";
 import { Link } from "react-router-dom";
-import { MessageCircle, Send, Trash2 } from "lucide-react";
+import { MessageCircleMore, Send, Trash2 } from "lucide-react";
 import { formatRelativeTime } from "../../utils/formatDate";
-import type { EventComment, UserSummary } from "../../types/event.types";
+import type { EventComment, UserSummary } from "../../types/event/event.types";
 
 const MAX_LENGTH = 500;
 const PAGE_SIZE = 5;
 
-/* ===== Avatar ===== */
 interface AvatarProps {
   user: UserSummary;
   size?: string;
 }
 
-const Avatar = ({ user, size = "h-10 w-10" }: AvatarProps) =>
+const Avatar = ({ user, size = "h-15 w-15" }: AvatarProps) =>
   user.avatarUrl ? (
     <img
       src={user.avatarUrl}
@@ -29,7 +28,6 @@ const Avatar = ({ user, size = "h-10 w-10" }: AvatarProps) =>
     </span>
   );
 
-/* ===== EventComments ===== */
 interface EventCommentsProps {
   comments: EventComment[];
   currentUser: UserSummary | null;
@@ -75,9 +73,9 @@ export default function EventComments({
   return (
     <div className="rounded-3xl border border-line bg-white p-6 md:p-8">
       <h2 className="flex items-center gap-2 text-2xl font-semibold text-heading">
-        <MessageCircle size={22} className="text-primary-600" />
+        <MessageCircleMore size={22} className="text-primary-600" />
         Bình luận
-        <span className="rounded-full bg-primary-50 px-2.5 py-0.5 text-sm font-medium text-primary-600">
+        <span className="rounded-full bg-primary-100 px-2.5 py-0.5 text-sm font-bold text-red">
           {comments.length}
         </span>
       </h2>

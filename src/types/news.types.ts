@@ -1,4 +1,4 @@
-import type { UserSummary } from "./event.types";
+import type { UserSummary } from "./event/event.types";
 
 export interface NewsCategory {
   id: number;

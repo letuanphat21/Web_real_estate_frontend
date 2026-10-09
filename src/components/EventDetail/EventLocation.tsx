@@ -1,6 +1,6 @@
 import { MapPin, Clock, ExternalLink, Navigation } from "lucide-react";
 import { formatEventTime } from "../../utils/formatDate";
-import type { Event } from "../../types/event.types";
+import type { Event } from "../../types/event/event.types";
 
 interface EventLocationProps {
   event: Event;
