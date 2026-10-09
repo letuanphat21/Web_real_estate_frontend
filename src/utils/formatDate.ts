@@ -51,3 +51,15 @@ export const formatRelativeTime = (iso: string): string => {
   if (diff < 7 * 86400) return `${Math.floor(diff / 86400)} ngày trước`;
   return formatDate(iso);
 };
+
+/** Kiểu bình luận Facebook: "Vừa xong", "5 phút", "17 giờ", "3 ngày", quá 30 ngày thì hiện ngày */
+export const formatShortRelativeTime = (iso: string): string => {
+  const min = Math.floor(Math.max(0, Date.now() - new Date(iso).getTime()) / 60000);
+  if (min < 1) return "Vừa xong";
+  if (min < 60) return `${min} phút`;
+  const hour = Math.floor(min / 60);
+  if (hour < 24) return `${hour} giờ`;
+  const day = Math.floor(hour / 24);
+  if (day < 30) return `${day} ngày`;
+  return new Date(iso).toLocaleDateString("vi-VN");
+};
