@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
-import useFocusTrap from "../../common/useFocusTrap";
-import SafeImage from "../../common/SafeImage";
-import { formatFull } from "./progressFormat";
-import type { ViewImage } from "../../../types/progress.types";
+import useFocusTrap from "./useFocusTrap";
+import SafeImage from "./SafeImage";
+import { formatFull } from "../ProjectDetail/progress/progressFormat";
+import type { ViewImage } from "../../types/progress.types";
 
 type Props = {
   images: ViewImage[];

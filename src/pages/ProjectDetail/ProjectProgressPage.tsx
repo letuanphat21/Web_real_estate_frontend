@@ -4,7 +4,7 @@ import ProjectTabs from "../../components/ProjectDetail/ProjectTabs";
 import ProgressHero from "../../components/ProjectDetail/progress/ProgressHero";
 import ProgressTimeline from "../../components/ProjectDetail/progress/ProgressTimeline";
 import ProgressGallery from "../../components/ProjectDetail/progress/ProgressGallery";
-import Lightbox from "../../components/ProjectDetail/progress/Lightbox";
+import Lightbox from "../../components/common/Lightbox";
 import { displayDate } from "../../components/ProjectDetail/progress/progressFormat";
 import { progressService } from "../../services/progressService";
 import type { ProjectProgress, ViewImage } from "../../types/progress.types";

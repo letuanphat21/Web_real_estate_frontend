@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "../pages/Home/HomePage";
 import ProjectsPage from "../pages/Projects/ProjectsPage";
 import ProjectDetailPage from "../pages/ProjectDetail/ProjectDetailPage";
@@ -29,6 +29,14 @@ import NewsPage from "../pages/News/NewsPage";
 import NewsDetailPage from "../pages/News/NewsDetailPage";
 import SocialPage from "../pages/Social/SocialPage";
 import ProtectedRoute from "./ProtectedRoute";
+import AdminLayout from "../layouts/AdminLayout";
+import AdminProjectsPage from "../pages/Admin/AdminProjectsPage";
+import AdminProjectDetailPage from "../pages/Admin/AdminProjectDetailPage";
+import AdminProjectFormPage from "../pages/Admin/AdminProjectFormPage";
+import ProjectImagesPage from "../pages/Admin/ProjectImagesPage";
+import PropertyProjectsPage from "../pages/Admin/PropertyProjectsPage";
+import PropertyManagementPage from "../pages/Admin/PropertyManagementPage";
+import AdminPlaceholderPage from "../pages/Admin/AdminPlaceholderPage";
 
 const AppRoutes = () => {
   return (
@@ -72,10 +80,18 @@ const AppRoutes = () => {
         </Route>
       </Route>
 
-      {/* <Route path="/admin" element={<AdminLayout />}>
-        <Route index element={<Navigate to="dashboard" replace />} />
-        <Route path="dashboard" element={<DashboardPage />} />
-      </Route> */}
+      {/* TODO: chặn theo vai trò quản trị khi AuthUser có trường role */}
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route index element={<Navigate to="projects" replace />} />
+        <Route path="projects" element={<AdminProjectsPage />} />
+        <Route path="projects/new" element={<AdminProjectFormPage />} />
+        <Route path="projects/:id" element={<AdminProjectDetailPage />} />
+        <Route path="projects/:id/edit" element={<AdminProjectFormPage />} />
+        <Route path="project-images" element={<ProjectImagesPage />} />
+        <Route path="properties" element={<PropertyProjectsPage />} />
+        <Route path="properties/:id" element={<PropertyManagementPage />} />
+        <Route path="*" element={<AdminPlaceholderPage />} />
+      </Route>
     </Routes>
   );
 };
