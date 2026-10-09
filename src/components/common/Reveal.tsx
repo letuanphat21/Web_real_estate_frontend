@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
-type Variant = "up" | "left" | "right" | "zoom";
+type Variant = "up" | "left" | "right" | "zoom" | "clip";
 
 type Props = {
   children: ReactNode;
@@ -15,6 +15,7 @@ const HIDDEN: Record<Variant, string> = {
   left: "-translate-x-12",
   right: "translate-x-12",
   zoom: "scale-95",
+  clip: "[clip-path:inset(0_0_92%_0)]",
 };
 
 const prefersReducedMotion = () =>
@@ -35,7 +36,7 @@ export default function Reveal({ children, variant = "up", delay = 0, className 
           io.disconnect();
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
+      { threshold: 0.01, rootMargin: "0px 0px -6% 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -45,8 +46,8 @@ export default function Reveal({ children, variant = "up", delay = 0, className 
     <div
       ref={ref}
       style={{ transitionDelay: `${delay}ms` }}
-      className={`transition duration-700 ease-out will-change-transform ${
-        shown ? "translate-x-0 translate-y-0 scale-100 opacity-100" : `opacity-0 ${HIDDEN[variant]}`
+      className={`transition-all duration-700 ease-out will-change-transform ${
+        shown ? "translate-x-0 translate-y-0 scale-100 opacity-100 [clip-path:inset(0)]" : `opacity-0 ${HIDDEN[variant]}`
       } ${className}`}
     >
       {children}
