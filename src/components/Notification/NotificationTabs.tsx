@@ -1,21 +1,28 @@
-import { NOTIFICATION_META } from "./notificationMeta";
-import { NOTIFICATION_TABS, type NotificationTab } from "../../types/notification.types";
+import { getNotificationMeta } from "./notificationMeta";
+import type { NotificationTab, NotificationTypeItem } from "../../types/notification.types";
 
-/** Hàng tab dạng viên thuốc, kèm số thông báo chưa đọc của từng loại */
+/** Hàng tab dạng viên thuốc (Tất cả + từng loại thông báo), kèm số chưa đọc của từng tab */
 export default function NotificationTabs({
+  types,
   value,
-  unreadCounts,
+  unreadOf,
   onChange,
 }: {
+  types: NotificationTypeItem[];
   value: NotificationTab;
-  unreadCounts: Record<NotificationTab, number>;
+  unreadOf: (tab: NotificationTab) => number;
   onChange: (tab: NotificationTab) => void;
 }) {
+  const tabs: { id: NotificationTab; label: string }[] = [
+    { id: "ALL", label: "Tất cả" },
+    ...types.map((t) => ({ id: t.id, label: t.name })),
+  ];
+
   return (
     <div role="tablist" aria-label="Loại thông báo" className="flex gap-2 overflow-x-auto px-5 py-3">
-      {NOTIFICATION_TABS.map((t) => {
+      {tabs.map((t) => {
         const active = value === t.id;
-        const Icon = t.id === "ALL" ? null : NOTIFICATION_META[t.id].icon;
+        const Icon = t.id === "ALL" ? null : getNotificationMeta(t.id, t.label).icon;
         return (
           <button
             key={t.id}
@@ -28,7 +35,7 @@ export default function NotificationTabs({
             }`}
           >
             {Icon && <Icon size={12} className={active ? "" : "text-gray-400"} aria-hidden />}
-            {t.label} ({unreadCounts[t.id]})
+            {t.label} ({unreadOf(t.id)})
           </button>
         );
       })}

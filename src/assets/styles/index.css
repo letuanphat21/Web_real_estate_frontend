@@ -15,6 +15,13 @@
   --color-footer: #1a0b3d;
   --color-hero-start: rgb(150 191 253 / 0.6);
   --color-hero-end: #ffffff;
+
+  --color-navy: #13294b;
+  --color-accent: #2563eb;
+  --color-muted: #9ca3af;
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-danger: #ef4444;
 }
 
 /* Hero background gradient */
@@ -24,12 +31,6 @@
     var(--color-hero-start) 2%,
     var(--color-hero-end) 94%
   );
-  --color-navy: #13294b;
-  --color-accent: #2563eb;
-  --color-muted: #9ca3af;
-  --color-success: #16a34a;
-  --color-warning: #d97706;
-  --color-danger: #ef4444;
 }
 
 body {
@@ -75,7 +76,13 @@ body {
   }
 }
 @utility animate-page-in {
-  animation: page-in 0.45s ease-out both;
+  animation: page-in 0.45s ease-out backwards;
+}
+@keyframes drawer-in {
+  from { transform: translateX(100%); }
+}
+@utility animate-drawer-in {
+  animation: drawer-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 @utility animate-float-y {
   animation: float-y 5s ease-in-out infinite;
@@ -90,4 +97,8 @@ body {
   .animate-marquee {
     animation: none !important;
   }
+}
+
+@keyframes zoom-out {
+  from { transform: scale(1.25); }
 }

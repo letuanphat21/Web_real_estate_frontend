@@ -8,14 +8,14 @@ import useNotifications from "./useNotifications";
 import useFocusTrap from "../common/useFocusTrap";
 
 /**
- * Ngăn kéo "Thông báo" mở từ chuông ở Header. Chỉ giao diện: dữ liệu mẫu, trạng thái đã đọc giữ trong state.
- * TODO: lấy thông báo và đồng bộ "đã đọc" qua API.
+ * Ngăn kéo "Thông báo" mở từ chuông ở Header, dữ liệu lấy từ API /me/notifications.
  */
 export default function NotificationDrawer({ onClose }: { onClose: () => void }) {
   const panelRef = useRef<HTMLDivElement>(null);
   useFocusTrap(panelRef, true, onClose);
 
-  const { tab, setTab, unreadCounts, visible, markRead, markAllRead } = useNotifications();
+  const { types, tab, setTab, unreadOf, items, loading, error, hasMore, loadMore, markRead, markAllRead } =
+    useNotifications();
 
   // render ra <body> để không bị giới hạn bởi Header (sticky) chứa nút chuông
   return createPortal(
@@ -35,7 +35,7 @@ export default function NotificationDrawer({ onClose }: { onClose: () => void })
             Thông báo
           </h2>
           <div className="flex items-center gap-4">
-            <MarkAllReadButton unread={unreadCounts.ALL} onClick={markAllRead} />
+            <MarkAllReadButton unread={unreadOf("ALL")} onClick={markAllRead} />
             <button
               type="button"
               onClick={onClose}
@@ -47,11 +47,15 @@ export default function NotificationDrawer({ onClose }: { onClose: () => void })
           </div>
         </div>
 
-        <NotificationTabs value={tab} unreadCounts={unreadCounts} onChange={setTab} />
+        <NotificationTabs types={types} value={tab} unreadOf={unreadOf} onChange={setTab} />
 
         <div className="flex-1 overflow-y-auto px-5 pb-6 pt-1">
           <NotificationFeed
-            items={visible}
+            items={items}
+            loading={loading}
+            error={error}
+            hasMore={hasMore}
+            onLoadMore={loadMore}
             onView={(id) => {
               markRead(id);
               onClose();

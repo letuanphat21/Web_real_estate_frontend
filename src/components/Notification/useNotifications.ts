@@ -1,32 +1,142 @@
-import { useState } from "react";
-import { markNotificationsRead, useReadNotificationIds } from "./notificationReadStore";
-import { MOCK_NOTIFICATIONS } from "../../data/mockProjects";
-import { NOTIFICATION_TABS, type NotificationTab } from "../../types/notification.types";
+import { useCallback, useEffect, useState } from "react";
+import notificationService from "../../services/notification/notificationService";
+import { getErrorMessage } from "../../api";
+import { selectIsAuthenticated, useAppSelector } from "../../store";
+import { notifyNotificationsChanged, useOnNotificationsChanged } from "./notificationSync";
+import type {
+  NotificationItem,
+  NotificationTab,
+  NotificationTypeItem,
+  UnreadCount,
+} from "../../types/notification.types";
+
+const PAGE_SIZE = 10;
+const EMPTY_UNREAD: UnreadCount = { total: 0, byType: {} };
 
 /**
  * Danh sách thông báo cho ngăn kéo và trang Thông báo. Tab đang chọn là state riêng của từng nơi;
- * trạng thái đã xem được lưu chung (xem notificationReadStore) nên không bị mất khi rời trang.
- * TODO: lấy dữ liệu và đồng bộ "đã đọc" qua API.
+ * "đã đọc" lưu ở BE, đánh dấu ở đâu thì nơi khác tải lại (xem notificationSync).
  */
 export default function useNotifications() {
-  const readIds = useReadNotificationIds();
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const [source] = useState(() => Symbol("notifications"));
+
+  const [types, setTypes] = useState<NotificationTypeItem[]>([]);
   const [tab, setTab] = useState<NotificationTab>("ALL");
+  const [items, setItems] = useState<NotificationItem[]>([]);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [unread, setUnread] = useState<UnreadCount>(EMPTY_UNREAD);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [reloadKey, setReloadKey] = useState(0);
 
-  const items = MOCK_NOTIFICATIONS.map((n) => ({ ...n, read: n.read || readIds.includes(n.id) }));
+  // Tab lọc lấy từ các loại thông báo đang hiện
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    notificationService
+      .getTypes()
+      .then(setTypes)
+      .catch(() => setTypes([]));
+  }, [isAuthenticated]);
 
-  const unreadCounts = Object.fromEntries(
-    NOTIFICATION_TABS.map((t) => [
-      t.id,
-      items.filter((n) => !n.read && (t.id === "ALL" || n.type === t.id)).length,
-    ])
-  ) as Record<NotificationTab, number>;
+  const loadUnread = useCallback(() => {
+    notificationService
+      .getUnreadCount()
+      .then(setUnread)
+      .catch(() => undefined);
+  }, []);
+
+  // Đổi tab / tải lại → lấy lại trang đầu
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    let ignore = false;
+    setLoading(true);
+    setError(null);
+
+    notificationService
+      .getMine(tab === "ALL" ? undefined : tab, 0, PAGE_SIZE)
+      .then((res) => {
+        if (ignore) return;
+        setItems(res.content);
+        setPage(0);
+        setTotalPages(res.totalPages);
+      })
+      .catch((err) => {
+        if (ignore) return;
+        setItems([]);
+        setError(getErrorMessage(err));
+      })
+      .finally(() => {
+        if (!ignore) setLoading(false);
+      });
+    loadUnread();
+
+    return () => {
+      ignore = true;
+    };
+  }, [isAuthenticated, tab, reloadKey, loadUnread]);
+
+  const reload = useCallback(() => setReloadKey((k) => k + 1), []);
+  useOnNotificationsChanged(reload, source);
+
+  const loadMore = async () => {
+    const next = page + 1;
+    try {
+      const res = await notificationService.getMine(tab === "ALL" ? undefined : tab, next, PAGE_SIZE);
+      setItems((prev) => [...prev, ...res.content]);
+      setPage(next);
+      setTotalPages(res.totalPages);
+    } catch (err) {
+      setError(getErrorMessage(err));
+    }
+  };
+
+  const markRead = async (id: number) => {
+    const target = items.find((n) => n.id === id);
+    if (!target || target.isRead) return;
+
+    // Cập nhật giao diện trước, lỗi thì tải lại từ BE
+    setItems((prev) => prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)));
+    setUnread((prev) => ({
+      total: Math.max(0, prev.total - 1),
+      byType: {
+        ...prev.byType,
+        [target.notificationTypeId]: Math.max(0, (prev.byType[target.notificationTypeId] ?? 0) - 1),
+      },
+    }));
+    try {
+      await notificationService.markRead(id);
+      notifyNotificationsChanged(source);
+    } catch {
+      reload();
+    }
+  };
+
+  const markAllRead = async () => {
+    setItems((prev) => prev.map((n) => ({ ...n, isRead: true })));
+    setUnread(EMPTY_UNREAD);
+    try {
+      await notificationService.markAllRead();
+      notifyNotificationsChanged(source);
+    } catch {
+      reload();
+    }
+  };
+
+  const unreadOf = (t: NotificationTab) => (t === "ALL" ? unread.total : unread.byType[t] ?? 0);
 
   return {
+    types,
     tab,
     setTab,
-    unreadCounts,
-    visible: items.filter((n) => tab === "ALL" || n.type === tab),
-    markRead: (id: number) => markNotificationsRead([id]),
-    markAllRead: () => markNotificationsRead(MOCK_NOTIFICATIONS.map((n) => n.id)),
+    unreadOf,
+    items,
+    loading,
+    error,
+    hasMore: page + 1 < totalPages,
+    loadMore,
+    markRead,
+    markAllRead,
   };
 }
