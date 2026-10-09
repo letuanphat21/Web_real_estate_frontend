@@ -34,7 +34,7 @@ export default function NewsDetailHero({ news }: NewsDetailHeroProps) {
             {news.category.name}
           </span>
 
-          <h1 className="mt-5 text-3xl font-bold leading-tight tracking-tight text-heading md:text-5xl">
+          <h1 className="mt-5 text-2xl font-bold leading-tight tracking-tight text-heading md:text-4xl">
             {news.title}
           </h1>
 
