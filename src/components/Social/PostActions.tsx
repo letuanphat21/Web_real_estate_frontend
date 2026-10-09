@@ -3,7 +3,6 @@ import { Forward, MessageCircle, ThumbsUp } from "lucide-react";
 type Props = {
   likeCount: number;
   commentCount: number;
-  shareCount: number;
   liked: boolean;
   onToggleLike: () => void;
   onComment?: () => void;
@@ -13,7 +12,6 @@ type Props = {
 export default function PostActions({
   likeCount,
   commentCount,
-  shareCount,
   liked,
   onToggleLike,
   onComment,
@@ -23,9 +21,9 @@ export default function PostActions({
 
   return (
     <div className="flex items-center gap-6 border-t border-gray-100 pt-3 text-gray-600">
-      <button onClick={onToggleLike} className={`${item} ${liked ? "text-blue-600" : ""}`}>
-        <ThumbsUp size={22} className={liked ? "fill-blue-600" : ""} />
-        <span>{likeCount + (liked ? 1 : 0)}</span>
+      <button onClick={onToggleLike} className={`${item} ${liked ? "text-primary-600" : ""}`}>
+        <ThumbsUp size={22} className={liked ? "fill-primary-600" : ""} />
+        <span>{likeCount}</span>
       </button>
       <button onClick={onComment} className={item}>
         <MessageCircle size={22} />
@@ -33,7 +31,7 @@ export default function PostActions({
       </button>
       <button onClick={onShare} className={item}>
         <Forward size={22} />
-        <span>{shareCount}</span>
+        <span>Chia sẻ</span>
       </button>
     </div>
   );
