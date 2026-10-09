@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
-  LayoutDashboard, Newspaper, Settings, UserRound, Building2, Users, ChevronDown, X, type LucideIcon,
+  LayoutDashboard, Newspaper, Bell, Settings, UserRound, Building2, Users, ChevronDown, X, type LucideIcon,
 } from "lucide-react";
 
 type Leaf = { label: string; to: string };
@@ -10,6 +10,13 @@ type Item = { label: string; icon: LucideIcon; to?: string; children?: Leaf[] };
 const MENU: Item[] = [
   { label: "Tổng quan", icon: LayoutDashboard, to: "/admin/dashboard" },
   { label: "Quản lý tin tức", icon: Newspaper, to: "/admin/news" },
+  {
+    label: "Thông báo", icon: Bell,
+    children: [
+      { label: "Quản lý thông báo", to: "/admin/notifications" },
+      { label: "Loại thông báo", to: "/admin/notification-types" },
+    ],
+  },
   {
     label: "Hệ thống", icon: Settings,
     children: [
