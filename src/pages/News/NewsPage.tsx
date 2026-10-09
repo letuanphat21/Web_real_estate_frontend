@@ -6,7 +6,8 @@ import NewsCard from "../../components/News/NewsCard";
 import NewsCardSkeleton from "../../components/News/NewsCardSkeleton";
 import NewsSidebar from "../../components/News/NewsSidebar";
 import Pagination from "../../components/common/Pagination";
-import newsService from "../../services/newsService";
+import newsService from "../../services/news/newsService";
+import { getErrorMessage } from "../../api";
 import { DEFAULT_NEWS_FILTER } from "../../types/news.types";
 import type {
   News,
@@ -27,18 +28,29 @@ export default function NewsPage() {
   const [total, setTotal] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [categories, setCategories] = useState<NewsCategoryWithCount[]>([]);
   const [projects, setProjects] = useState<ProjectWithCount[]>([]);
+  const [allCount, setAllCount] = useState<number>(0);
+  const [featured, setFeatured] = useState<News[]>([]);
 
   useEffect(() => {
-    newsService.getCategories().then(setCategories);
-    newsService.getProjects().then(setProjects);
+    newsService
+      .getSidebarData()
+      .then((res) => {
+        setCategories(res.categories);
+        setProjects(res.projects);
+        setAllCount(res.total);
+        setFeatured(res.featured);
+      })
+      .catch(() => undefined); // sidebar lỗi thì để trống, danh sách vẫn hiển thị
   }, []);
 
   useEffect(() => {
     let ignore = false;
     setLoading(true);
+    setError(null);
 
     newsService
       .getNews({ filter, sort, page, size: PAGE_SIZE })
@@ -47,6 +59,13 @@ export default function NewsPage() {
         setNews(res.content);
         setTotal(res.totalElements);
         setTotalPages(res.totalPages);
+      })
+      .catch((err) => {
+        if (ignore) return;
+        setNews([]);
+        setTotal(0);
+        setTotalPages(1);
+        setError(getErrorMessage(err));
       })
       .finally(() => {
         if (!ignore) setLoading(false);
@@ -67,14 +86,13 @@ export default function NewsPage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const allCount = categories.reduce((sum, c) => sum + c.newsCount, 0);
   const activeCategory = categories.find((c) => c.id === filter.categoryId);
   const activeProject = projects.find((p) => p.id === filter.projectId);
   const hasFilter = Boolean(filter.keyword || activeCategory || activeProject);
 
   return (
     <>
-      <NewsHero total={allCount} />
+      <NewsHero total={allCount} featured={featured} />
 
       <section className="bg-page pb-20">
         <div className="container mx-auto px-4 lg:px-8">
@@ -149,10 +167,10 @@ export default function NewsPage() {
                 <div className="flex flex-col items-center rounded-3xl border border-dashed border-line bg-white py-16 text-center">
                   <FileX size={40} className="text-primary-300" />
                   <p className="mt-4 font-medium text-heading">
-                    Không có bài viết phù hợp
+                    {error ? "Không tải được bài viết" : "Không có bài viết phù hợp"}
                   </p>
                   <p className="mt-1 text-sm text-body">
-                    Thử từ khóa khác hoặc bỏ bớt bộ lọc.
+                    {error ?? "Thử từ khóa khác hoặc bỏ bớt bộ lọc."}
                   </p>
                 </div>
               ) : (
