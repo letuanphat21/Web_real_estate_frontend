@@ -92,6 +92,22 @@ export default function useNotifications() {
     }
   };
 
+  // Chuyển trang (trang Thông báo): thay danh sách bằng trang được chọn
+  const goToPage = async (next: number) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await notificationService.getMine(tab === "ALL" ? undefined : tab, next, PAGE_SIZE);
+      setItems(res.content);
+      setPage(next);
+      setTotalPages(res.totalPages);
+    } catch (err) {
+      setError(getErrorMessage(err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const markRead = async (id: number) => {
     const target = items.find((n) => n.id === id);
     if (!target || target.isRead) return;
@@ -136,6 +152,9 @@ export default function useNotifications() {
     error,
     hasMore: page + 1 < totalPages,
     loadMore,
+    page,
+    totalPages,
+    goToPage,
     markRead,
     markAllRead,
   };

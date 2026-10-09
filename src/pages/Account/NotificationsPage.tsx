@@ -1,4 +1,5 @@
 import Breadcrumb from "../../components/common/Breadcrumb";
+import Pagination from "../../components/common/Pagination";
 import MarkAllReadButton from "../../components/Notification/MarkAllReadButton";
 import NotificationFeed from "../../components/Notification/NotificationFeed";
 import NotificationTabs from "../../components/Notification/NotificationTabs";
@@ -11,7 +12,7 @@ const TITLE = "Thông báo | NovaLand Hub";
  * Dữ liệu lấy từ API /me/notifications.
  */
 export default function NotificationsPage() {
-  const { types, tab, setTab, unreadOf, items, loading, error, hasMore, loadMore, markRead, markAllRead } =
+  const { types, tab, setTab, unreadOf, items, loading, error, page, totalPages, goToPage, markRead, markAllRead } =
     useNotifications();
 
   return (
@@ -36,10 +37,15 @@ export default function NotificationsPage() {
             items={items}
             loading={loading}
             error={error}
-            hasMore={hasMore}
-            onLoadMore={loadMore}
+            hasMore={false}
+            onLoadMore={() => undefined}
             onView={markRead}
           />
+          {totalPages > 1 && (
+            <div className="mt-5 flex justify-center">
+              <Pagination page={page} totalPages={totalPages} onChange={goToPage} />
+            </div>
+          )}
         </div>
       </section>
     </>

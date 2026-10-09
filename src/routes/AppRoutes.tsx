@@ -36,6 +36,10 @@ import AdminProjectFormPage from "../pages/Admin/AdminProjectFormPage";
 import ProjectImagesPage from "../pages/Admin/ProjectImagesPage";
 import PropertyProjectsPage from "../pages/Admin/PropertyProjectsPage";
 import PropertyManagementPage from "../pages/Admin/PropertyManagementPage";
+import AdminNewsPage from "../pages/Admin/AdminNewsPage";
+import AdminNewsFormPage from "../pages/Admin/AdminNewsFormPage";
+import AdminNotificationsPage from "../pages/Admin/AdminNotificationsPage";
+import AdminNotificationTypesPage from "../pages/Admin/AdminNotificationTypesPage";
 import AdminPlaceholderPage from "../pages/Admin/AdminPlaceholderPage";
 
 const AppRoutes = () => {
@@ -83,6 +87,11 @@ const AppRoutes = () => {
       {/* TODO: chặn theo vai trò quản trị khi AuthUser có trường role */}
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<Navigate to="projects" replace />} />
+        <Route path="news" element={<AdminNewsPage />} />
+        <Route path="news/new" element={<AdminNewsFormPage />} />
+        <Route path="news/:id/edit" element={<AdminNewsFormPage />} />
+        <Route path="notifications" element={<AdminNotificationsPage />} />
+        <Route path="notification-types" element={<AdminNotificationTypesPage />} />
         <Route path="projects" element={<AdminProjectsPage />} />
         <Route path="projects/new" element={<AdminProjectFormPage />} />
         <Route path="projects/:id" element={<AdminProjectDetailPage />} />

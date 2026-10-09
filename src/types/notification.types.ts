@@ -43,3 +43,34 @@ export interface UnreadCount {
 
 // "ALL" hoặc id loại thông báo
 export type NotificationTab = "ALL" | number;
+
+/** Thông báo gốc phía admin (NotificationResponse) */
+export interface AdminNotification {
+  id: number;
+  notificationTypeId: number;
+  notificationTypeName: string;
+  createdBy: number | null;
+  title: string;
+  content: string;
+  image: string | null;
+  targetType: NotificationTargetType | null;
+  targetId: number | null;
+  actionUrl: string | null;
+  isActive: boolean; // false là đang ẩn
+  createdAt: string;
+}
+
+/** Body tạo / sửa thông báo. Không gửi userIds thì BE gửi cho tất cả tài khoản đang hoạt động */
+export interface NotificationInput {
+  notificationTypeId: number;
+  title: string;
+  content: string;
+  actionUrl: string | null; // sửa: "" để xóa link, null thì BE giữ nguyên
+  userIds?: number[];
+}
+
+/** Body tạo / sửa loại thông báo */
+export interface NotificationTypeInput {
+  name: string;
+  isActive: boolean;
+}
