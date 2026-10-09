@@ -8,10 +8,11 @@ const TITLE = "Thông báo | NovaLand Hub";
 
 /**
  * Trang "Thông báo" trong khu vực tài khoản (dùng chung giao diện với ngăn kéo ở Header).
- * UI tạm thời trên dữ liệu mẫu. TODO: nối API thông báo.
+ * Dữ liệu lấy từ API /me/notifications.
  */
 export default function NotificationsPage() {
-  const { tab, setTab, unreadCounts, visible, markRead, markAllRead } = useNotifications();
+  const { types, tab, setTab, unreadOf, items, loading, error, hasMore, loadMore, markRead, markAllRead } =
+    useNotifications();
 
   return (
     <>
@@ -23,15 +24,22 @@ export default function NotificationsPage() {
       <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-3xl font-semibold text-heading md:text-4xl">Thông báo</h1>
-          <p className="mt-2 text-sm text-body">Cập nhật mới nhất về dự án, đơn hàng và cơ chế hoa hồng.</p>
+          <p className="mt-2 text-sm text-body">Cập nhật mới nhất về dự án, sự kiện và hoạt động của bạn.</p>
         </div>
-        <MarkAllReadButton unread={unreadCounts.ALL} onClick={markAllRead} />
+        <MarkAllReadButton unread={unreadOf("ALL")} onClick={markAllRead} />
       </div>
 
       <section className="mt-5 overflow-hidden rounded-3xl border border-line bg-white shadow-sm" aria-label="Danh sách thông báo">
-        <NotificationTabs value={tab} unreadCounts={unreadCounts} onChange={setTab} />
+        <NotificationTabs types={types} value={tab} unreadOf={unreadOf} onChange={setTab} />
         <div className="px-5 pb-6 pt-1">
-          <NotificationFeed items={visible} onView={markRead} />
+          <NotificationFeed
+            items={items}
+            loading={loading}
+            error={error}
+            hasMore={hasMore}
+            onLoadMore={loadMore}
+            onView={markRead}
+          />
         </div>
       </section>
     </>
