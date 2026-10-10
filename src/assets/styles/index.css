@@ -22,6 +22,18 @@
   --color-success: #16a34a;
   --color-warning: #d97706;
   --color-danger: #ef4444;
+
+  /* Điểm nhấn vàng & font tiêu đề cho hero 3D trang chủ */
+  --color-gold-200: #f1dfb4;
+  --color-gold-300: #e6c88a;
+  --color-gold-400: #d4ad64;
+  --color-gold-500: #b88d43;
+  /* Chữ trên nút nền vàng */
+  --color-gold-950: #1d160a;
+  /* Nền navy các section trang chủ (950 trùng màu lớp chuyển cảnh cuối hero 3D) */
+  --color-ink-950: #0b1424;
+  --color-ink-900: #0f1a2d;
+  --font-display: "Playfair Display", "Times New Roman", Georgia, serif;
 }
 
 /* Hero background gradient */
@@ -210,11 +222,36 @@ body {
   filter: brightness(calc(0.52 + 0.4 * cos(var(--rz) + var(--n) - 60deg)));
 }
 
+/* ===== Home: hero 3D lắp ráp biệt thự ===== */
+/* svh: không nhảy chiều cao khi thanh địa chỉ trên mobile ẩn/hiện */
+.hero-viewport {
+  height: 100vh;
+  height: 100svh;
+  min-height: 480px;
+}
+@keyframes scroll-dot {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+}
+@utility animate-scroll-dot {
+  animation: scroll-dot 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-rise-in,
   .animate-page-in,
   .animate-float-y,
   .animate-marquee,
+  .animate-scroll-dot,
   .city-anim {
     animation: none !important;
   }

@@ -1,3 +1,5 @@
+import { HouseAssemblyHero } from "../../features/house-assembly";
+import CompanyIntroSection from "../../components/Home/CompanyIntroSection";
 import HeroSection from "../../components/Home/HeroSection";
 import StatsBand from "../../components/Home/StatsBand";
 import ProjectsSection from "../../components/Home/ProjectsSection";
@@ -11,6 +13,9 @@ import CareerSection from "../../components/Home/CareerSection";
 export default function HomePage() {
   return (
     <>
+      <HouseAssemblyHero />
+      <CompanyIntroSection />
+      {/* Khối tìm kiếm (hero cũ) giữ nguyên chức năng, nằm sau phần giới thiệu */}
       <HeroSection />
       <StatsBand />
       <ProjectsSection />

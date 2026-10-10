@@ -14,13 +14,13 @@ function Stat({ icon: Icon, end, suffix, label }: (typeof STATS)[number]) {
   const { ref, value } = useCountUp(end);
   return (
     <div className="group flex items-center gap-4">
-      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/10 text-primary-300 transition duration-300 group-hover:scale-110 group-hover:bg-primary-600 group-hover:text-white">
+      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-gold-300/40 text-gold-200 transition duration-300 group-hover:scale-110 group-hover:bg-gold-300 group-hover:text-gold-950">
         <Icon size={20} />
       </span>
       <div>
-        <p className="text-2xl font-semibold text-white md:text-3xl">
+        <p className="font-display text-3xl text-white md:text-4xl">
           <span ref={ref}>{value.toLocaleString("vi-VN")}</span>
-          {suffix}
+          <span className="text-gold-200">{suffix}</span>
         </p>
         <p className="text-xs text-white/60 md:text-sm">{label}</p>
       </div>
@@ -30,7 +30,7 @@ function Stat({ icon: Icon, end, suffix, label }: (typeof STATS)[number]) {
 
 export default function StatsBand() {
   return (
-    <section className="bg-gradient-to-r from-footer via-primary-700 to-footer py-10">
+    <section className="border-y border-gold-300/15 bg-ink-950 py-12">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
           {STATS.map((s, i) => (

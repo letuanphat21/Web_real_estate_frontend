@@ -2,6 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import { Plus, Search, Bell, ChevronDown, ChevronRight, LogOut, ArrowUpRight } from "lucide-react";
 import NotificationDrawer from "../../components/Notification/NotificationDrawer";
 import useHeader, { type HeaderController } from "./useHeader";
+import useHeaderOverlay from "./useHeaderOverlay";
 import type { AuthUser } from "../../types/auth/auth.types";
 import logo from "../../assets/images/logo.jpg";
 
@@ -15,7 +16,16 @@ const NAV_ITEMS = [
   { label: "Tuyển dụng", path: "/jobs" },
 ];
 
-function UserMenu({ header, user }: { header: HeaderController; user: AuthUser }) {
+function UserMenu({
+  header,
+  user,
+  transparent,
+}: {
+  header: HeaderController;
+  user: AuthUser;
+  /** Header đang trong suốt trên hero tối → icon chuyển sang màu trắng. */
+  transparent: boolean;
+}) {
   const {
     initials,
     roleLabel,
@@ -34,14 +44,20 @@ function UserMenu({ header, user }: { header: HeaderController; user: AuthUser }
     <div className="flex items-center gap-1.5">
       <button
         aria-label="Tìm kiếm"
-        className="flex h-9 w-9 items-center justify-center rounded-full text-heading hover:bg-primary-50 hover:text-primary-600"
+        className={`flex h-9 w-9 items-center justify-center rounded-full ${
+          transparent ? "text-white hover:bg-white/10" : "text-heading hover:bg-primary-50 hover:text-primary-600"
+        }`}
       >
         <Search size={18} />
       </button>
       <button
         aria-label="Thông báo"
         onClick={openNotif}
-        className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-heading hover:bg-primary-50 hover:text-primary-600"
+        className={`flex h-9 w-9 items-center justify-center rounded-full border ${
+          transparent
+            ? "border-white/40 text-white hover:bg-white/10"
+            : "border-line text-heading hover:bg-primary-50 hover:text-primary-600"
+        }`}
       >
         <Bell size={17} />
       </button>
@@ -175,11 +191,21 @@ function UserMenu({ header, user }: { header: HeaderController; user: AuthUser }
   );
 }
 
-export default function Header() {
+type HeaderProps = {
+  /** Header nằm đè lên hero toàn màn hình (trang chủ) và trong suốt khi đang ở trên hero. */
+  overlay?: boolean;
+};
+
+export default function Header({ overlay = false }: HeaderProps) {
   const header = useHeader();
+  const transparent = useHeaderOverlay(overlay);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-white shadow-sm">
+    <header
+      className={`${overlay ? "fixed inset-x-0" : "sticky"} top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-500 ${
+        transparent ? "border-transparent bg-transparent" : "border-line bg-white shadow-sm"
+      }`}
+    >
       <div className="container mx-auto flex h-20 items-center justify-between gap-4 px-4 lg:px-6 xl:px-8">
         <Link to="/" className="flex shrink-0 items-center gap-3">
           <img
@@ -188,8 +214,8 @@ export default function Header() {
             className="h-10 w-10 rounded-xl object-contain"
           />
           <div className="whitespace-nowrap text-base font-medium tracking-tight xl:text-xl">
-            <span className="text-heading">Đất Việt</span>
-            <span className="ml-1.5 text-primary-600">Group</span>
+            <span className={transparent ? "text-white" : "text-heading"}>Đất Việt</span>
+            <span className={`ml-1.5 ${transparent ? "text-gold-200" : "text-primary-600"}`}>Group</span>
           </div>
         </Link>
 
@@ -202,9 +228,13 @@ export default function Header() {
               end={item.path === "/"}
               className={({ isActive }) =>
                 `relative flex flex-col items-center whitespace-nowrap font-medium transition-colors ${
-                  isActive
-                    ? "text-primary-600"
-                    : "text-body hover:text-primary-600"
+                  transparent
+                    ? isActive
+                      ? "text-gold-200"
+                      : "text-white/80 hover:text-white"
+                    : isActive
+                      ? "text-primary-600"
+                      : "text-body hover:text-primary-600"
                 }`
               }
             >
@@ -212,7 +242,11 @@ export default function Header() {
                 <>
                   <span>{item.label}</span>
                   {isActive && (
-                    <span className="absolute -bottom-2 h-0.5 w-6 rounded-full bg-primary-600" />
+                    <span
+                      className={`absolute -bottom-2 h-0.5 w-6 rounded-full ${
+                        transparent ? "bg-gold-300" : "bg-primary-600"
+                      }`}
+                    />
                   )}
                 </>
               )}
@@ -222,18 +256,24 @@ export default function Header() {
 
         <div className="flex shrink-0 items-center gap-3">
           {header.user ? (
-            <UserMenu header={header} user={header.user} />
+            <UserMenu header={header} user={header.user} transparent={transparent} />
           ) : (
             <Link
               to="/login"
-              className="whitespace-nowrap rounded-full border border-primary-600 px-4 py-2 text-sm font-medium text-primary-600 transition-colors hover:bg-primary-50 xl:px-6 xl:py-2.5"
+              className={`whitespace-nowrap rounded-full border px-4 py-2 text-sm font-medium transition-colors xl:px-6 xl:py-2.5 ${
+                transparent
+                  ? "border-white/60 text-white hover:bg-white/10"
+                  : "border-primary-600 text-primary-600 hover:bg-primary-50"
+              }`}
             >
               Đăng nhập
             </Link>
           )}
           <Link
             to="/post-listing"
-            className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-gradient-to-r from-primary-500 to-primary-700 px-4 py-2 text-sm font-medium text-white transition-all xl:px-6 xl:py-2.5 hover:opacity-95 hover:shadow-md"
+            className={`flex items-center gap-1.5 whitespace-nowrap rounded-full bg-gradient-to-r px-4 py-2 text-sm font-medium transition-all xl:px-6 xl:py-2.5 hover:opacity-95 hover:shadow-md ${
+              transparent ? "from-gold-200 to-gold-400 text-[#1d160a]" : "from-primary-500 to-primary-700 text-white"
+            }`}
           >
             Đăng tin
             <Plus size={18} strokeWidth={2.5} />
