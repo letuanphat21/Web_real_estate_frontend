@@ -1,19 +1,56 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Bell, BookmarkCheck, Briefcase, CalendarCheck, FileText, Heart, User } from "lucide-react";
+import {
+  Bell,
+  BookmarkCheck,
+  Briefcase,
+  CalendarCheck,
+  FileText,
+  Heart,
+  User,
+} from "lucide-react";
 import useSavedJobs from "../../components/Recruitment/useSavedJobs";
 import useUnreadNotificationCount from "../../components/Notification/useUnreadNotificationCount";
 import authService from "../../services/auth/authService";
-import { selectCurrentUser, selectIsAuthenticated, useAppSelector } from "../../store";
+import {
+  selectCurrentUser,
+  selectIsAuthenticated,
+  useAppSelector,
+} from "../../store";
 import { initials, roleLabel } from "../../utils/user";
 
 const ACCOUNT_MENU = [
   { to: "/account", icon: User, label: "Hồ sơ cá nhân", count: 0 },
-  { to: "/account/favorites", icon: Heart, label: "Bất động sản đã lưu", count: 0 },
-  { to: "/account/my-listings", icon: FileText, label: "Tin đã đăng", count: 3 },
-  { to: "/account/saved-jobs", icon: BookmarkCheck, label: "Tin tuyển dụng đã lưu", count: 0 },
-  { to: "/account/bookings", icon: CalendarCheck, label: "Danh sách booking", count: 0 },
-  { to: "/applications", icon: Briefcase, label: "Lịch sử ứng tuyển", count: 0 },
+  {
+    to: "/account/favorites",
+    icon: Heart,
+    label: "Bất động sản đã lưu",
+    count: 0,
+  },
+  {
+    to: "/account/my-listings",
+    icon: FileText,
+    label: "Tin đã đăng",
+    count: 3,
+  },
+  {
+    to: "/account/saved-jobs",
+    icon: BookmarkCheck,
+    label: "Tin tuyển dụng đã lưu",
+    count: 0,
+  },
+  {
+    to: "/account/bookings",
+    icon: CalendarCheck,
+    label: "Danh sách booking",
+    count: 0,
+  },
+  {
+    to: "/applications",
+    icon: Briefcase,
+    label: "Lịch sử ứng tuyển",
+    count: 0,
+  },
   { to: "/account/notifications", icon: Bell, label: "Thông báo", count: 6 },
 ];
 
@@ -31,6 +68,7 @@ export default function useHeader() {
   const unreadNotifications = useUnreadNotificationCount();
   const [menuOpen, setMenuOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   // Click ra ngoài thì đóng dropdown tài khoản
@@ -43,6 +81,24 @@ export default function useHeader() {
     return () => document.removeEventListener("mousedown", close);
   }, []);
 
+  // Menu mobile đang mở: khoá cuộn trang, Esc để đóng
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileOpen(false);
+    };
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = overflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [mobileOpen]);
+
+  const openMobile = useCallback(() => setMobileOpen(true), []);
+  const closeMobile = useCallback(() => setMobileOpen(false), []);
+
   const toggleMenu = useCallback(() => setMenuOpen((v) => !v), []);
   const closeMenu = useCallback(() => setMenuOpen(false), []);
   const openNotif = useCallback(() => setNotifOpen(true), []);
@@ -50,6 +106,7 @@ export default function useHeader() {
 
   const logout = useCallback(async () => {
     setMenuOpen(false);
+    setMobileOpen(false);
     await authService.logout();
     navigate("/login", { replace: true });
   }, [navigate]);
@@ -64,8 +121,8 @@ export default function useHeader() {
           item.to === "/account/saved-jobs"
             ? savedIds.length
             : item.to === "/account/notifications"
-              ? unreadNotifications
-              : item.count,
+            ? unreadNotifications
+            : item.count,
       })),
     [pathname, savedIds.length, unreadNotifications]
   );
@@ -84,6 +141,9 @@ export default function useHeader() {
     openNotif,
     closeNotif,
     logout,
+    mobileOpen,
+    openMobile,
+    closeMobile,
   };
 }
 
