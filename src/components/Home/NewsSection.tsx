@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Clock } from "lucide-react";
 import SectionHeading from "./SectionHeading";
 import Reveal from "../common/Reveal";
+import { GOLD_BUTTON } from "./homeStyles";
 
 const FEATURED = {
   id: 1,
@@ -25,18 +26,19 @@ const EXPERTS = [
 
 export default function NewsSection() {
   return (
-    <section className="bg-white py-20">
+    <section className="bg-ink-950 py-20">
       <div className="container mx-auto px-4 lg:px-8">
         <SectionHeading
           badge="Tin tức & chuyên gia"
-          title="Thông tin đáng tin, chuyên gia có thật"
+          title={
+            <>
+              Thông tin đáng tin, <em>chuyên gia có thật</em>
+            </>
+          }
           desc="Tin thị trường được kiểm chứng và lời khuyên từ những người làm nghề thật sự."
           action={
-            <Link
-              to="/news"
-              className="flex w-fit items-center gap-2 rounded-full bg-primary-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-primary-700"
-            >
-              Xem tất cả <ArrowRight size={16} />
+            <Link to="/news" className={GOLD_BUTTON}>
+              Xem tất cả <ArrowRight size={16} className="transition group-hover:translate-x-0.5" />
             </Link>
           }
         />
@@ -46,19 +48,19 @@ export default function NewsSection() {
           <Reveal variant="left" className="h-full">
           <Link
             to={`/news/${FEATURED.id}`}
-            className="group relative block h-full min-h-[420px] overflow-hidden rounded-3xl"
+            className="group relative block h-full min-h-[420px] overflow-hidden rounded-3xl ring-1 ring-white/10"
           >
             <img
               src={FEATURED.image}
               alt={FEATURED.title}
               className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink-950/95 via-ink-950/25 to-transparent" />
             <div className="absolute bottom-0 p-6 md:p-8">
-              <span className="rounded-full bg-primary-600 px-3 py-1 text-xs font-medium text-white">
+              <span className="rounded-full bg-gold-300 px-3 py-1 text-xs font-semibold text-gold-950">
                 {FEATURED.category}
               </span>
-              <h3 className="mt-4 text-2xl font-semibold leading-snug text-white md:text-3xl">
+              <h3 className="mt-4 font-display text-2xl font-medium leading-snug text-white md:text-3xl">
                 {FEATURED.title}
               </h3>
               <p className="mt-3 flex items-center gap-1.5 text-sm text-white/70">
@@ -71,35 +73,35 @@ export default function NewsSection() {
           {/* Cột phải */}
           <Reveal variant="right" delay={150}>
           <div className="flex flex-col gap-6">
-            <div className="rounded-3xl border border-line p-6">
-              <h3 className="font-semibold text-heading">Tin mới nhất</h3>
-              <ul className="mt-4 divide-y divide-line">
+            <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+              <h3 className="font-display text-xl text-white">Tin mới nhất</h3>
+              <ul className="mt-4 divide-y divide-white/10">
                 {NEWS.map((n) => (
                   <li key={n.id}>
                     <Link to={`/news/${n.id}`} className="group block py-4">
-                      <span className="text-xs font-medium text-primary-600">{n.category}</span>
-                      <p className="mt-1 text-sm font-medium text-heading group-hover:text-primary-600">
+                      <span className="text-xs font-medium text-gold-300">{n.category}</span>
+                      <p className="mt-1 text-sm font-medium text-white/90 transition group-hover:text-gold-200">
                         {n.title}
                       </p>
-                      <p className="mt-1 text-xs text-body">{n.date}</p>
+                      <p className="mt-1 text-xs text-white/50">{n.date}</p>
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="rounded-3xl bg-primary-50 p-6">
-              <h3 className="font-semibold text-heading">Chuyên gia đồng hành</h3>
+            <div className="rounded-3xl border border-gold-300/20 bg-gradient-to-br from-gold-300/10 to-transparent p-6">
+              <h3 className="font-display text-xl text-white">Chuyên gia đồng hành</h3>
               <div className="mt-4 grid grid-cols-3 gap-3">
                 {EXPERTS.map((e) => (
                   <div key={e.name} className="text-center">
                     <img
                       src={e.avatar}
                       alt={e.name}
-                      className="mx-auto h-14 w-14 rounded-full object-cover ring-2 ring-white"
+                      className="mx-auto h-14 w-14 rounded-full object-cover ring-2 ring-gold-300/50"
                     />
-                    <p className="mt-2 text-xs font-medium text-heading">{e.name}</p>
-                    <p className="text-[11px] text-body">{e.role}</p>
+                    <p className="mt-2 text-xs font-medium text-white">{e.name}</p>
+                    <p className="text-[11px] text-white/55">{e.role}</p>
                   </div>
                 ))}
               </div>

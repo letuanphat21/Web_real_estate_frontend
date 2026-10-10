@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { MapPin, BedDouble, Maximize, Heart, ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import SectionHeading from "./SectionHeading";
+import { IMAGE_CHIP } from "./homeStyles";
 import Reveal from "../common/Reveal";
 
 const FILTERS = ["Tất cả", "Căn hộ", "Biệt thự", "Nhà phố"];
@@ -50,7 +51,7 @@ function ProjectCard({ project }: { project: (typeof PROJECTS)[number] }) {
   return (
     <Link
       to={`/projects/${project.id}`}
-      className="group block h-full overflow-hidden rounded-2xl border border-line bg-white transition hover:-translate-y-1 hover:shadow-xl hover:shadow-primary-100"
+      className="group block h-full overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] transition duration-300 hover:-translate-y-1 hover:border-gold-300/40 hover:bg-white/[0.07]"
     >
       <div className="relative aspect-[4/3] overflow-hidden">
         <img
@@ -58,25 +59,25 @@ function ProjectCard({ project }: { project: (typeof PROJECTS)[number] }) {
           alt={project.name}
           className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
         />
-        <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-primary-600 backdrop-blur">
+        <span className={`absolute left-3 top-3 px-3 py-1 text-xs font-medium ${IMAGE_CHIP}`}>
           {project.tag}
         </span>
         <button
           onClick={(e) => e.preventDefault()}
           aria-label="Yêu thích"
-          className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-body backdrop-blur hover:text-primary-600"
+          className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-ink-950/65 text-white/80 backdrop-blur hover:text-gold-200"
         >
           <Heart size={16} />
         </button>
       </div>
 
       <div className="p-5">
-        <h3 className="font-semibold text-heading">{project.name}</h3>
-        <p className="mt-1 flex items-center gap-1 text-sm text-body">
+        <h3 className="font-display text-xl text-white">{project.name}</h3>
+        <p className="mt-1 flex items-center gap-1 text-sm text-white/60">
           <MapPin size={14} /> {project.location}
         </p>
 
-        <div className="mt-4 flex gap-4 text-sm text-body">
+        <div className="mt-4 flex gap-4 text-sm text-white/60">
           <span className="flex items-center gap-1.5">
             <BedDouble size={15} /> {project.beds} PN
           </span>
@@ -85,12 +86,12 @@ function ProjectCard({ project }: { project: (typeof PROJECTS)[number] }) {
           </span>
         </div>
 
-        <div className="mt-4 flex items-end justify-between border-t border-line pt-4">
+        <div className="mt-4 flex items-end justify-between border-t border-white/10 pt-4">
           <div>
-            <p className="text-lg font-semibold text-primary-600">{project.price}</p>
-            <p className="text-xs text-body">{project.pricePerM2}</p>
+            <p className="text-lg font-semibold text-gold-200">{project.price}</p>
+            <p className="text-xs text-white/50">{project.pricePerM2}</p>
           </div>
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-50 text-primary-600 transition group-hover:bg-primary-600 group-hover:text-white">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full border border-gold-300/40 text-gold-200 transition group-hover:bg-gold-300 group-hover:text-gold-950">
             <ArrowUpRight size={16} />
           </span>
         </div>
@@ -111,11 +112,15 @@ export default function ProjectsSection() {
   };
 
   return (
-    <section className="bg-gradient-to-b from-primary-50 to-white py-20">
+    <section className="bg-ink-900 py-20">
       <div className="container mx-auto px-4 lg:px-8">
         <SectionHeading
           badge="Dự án nổi bật"
-          title="Những lựa chọn xứng tầm, dữ liệu luôn rõ ràng"
+          title={
+            <>
+              Những lựa chọn xứng tầm, <em>dữ liệu luôn rõ ràng</em>
+            </>
+          }
           desc="Giá, pháp lý và tiến độ được xác thực — bạn chỉ cần chọn nơi mình muốn sống."
           action={
             <div className="flex flex-wrap gap-2">
@@ -125,8 +130,8 @@ export default function ProjectsSection() {
                   onClick={() => setFilter(f)}
                   className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                     filter === f
-                      ? "bg-primary-600 text-white"
-                      : "border border-line bg-white text-body hover:text-primary-600"
+                      ? "bg-gold-300 text-gold-950"
+                      : "border border-white/15 text-white/70 hover:border-gold-300/50 hover:text-gold-200"
                   }`}
                 >
                   {f}
@@ -153,7 +158,7 @@ export default function ProjectsSection() {
                 key={d}
                 onClick={() => slide(d)}
                 aria-label={d < 0 ? "Trượt về trước" : "Trượt tới sau"}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-heading transition hover:bg-primary-600 hover:text-white"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white transition hover:border-gold-300 hover:bg-gold-300 hover:text-gold-950"
               >
                 {d < 0 ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}
               </button>
@@ -162,7 +167,7 @@ export default function ProjectsSection() {
         </div>
 
         {list.length === 0 && (
-          <p className="py-10 text-center text-body">Chưa có dự án thuộc loại này.</p>
+          <p className="py-10 text-center text-white/60">Chưa có dự án thuộc loại này.</p>
         )}
       </div>
     </section>
