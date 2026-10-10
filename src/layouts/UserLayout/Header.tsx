@@ -1,5 +1,15 @@
 import { Link, NavLink } from "react-router-dom";
-import { Plus, Search, Bell, ChevronDown, ChevronRight, LogOut, ArrowUpRight } from "lucide-react";
+import {
+  Plus,
+  Search,
+  Bell,
+  ChevronDown,
+  ChevronRight,
+  LogOut,
+  ArrowUpRight,
+  Menu,
+  X,
+} from "lucide-react";
 import NotificationDrawer from "../../components/Notification/NotificationDrawer";
 import useHeader, { type HeaderController } from "./useHeader";
 import useHeaderOverlay from "./useHeaderOverlay";
@@ -23,7 +33,6 @@ function UserMenu({
 }: {
   header: HeaderController;
   user: AuthUser;
-  /** Header đang trong suốt trên hero tối → icon chuyển sang màu trắng. */
   transparent: boolean;
 }) {
   const {
@@ -44,8 +53,10 @@ function UserMenu({
     <div className="flex items-center gap-1.5">
       <button
         aria-label="Tìm kiếm"
-        className={`flex h-9 w-9 items-center justify-center rounded-full ${
-          transparent ? "text-white hover:bg-white/10" : "text-heading hover:bg-primary-50 hover:text-primary-600"
+        className={`hidden h-9 w-9 sm:flex items-center justify-center rounded-full ${
+          transparent
+            ? "text-white hover:bg-white/10"
+            : "text-heading hover:bg-primary-50 hover:text-primary-600"
         }`}
       >
         <Search size={18} />
@@ -67,7 +78,7 @@ function UserMenu({
         <button
           onClick={toggleMenu}
           aria-expanded={menuOpen}
-          className="flex items-center gap-2 rounded-full border border-line bg-white py-1 pl-1 pr-3 shadow-sm hover:border-primary-300"
+          className="flex items-center gap-2 rounded-full border border-line bg-white p-1 shadow-sm hover:border-primary-300 sm:pr-3"
         >
           {user.avatarUrl ? (
             <img
@@ -90,12 +101,12 @@ function UserMenu({
           </span>
           <ChevronDown
             size={16}
-            className={`text-body transition ${menuOpen ? "rotate-180" : ""}`}
+            className={`hidden text-body transition sm:block ${menuOpen ? "rotate-180" : ""}`}
           />
         </button>
 
         {menuOpen && (
-          <div className="absolute right-0 top-full z-50 mt-2.5 w-[264px] rounded-2xl border border-line bg-white p-1.5 shadow-xl shadow-primary-200/60">
+          <div className="absolute right-0 top-full z-50 mt-2.5 w-[min(264px,calc(100vw-2rem))] rounded-2xl border border-line bg-white p-1.5 shadow-xl shadow-primary-200/60">
             <span className="absolute -top-1.5 right-12 h-3 w-3 rotate-45 border-l border-t border-line bg-white" />
 
             <div className="rounded-xl bg-primary-50 p-3">
@@ -202,20 +213,32 @@ export default function Header({ overlay = false }: HeaderProps) {
 
   return (
     <header
-      className={`${overlay ? "fixed inset-x-0" : "sticky"} top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-500 ${
-        transparent ? "border-transparent bg-transparent" : "border-line bg-white shadow-sm"
+      className={`${
+        overlay ? "fixed inset-x-0" : "sticky"
+      } top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-500 ${
+        transparent
+          ? "border-transparent bg-transparent"
+          : "border-line bg-white shadow-sm"
       }`}
     >
-      <div className="container mx-auto flex h-20 items-center justify-between gap-4 px-4 lg:px-6 xl:px-8">
-        <Link to="/" className="flex shrink-0 items-center gap-3">
+      <div className="container mx-auto flex h-16 items-center sm:h-20 justify-between gap-4 px-4 lg:px-6 xl:px-8">
+        <Link to="/" className="flex min-w-0 shrink-0 items-center gap-2 sm:gap-3">
           <img
             src={logo}
             alt="NovaLand Hub"
-            className="h-10 w-10 rounded-xl object-contain"
+            className="h-9 w-9 rounded-xl object-contain sm:h-10 sm:w-10"
           />
           <div className="whitespace-nowrap text-base font-medium tracking-tight xl:text-xl">
-            <span className={transparent ? "text-white" : "text-heading"}>Đất Việt</span>
-            <span className={`ml-1.5 ${transparent ? "text-gold-200" : "text-primary-600"}`}>Group</span>
+            <span className={transparent ? "text-white" : "text-heading"}>
+              Đất Việt
+            </span>
+            <span
+              className={`ml-1.5 ${
+                transparent ? "text-gold-200" : "text-primary-600"
+              }`}
+            >
+              Group
+            </span>
           </div>
         </Link>
 
@@ -233,8 +256,8 @@ export default function Header({ overlay = false }: HeaderProps) {
                       ? "text-gold-200"
                       : "text-white/80 hover:text-white"
                     : isActive
-                      ? "text-primary-600"
-                      : "text-body hover:text-primary-600"
+                    ? "text-primary-600"
+                    : "text-body hover:text-primary-600"
                 }`
               }
             >
@@ -254,13 +277,17 @@ export default function Header({ overlay = false }: HeaderProps) {
           ))}
         </nav>
 
-        <div className="flex shrink-0 items-center gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           {header.user ? (
-            <UserMenu header={header} user={header.user} transparent={transparent} />
+            <UserMenu
+              header={header}
+              user={header.user}
+              transparent={transparent}
+            />
           ) : (
             <Link
               to="/login"
-              className={`whitespace-nowrap rounded-full border px-4 py-2 text-sm font-medium transition-colors xl:px-6 xl:py-2.5 ${
+              className={`hidden whitespace-nowrap rounded-full border px-4 py-2 sm:block text-sm font-medium transition-colors xl:px-6 xl:py-2.5 ${
                 transparent
                   ? "border-white/60 text-white hover:bg-white/10"
                   : "border-primary-600 text-primary-600 hover:bg-primary-50"
@@ -271,15 +298,188 @@ export default function Header({ overlay = false }: HeaderProps) {
           )}
           <Link
             to="/post-listing"
-            className={`flex items-center gap-1.5 whitespace-nowrap rounded-full bg-gradient-to-r px-4 py-2 text-sm font-medium transition-all xl:px-6 xl:py-2.5 hover:opacity-95 hover:shadow-md ${
-              transparent ? "from-gold-200 to-gold-400 text-[#1d160a]" : "from-primary-500 to-primary-700 text-white"
+            aria-label="Đăng tin"
+            className={`flex h-9 items-center gap-1.5 whitespace-nowrap rounded-full bg-gradient-to-r px-2.5 py-2 sm:h-auto sm:px-4 text-sm font-medium transition-all xl:px-6 xl:py-2.5 hover:opacity-95 hover:shadow-md ${
+              transparent
+                ? "from-gold-200 to-gold-400 text-[#1d160a]"
+                : "from-primary-500 to-primary-700 text-white"
             }`}
           >
-            Đăng tin
+            <span className="hidden sm:inline">Đăng tin</span>
             <Plus size={18} strokeWidth={2.5} />
           </Link>
+
+          {/* Nút mở menu (dưới lg) */}
+          <button
+            type="button"
+            onClick={header.openMobile}
+            aria-label="Mở menu"
+            aria-expanded={header.mobileOpen}
+            className={`flex h-9 w-9 items-center justify-center rounded-full border lg:hidden ${
+              transparent
+                ? "border-white/40 text-white hover:bg-white/10"
+                : "border-line text-heading hover:bg-primary-50"
+            }`}
+          >
+            <Menu size={18} />
+          </button>
         </div>
       </div>
+
+      <MobileMenu header={header} />
     </header>
   );
 }
+
+// Ngăn kéo menu bên phải cho màn hình < lg
+function MobileMenu({ header }: { header: HeaderController }) {
+  const { mobileOpen, closeMobile, user, initials, roleLabel, accountMenu, logout } = header;
+
+  return (
+    <div
+      className={`fixed inset-0 z-[60] lg:hidden ${mobileOpen ? "" : "pointer-events-none"}`}
+      aria-hidden={!mobileOpen}
+    >
+      {/* Nền mờ */}
+      <div
+        onClick={closeMobile}
+        className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${
+          mobileOpen ? "opacity-100" : "opacity-0"
+        }`}
+      />
+
+      <aside
+        className={`absolute inset-y-0 right-0 flex w-[85%] max-w-sm flex-col bg-white shadow-2xl transition-transform duration-300 ${
+          mobileOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex h-16 items-center justify-between border-b border-line px-4">
+          <span className="font-semibold text-heading">Menu</span>
+          <button
+            type="button"
+            onClick={closeMobile}
+            aria-label="Đóng menu"
+            className="flex h-9 w-9 items-center justify-center rounded-full text-heading hover:bg-primary-50"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto px-4 py-4">
+          {/* Tài khoản */}
+          {user ? (
+            <Link
+              to="/account"
+              onClick={closeMobile}
+              className="flex items-center gap-3 rounded-2xl bg-primary-50 p-3"
+            >
+              {user.avatarUrl ? (
+                <img src={user.avatarUrl} alt="" className="h-11 w-11 rounded-full object-cover" />
+              ) : (
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary-500 to-primary-700 text-sm font-bold text-white">
+                  {initials}
+                </span>
+              )}
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-sm font-bold text-heading">{user.fullName}</span>
+                <span className="block truncate text-xs text-body">{roleLabel || user.email}</span>
+              </span>
+              <ChevronRight size={16} className="text-primary-600" />
+            </Link>
+          ) : (
+            <div className="grid grid-cols-2 gap-2">
+              <Link
+                to="/login"
+                onClick={closeMobile}
+                className="rounded-full border border-primary-600 py-2.5 text-center text-sm font-medium text-primary-600"
+              >
+                Đăng nhập
+              </Link>
+              <Link
+                to="/register"
+                onClick={closeMobile}
+                className="rounded-full bg-primary-600 py-2.5 text-center text-sm font-medium text-white"
+              >
+                Đăng ký
+              </Link>
+            </div>
+          )}
+
+          {/* Điều hướng chính */}
+          <nav className="mt-5">
+            <p className="px-2 text-[11px] font-semibold uppercase tracking-wide text-body">Khám phá</p>
+            <ul className="mt-2 space-y-0.5">
+              {NAV_ITEMS.map((item) => (
+                <li key={item.path}>
+                  <NavLink
+                    to={item.path}
+                    end={item.path === "/"}
+                    onClick={closeMobile}
+                    className={({ isActive }) =>
+                      `flex items-center justify-between rounded-xl px-3 py-3 text-[15px] font-medium transition ${
+                        isActive ? "bg-primary-50 text-primary-600" : "text-heading hover:bg-primary-50/60"
+                      }`
+                    }
+                  >
+                    {item.label}
+                    <ChevronRight size={16} className="text-muted" />
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Menu tài khoản */}
+          {user && (
+            <div className="mt-5">
+              <p className="px-2 text-[11px] font-semibold uppercase tracking-wide text-body">Tài khoản</p>
+              <ul className="mt-2 space-y-0.5">
+                {accountMenu.map(({ to, icon: Icon, label, count, active }) => (
+                  <li key={to}>
+                    <Link
+                      to={to}
+                      onClick={closeMobile}
+                      className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm ${
+                        active
+                          ? "bg-primary-50 font-semibold text-primary-600"
+                          : "font-medium text-heading hover:bg-primary-50/60"
+                      }`}
+                    >
+                      <Icon size={16} className={active ? "text-primary-600" : "text-body"} />
+                      {label}
+                      {count > 0 && (
+                        <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-primary-100 px-1.5 text-[10px] font-semibold text-primary-700">
+                          {count}
+                        </span>
+                      )}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+
+        <div className="space-y-2 border-t border-line p-4">
+          <Link
+            to="/post-listing"
+            onClick={closeMobile}
+            className="flex w-full items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-primary-500 to-primary-700 py-3 text-sm font-medium text-white"
+          >
+            Đăng tin <Plus size={18} strokeWidth={2.5} />
+          </Link>
+          {user && (
+            <button
+              type="button"
+              onClick={logout}
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-danger/10 py-3 text-sm font-semibold text-danger"
+            >
+              <LogOut size={16} /> Đăng xuất
+            </button>
+          )}
+        </div>
+      </aside>
+    </div>
+  );
+}
+
